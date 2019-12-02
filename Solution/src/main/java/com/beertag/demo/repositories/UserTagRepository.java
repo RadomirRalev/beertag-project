@@ -1,11 +1,11 @@
-package com.beertag.demo.services;
+package com.beertag.demo.repositories;
 
 import com.beertag.demo.models.Beers;
 import com.beertag.demo.models.User;
 
 import java.util.Collection;
 
-public interface UserTagServices {
+public interface UserTagRepository {
 
     Collection<User> showUsers();
 
