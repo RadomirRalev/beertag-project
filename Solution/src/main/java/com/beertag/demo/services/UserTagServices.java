@@ -5,7 +5,7 @@ import com.beertag.demo.models.User;
 
 import java.util.List;
 
-public interface BeerTagServices {
+public interface UserTagServices {
 
     List<Beers> getBeersList();
 

@@ -2,7 +2,7 @@ package com.beertag.demo.controllers;
 
 
 import com.beertag.demo.models.User;
-import com.beertag.demo.services.BeerTagServices;
+import com.beertag.demo.services.UserTagServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,10 +12,10 @@ import javax.validation.Valid;
 @RequestMapping("/user")
 public class userController {
 
-    private BeerTagServices beerTagServices;
+    private UserTagServices beerTagServices;
 
     @Autowired
-    public userController(BeerTagServices beerTagServices) {
+    public userController(UserTagServices beerTagServices) {
         this.beerTagServices = beerTagServices;
     }
 
