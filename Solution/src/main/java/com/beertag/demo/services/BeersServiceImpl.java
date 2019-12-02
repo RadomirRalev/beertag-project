@@ -19,6 +19,11 @@ public class BeersServiceImpl implements BeersService {
     }
 
     @Override
+    public Beers getById(int id) {
+        return repository.getById(id);
+    }
+
+    @Override
     public List<Beers> getBeersList() {
         return repository.getBeersList();
     }

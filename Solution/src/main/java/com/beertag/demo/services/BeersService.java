@@ -5,6 +5,9 @@ import com.beertag.demo.models.Beers;
 import java.util.List;
 
 public interface BeersService {
+
+    Beers getById(int id);
+
     List<Beers> getBeersList();
 
     Beers getSpecificBeer(String name);

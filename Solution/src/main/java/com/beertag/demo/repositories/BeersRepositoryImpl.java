@@ -1,14 +1,12 @@
 package com.beertag.demo.repositories;
 
+import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.Beers;
-import com.beertag.demo.models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -22,12 +20,21 @@ public class BeersRepositoryImpl implements BeersRepository {
 
     public BeersRepositoryImpl() {
         beersList = new ArrayList<>();
-        beersList.add(new Beers("Zagorka", "kkkk", "Bulgaria",
+        beersList.add(new Beers(0, "Zagorka", "kkkk", "Bulgaria",
                 "okok", "jsjsj", "2.14", "pop", "tag"));
-        beersList.add(new Beers("Shumensko", "dgfdgd", "Bulgaria",
+        beersList.add(new Beers(1, "Shumensko", "dgfdgd", "Bulgaria",
                 "okgsdgok", "afgfdg", "3.12", "ads", "tag"));
-        beersList.add(new Beers("Pirinsko", "dsfdf", "Serbia",
+        beersList.add(new Beers(2, "Pirinsko", "dsfdf", "Serbia",
                 "qwerrr", "hjgjk", "2.84", "arghhtr", "tag"));
+    }
+
+    @Override
+    public Beers getById(int id) {
+        return beersList.stream()
+                .filter(beer -> beer.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Beer with id %d not found", id)));
     }
 
     @Override
@@ -42,9 +49,19 @@ public class BeersRepositoryImpl implements BeersRepository {
 
     @Override
     public List<Beers> filterBeers(String filterType, String filterQuery) {
-        return beersList.stream()
-                .filter(beers -> beers.isEqualToFilterParametre(filterType, filterQuery))
-                .collect(Collectors.toList());
+        if (filterType.equalsIgnoreCase("country")) {
+            return beersList.stream()
+                    .filter(beers -> beers.getOriginCountry().equalsIgnoreCase(filterQuery))
+                    .collect(Collectors.toList());
+        } else if (filterType.equalsIgnoreCase("style")) {
+            return beersList.stream()
+                    .filter(beers -> beers.getStyle().equalsIgnoreCase(filterQuery))
+                    .collect(Collectors.toList());
+        } else {
+            return beersList.stream()
+                    .filter(beers -> beers.getTag().equalsIgnoreCase(filterQuery))
+                    .collect(Collectors.toList());
+        }
     }
 
     @Override

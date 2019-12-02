@@ -1,9 +1,12 @@
 package com.beertag.demo.controllers;
 
+import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.Beers;
 import com.beertag.demo.services.BeersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -16,6 +19,15 @@ public class BeersController {
     @Autowired
     public BeersController(BeersService service) {
         this.service = service;
+    }
+
+    @GetMapping("/{id}")
+    public Beers getById(@PathVariable int id) {
+        try {
+            return service.getById(id);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @GetMapping

@@ -1,9 +1,12 @@
 package com.beertag.demo.models;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 public class Beers {
+    @PositiveOrZero(message = "Id should be positive or zero")
+    private int id;
     @NotBlank(message = "Name is mandatory")
     @Size(min = 2, max = 30, message = "Name should be between 2 and 30 symbols long")
     private String name;
@@ -26,8 +29,9 @@ public class Beers {
 
     }
 
-    public Beers(String name, String description, String originCountry,
+    public Beers(int id, String name, String description, String originCountry,
                  String brewery, String style, String abvTag, String picture, String tag) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.originCountry = originCountry;
@@ -36,6 +40,14 @@ public class Beers {
         this.abvTag = abvTag;
         this.picture = picture;
         this.tag = tag;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -100,16 +112,5 @@ public class Beers {
 
     public void setTag(String tag) {
         this.tag = tag;
-    }
-
-    public boolean isEqualToFilterParametre(String typeOfFilter, String filterquery) {
-        if (typeOfFilter.equalsIgnoreCase("country")) {
-            return this.getOriginCountry().equalsIgnoreCase(filterquery);
-        } else if (typeOfFilter.equalsIgnoreCase("style")) {
-            return this.getStyle().equalsIgnoreCase(filterquery);
-        } else if (typeOfFilter.equalsIgnoreCase("tag")) {
-            return this.getTag().equalsIgnoreCase(filterquery);
-        }
-        return false;
     }
 }

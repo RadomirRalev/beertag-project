@@ -5,8 +5,10 @@ import com.beertag.demo.models.Beers;
 import com.beertag.demo.models.User;
 
 import java.util.List;
+import java.util.function.Function;
 
 public interface BeersRepository {
+    Beers getById(int id);
 
     List<Beers> getBeersList();
 
@@ -21,5 +23,4 @@ public interface BeersRepository {
     List<Beers> sortEntries(String sortType);
 
     boolean checkBeerExists(String name);
-
 }
