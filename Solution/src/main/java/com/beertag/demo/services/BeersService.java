@@ -12,11 +12,11 @@ public interface BeersService {
 
     Beers getSpecificBeer(String name);
 
-    List<Beers> filterBeers(String filterType, String filterQuery);
-
     void createBeer(Beers newBeer);
 
     void deleteBeer(String name);
 
     List<Beers> sortEntries(String sortType);
+
+    Beers update(int id, Beers beerToBeUpdated);
 }

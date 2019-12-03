@@ -45,10 +45,10 @@ public class UserTagRepositoryImpl implements UserTagRepository {
 
     @Override
     public User findUser(String name) {
-         if (userExist(name)){
+ //        if (userExist(name)){
             return usersList.get(name);
-        }
-         throw new EntityNotFoundException(String.format(USER_NOT_FOUND, name));
+   //     }
+         //throw new EntityNotFoundException(String.format(USER_NOT_FOUND, name));
     }
 
     @Override

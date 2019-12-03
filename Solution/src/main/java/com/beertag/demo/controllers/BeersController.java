@@ -1,12 +1,12 @@
 package com.beertag.demo.controllers;
 
-import com.beertag.demo.exceptions.EntityNotFoundException;
+import com.beertag.demo.helpers.BeersCollectionHelper;
+import com.beertag.demo.models.BeerDto;
 import com.beertag.demo.models.Beers;
+import com.beertag.demo.models.DtoMapper;
 import com.beertag.demo.services.BeersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -15,24 +15,26 @@ import java.util.List;
 @RequestMapping("/api/beers")
 public class BeersController {
     private BeersService service;
+    private DtoMapper mapper;
 
     @Autowired
-    public BeersController(BeersService service) {
+    public BeersController(BeersService service, DtoMapper mapper) {
         this.service = service;
+        this.mapper = mapper;
     }
 
     @GetMapping("/{id}")
     public Beers getById(@PathVariable int id) {
-        try {
             return service.getById(id);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
     }
 
     @GetMapping
-    public List<Beers> getBeersList() {
-        return service.getBeersList();
+    public List<Beers> getBeersList(@RequestParam (required = false) String name,
+                                    @RequestParam (required = false) String style) {
+        List<Beers> result = service.getBeersList();
+        result = BeersCollectionHelper.filterByName(result, name);
+        result = BeersCollectionHelper.filterByStyle(result, style);
+        return result;
     }
 
     @GetMapping("/search")
@@ -41,14 +43,15 @@ public class BeersController {
         return service.getSpecificBeer(name);
     }
 
-    @GetMapping("/filter")
-    @ResponseBody
-    public List<Beers> filterBeers(@RequestParam String filterType, @RequestParam String filterQuery) {
-        return service.filterBeers(filterType, filterQuery);
+    @PutMapping("/{id}")
+    public Beers update(@PathVariable int id, @RequestBody @Valid BeerDto beerDto) {
+            Beers beerToBeUpdated = mapper.fromDto(beerDto);
+            return service.update(id, beerToBeUpdated);
     }
 
     @PostMapping
-    public void createBeer(@RequestBody @Valid Beers newBeer) {
+    public void createBeer(@RequestBody @Valid BeerDto newBeerDto) {
+        Beers newBeer = mapper.fromDto(newBeerDto);
         service.createBeer(newBeer);
     }
 
@@ -61,5 +64,4 @@ public class BeersController {
     public List<Beers> sortEntries(@RequestParam String sortType) {
         return service.sortEntries(sortType);
     }
-
 }

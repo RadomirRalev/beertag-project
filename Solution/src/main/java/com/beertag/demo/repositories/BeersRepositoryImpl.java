@@ -2,6 +2,7 @@ package com.beertag.demo.repositories;
 
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.Beers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,17 +16,27 @@ import java.util.stream.Collectors;
 
 @Repository
 public class BeersRepositoryImpl implements BeersRepository {
-
+    private static int nextId = 0;
     private List<Beers> beersList;
 
-    public BeersRepositoryImpl() {
+    @Autowired
+    public BeersRepositoryImpl(StylesRepository stylesRepository) {
         beersList = new ArrayList<>();
-        beersList.add(new Beers(0, "Zagorka", "kkkk", "Bulgaria",
-                "okok", "jsjsj", "2.14", "pop", "tag"));
-        beersList.add(new Beers(1, "Shumensko", "dgfdgd", "Bulgaria",
-                "okgsdgok", "afgfdg", "3.12", "ads", "tag"));
-        beersList.add(new Beers(2, "Pirinsko", "dsfdf", "Serbia",
-                "qwerrr", "hjgjk", "2.84", "arghhtr", "tag"));
+        Beers beer = new Beers("Zagorka", "kkkk", "Bulgaria",
+                "okok", "2.14", "pop", "tag");
+        beer.setId(BeersRepositoryImpl.nextId++);
+        beer.setStyle(stylesRepository.getStyleById(0));
+        beersList.add(beer);
+        beer = new Beers("Shumensko", "dgfdgd", "Bulgaria",
+                "okgsdgok", "3.12", "ads", "tag");
+        beer.setId(BeersRepositoryImpl.nextId++);
+        beer.setStyle(stylesRepository.getStyleById(1));
+        beersList.add(beer);
+        beer = new Beers("Pirinsko", "dsfdf", "Serbia",
+                "qwerrr", "2.84", "arghhtr", "tag");
+        beer.setId(BeersRepositoryImpl.nextId++);
+        beer.setStyle(stylesRepository.getStyleById(2));
+        beersList.add(beer);
     }
 
     @Override
@@ -33,8 +44,7 @@ public class BeersRepositoryImpl implements BeersRepository {
         return beersList.stream()
                 .filter(beer -> beer.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Beer with id %d not found", id)));
+                .orElseThrow(() -> new EntityNotFoundException("Beer", id));
     }
 
     @Override
@@ -45,23 +55,6 @@ public class BeersRepositoryImpl implements BeersRepository {
     @Override
     public Beers getSpecificBeer(String name) {
         return getBeers(name);
-    }
-
-    @Override
-    public List<Beers> filterBeers(String filterType, String filterQuery) {
-        if (filterType.equalsIgnoreCase("country")) {
-            return beersList.stream()
-                    .filter(beers -> beers.getOriginCountry().equalsIgnoreCase(filterQuery))
-                    .collect(Collectors.toList());
-        } else if (filterType.equalsIgnoreCase("style")) {
-            return beersList.stream()
-                    .filter(beers -> beers.getStyle().equalsIgnoreCase(filterQuery))
-                    .collect(Collectors.toList());
-        } else {
-            return beersList.stream()
-                    .filter(beers -> beers.getTag().equalsIgnoreCase(filterQuery))
-                    .collect(Collectors.toList());
-        }
     }
 
     @Override
@@ -86,6 +79,15 @@ public class BeersRepositoryImpl implements BeersRepository {
     public boolean checkBeerExists(String name) {
         return beersList.stream()
                 .anyMatch(beer -> beer.getName().equals(name));
+    }
+
+    @Override
+    public void update(int id, Beers beer) {
+        Beers beerToUpdate = getById(id);
+        int index = beersList.indexOf(beerToUpdate);
+        beer.setId(beerToUpdate.getId());
+        beer.setStyle(beerToUpdate.getStyle());
+        beersList.set(index, beer);
     }
 
     private Beers getBeers(@PathVariable String name) {

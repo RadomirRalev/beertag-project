@@ -20,7 +20,11 @@ public class BeersServiceImpl implements BeersService {
 
     @Override
     public Beers getById(int id) {
-        return repository.getById(id);
+        try {
+            return repository.getById(id);
+        } catch (EntityNotFoundException ex) {
+            throw new EntityNotFoundException("Beer", id);
+        }
     }
 
     @Override
@@ -33,25 +37,14 @@ public class BeersServiceImpl implements BeersService {
         try {
             return repository.getSpecificBeer(name);
         } catch (EntityNotFoundException ex) {
-            throw new EntityNotFoundException(String.format("Beer with name %s already exists", name));
-        }
-    }
-
-    @Override
-    public List<Beers> filterBeers(String filterType, String filterQuery) {
-        try {
-            return repository.filterBeers(filterType, filterQuery);
-        } catch (EntityNotFoundException ex) {
-            throw new EntityNotFoundException(String.format("We didn't found a beer with %s property", filterQuery));
+            throw new EntityNotFoundException(name, "name");
         }
     }
 
     @Override
     public void createBeer(Beers newBeer) {
         if (repository.checkBeerExists(newBeer.getName())) {
-            throw new DuplicateEntityException(
-                    String.format("Beer with name %s already exists", newBeer.getName())
-            );
+            throw new DuplicateEntityException(newBeer.getName());
         }
         repository.createBeer(newBeer);
     }
@@ -59,9 +52,7 @@ public class BeersServiceImpl implements BeersService {
     @Override
     public void deleteBeer(String name) {
         if (repository.checkBeerExists(name)) {
-            throw new EntityNotFoundException(
-                    String.format("Beer with name %s does not exist", name)
-            );
+            throw new EntityNotFoundException(name, "name");
         }
         repository.deleteBeer(name);
     }
@@ -69,5 +60,11 @@ public class BeersServiceImpl implements BeersService {
     @Override
     public List<Beers> sortEntries(String sortType) {
         return repository.sortEntries(sortType);
+    }
+
+    @Override
+    public Beers update(int id, Beers beerToBeUpdated) {
+        repository.update(id, beerToBeUpdated);
+        return beerToBeUpdated;
     }
 }

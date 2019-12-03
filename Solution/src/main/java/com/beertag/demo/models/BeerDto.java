@@ -1,30 +1,39 @@
 package com.beertag.demo.models;
 
-public class Beers {
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
+
+public class BeerDto {
+    @PositiveOrZero(message = "Id should be positive or zero")
+    @NotNull
     private int id;
+    @NotBlank(message = "Name is mandatory")
+    @NotNull
+    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 symbols long")
     private String name;
+    @NotBlank(message = "Description is mandatory")
+    @NotNull
     private String description;
+    @NotBlank(message = "Country of origin is mandatory")
+    @NotNull
     private String originCountry;
+    @NotBlank(message = "Brewery is mandatory")
+    @NotNull
     private String brewery;
-    private Style style;
+
+    private int styleId;
+
+    @NotBlank(message = "ABV tag is mandatory")
+    @NotNull
     private String abvTag;
+    @NotBlank(message = "Picture is mandatory")
+    @NotNull
     private String picture;
+    @NotBlank(message = "Tag is mandatory")
+    @NotNull
     private String tag;
-
-    public Beers() {
-
-    }
-
-    public Beers(String name, String description, String originCountry,
-                 String brewery, String abvTag, String picture, String tag) {
-        this.name = name;
-        this.description = description;
-        this.originCountry = originCountry;
-        this.brewery = brewery;
-        this.abvTag = abvTag;
-        this.picture = picture;
-        this.tag = tag;
-    }
 
     public int getId() {
         return id;
@@ -66,12 +75,12 @@ public class Beers {
         this.brewery = brewery;
     }
 
-    public Style getStyle() {
-        return style;
+    public int getStyleId() {
+        return styleId;
     }
 
-    public void setStyle(Style style) {
-        this.style = style;
+    public void setStyleId(int styleId) {
+        this.styleId = styleId;
     }
 
     public String getAbvTag() {
