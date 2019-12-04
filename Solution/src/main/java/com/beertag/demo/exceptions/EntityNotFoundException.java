@@ -2,7 +2,7 @@ package com.beertag.demo.exceptions;
 
 public class EntityNotFoundException extends RuntimeException {
     public EntityNotFoundException(String itemName, String itemType) {
-        super(String.format("We didn't found a beer with %s %s.", itemName, itemType));
+        super(String.format("We didn't found a beer with %s %s.", itemType, itemType));
     }
 
     public EntityNotFoundException(String itemType, int id) {

@@ -30,7 +30,8 @@ public class BeersController {
 
     @GetMapping
     public List<Beers> getBeersList(@RequestParam (required = false) String name,
-                                    @RequestParam (required = false) String style) {
+                                    @RequestParam (required = false) String style,
+    @RequestParam (required = false) String abvTag) {
         List<Beers> result = service.getBeersList();
         result = BeersCollectionHelper.filterByName(result, name);
         result = BeersCollectionHelper.filterByStyle(result, style);
