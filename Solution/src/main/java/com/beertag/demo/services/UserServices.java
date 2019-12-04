@@ -15,12 +15,16 @@ public interface UserServices {
 
     void createUser(User user);
 
-    User findUser(String name);
-
     void deleteUser(User user);
 
     void updateUser(User user);
 
     boolean userExist(String name);
+
+    boolean emailExist(String email);
+
+    boolean isUserAdult(int day, int month, int year);
+
+    boolean isNull(Object object);
 
 }

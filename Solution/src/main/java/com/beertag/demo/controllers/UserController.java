@@ -2,6 +2,7 @@ package com.beertag.demo.controllers;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
+import com.beertag.demo.exceptions.InvalidAgeException;
 import com.beertag.demo.models.User;
 import com.beertag.demo.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class UserController {
 
     private UserServices beerTagServices;
 
+
     @Autowired
     public UserController(UserServices beerTagServices) {
         this.beerTagServices = beerTagServices;
@@ -34,29 +36,27 @@ public class UserController {
         try {
             beerTagServices.createUser(user);
             return user;
-        } catch (DuplicateEntityException e) {
+        } catch (DuplicateEntityException | InvalidAgeException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
 
     //TODO дали не трябва да хвърля грешка ако го update със същите данни ?
     @PutMapping
-    public User updateUser (@RequestBody @Valid User user){
+    public User updateUser(@RequestBody @Valid User user) {
         try {
             beerTagServices.updateUser(user);
             return user;
-        }
-        catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
     @DeleteMapping
-    public void delete (@RequestBody User user){
+    public void delete(@RequestBody User user) {
         try {
             beerTagServices.deleteUser(user);
-        }
-        catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }

@@ -1,5 +1,6 @@
 package com.beertag.demo.repositories;
 
+import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.Beers;
 import com.beertag.demo.models.User;
 import org.springframework.stereotype.Repository;
@@ -44,17 +45,17 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findUser(String name) {
- //        if (userExist(name)){
+        if (userExist(name)){
             return usersList.get(name);
-   //     }
-         //throw new EntityNotFoundException(String.format(USER_NOT_FOUND, name));
+        }
+        throw new EntityNotFoundException(String.format(USER_NOT_FOUND, name));
     }
+
 
     @Override
     public void deleteUser(User user) {
-         findUser(user.getUserName());
+        findUser(user.getUserName());
         usersList.remove(user.getUserName());
-
     }
 
     @Override
@@ -65,6 +66,13 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean userExist(String name) {
-      return usersList.containsKey(name);
+        return usersList.containsKey(name);
+    }
+
+    @Override
+    public boolean emailExist(String email) {
+        return usersList.values().stream()
+                .map(User::getEmail)
+                .anyMatch(e->e.equals(email));
     }
 }

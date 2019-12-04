@@ -23,4 +23,7 @@ public interface UserRepository {
 
     boolean userExist(String name);
 
+    boolean emailExist(String email);
+
+
 }
