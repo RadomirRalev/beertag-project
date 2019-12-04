@@ -5,7 +5,7 @@ import com.beertag.demo.models.User;
 
 import java.util.Collection;
 
-public interface UserTagServices {
+public interface UserServices {
 
     Collection<User> showUsers();
 

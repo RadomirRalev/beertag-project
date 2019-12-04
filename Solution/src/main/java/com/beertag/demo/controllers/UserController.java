@@ -3,7 +3,7 @@ package com.beertag.demo.controllers;
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.User;
-import com.beertag.demo.services.UserTagServices;
+import com.beertag.demo.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +17,10 @@ import java.util.Collection;
 @RequestMapping("/user")
 public class UserController {
 
-    private UserTagServices beerTagServices;
+    private UserServices beerTagServices;
 
     @Autowired
-    public UserController(UserTagServices beerTagServices) {
+    public UserController(UserServices beerTagServices) {
         this.beerTagServices = beerTagServices;
     }
 

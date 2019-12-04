@@ -1,6 +1,5 @@
 package com.beertag.demo.repositories;
 
-import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.Beers;
 import com.beertag.demo.models.User;
 import org.springframework.stereotype.Repository;
@@ -8,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-public class UserTagRepositoryImpl implements UserTagRepository {
+public class UserRepositoryImpl implements UserRepository {
 
     private static final String USER_NOT_FOUND = "User with name %s not found";
 
@@ -16,7 +15,7 @@ public class UserTagRepositoryImpl implements UserTagRepository {
     private Map<User,Beers> wishList;
     private Map<User,Beers> drankList;
 
-    public UserTagRepositoryImpl() {
+    public UserRepositoryImpl() {
         usersList = new HashMap<>();
         wishList = new HashMap<>();
         drankList = new HashMap<>();

@@ -3,20 +3,20 @@ package com.beertag.demo.services;
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.models.Beers;
 import com.beertag.demo.models.User;
-import com.beertag.demo.repositories.UserTagRepository;
+import com.beertag.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Collection;
 
 @Service
-public class UserTagServicesImpl implements UserTagServices {
+public class UserServicesImpl implements UserServices {
 
     private static final String THIS_USER_ALREADY_EXIST = "This user already exist";
 
-    private UserTagRepository beerTagRepository;
+    private UserRepository beerTagRepository;
 
     @Autowired
-    public UserTagServicesImpl(UserTagRepository beerTagRepository) {
+    public UserServicesImpl(UserRepository beerTagRepository) {
         this.beerTagRepository = beerTagRepository;
     }
 
