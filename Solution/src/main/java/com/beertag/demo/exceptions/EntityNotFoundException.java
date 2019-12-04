@@ -6,9 +6,8 @@ public class EntityNotFoundException extends RuntimeException {
         super(message);
     }
 
-
     public EntityNotFoundException(String itemName, String itemType) {
-        super(String.format("We didn't found a beer with %s %s.", itemType, itemType));
+        super(String.format("We didn't found a beer with %s %s.", itemName, itemType));
     }
 
     public EntityNotFoundException(String itemType, int id) {

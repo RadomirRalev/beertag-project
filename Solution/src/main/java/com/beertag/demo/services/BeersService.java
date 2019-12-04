@@ -16,7 +16,6 @@ public interface BeersService {
 
     void deleteBeer(String name);
 
-    List<Beers> sortEntries(String sortType);
-
     Beers update(int id, Beers beerToBeUpdated);
+
 }

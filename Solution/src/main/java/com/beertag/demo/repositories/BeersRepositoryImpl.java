@@ -20,22 +20,25 @@ public class BeersRepositoryImpl implements BeersRepository {
     private List<Beers> beersList;
 
     @Autowired
-    public BeersRepositoryImpl(StylesRepository stylesRepository) {
+    public BeersRepositoryImpl(StylesRepository stylesRepository, CountriesRepository countriesRepository) {
         beersList = new ArrayList<>();
-        Beers beer = new Beers("Zagorka", "kkkk", "Bulgaria",
+        Beers beer = new Beers("Zagorka", "kkkk",
                 "okok", "2.14", "pop", "tag");
         beer.setId(BeersRepositoryImpl.nextId++);
         beer.setStyle(stylesRepository.getStyleById(0));
+        beer.setOriginCountry(countriesRepository.getCountryById(0));
         beersList.add(beer);
-        beer = new Beers("Shumensko", "dgfdgd", "Bulgaria",
+        beer = new Beers("Shumensko", "dgfdgd",
                 "okgsdgok", "3.12", "ads", "tag");
         beer.setId(BeersRepositoryImpl.nextId++);
         beer.setStyle(stylesRepository.getStyleById(1));
+        beer.setOriginCountry(countriesRepository.getCountryById(1));
         beersList.add(beer);
-        beer = new Beers("Pirinsko", "dsfdf", "Serbia",
+        beer = new Beers("Pirinsko", "dsfdf",
                 "qwerrr", "2.84", "arghhtr", "tag");
         beer.setId(BeersRepositoryImpl.nextId++);
         beer.setStyle(stylesRepository.getStyleById(2));
+        beer.setOriginCountry(countriesRepository.getCountryById(2));
         beersList.add(beer);
     }
 
@@ -69,13 +72,6 @@ public class BeersRepositoryImpl implements BeersRepository {
     }
 
     @Override
-    public List<Beers> sortEntries(String sortType) {
-        return beersList.stream()
-                .sorted(Comparator.comparing(getTypeOfSort(sortType)))
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public boolean checkBeerExists(String name) {
         return beersList.stream()
                 .anyMatch(beer -> beer.getName().equals(name));
@@ -96,12 +92,5 @@ public class BeersRepositoryImpl implements BeersRepository {
                 .findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         String.format("Beer %s not found in the database", name)));
-    }
-
-    private Function<Beers, String> getTypeOfSort(String sortType) {
-        if (sortType.equalsIgnoreCase("name")) {
-            return Beers::getName;
-        }
-        return Beers::getAbvTag;
     }
 }

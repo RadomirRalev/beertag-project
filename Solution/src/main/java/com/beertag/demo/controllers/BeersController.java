@@ -31,10 +31,11 @@ public class BeersController {
     @GetMapping
     public List<Beers> getBeersList(@RequestParam (required = false) String name,
                                     @RequestParam (required = false) String style,
-    @RequestParam (required = false) String abvTag) {
+                                    @RequestParam (required = false) String sortType) {
         List<Beers> result = service.getBeersList();
         result = BeersCollectionHelper.filterByName(result, name);
         result = BeersCollectionHelper.filterByStyle(result, style);
+        result = BeersCollectionHelper.sortBeersList(result, sortType);
         return result;
     }
 
@@ -59,10 +60,5 @@ public class BeersController {
     @DeleteMapping("deletebeer/{name}")
     public void deleteBeer(@PathVariable String name) {
         service.deleteBeer(name);
-    }
-
-    @GetMapping("/sort")
-    public List<Beers> sortEntries(@RequestParam String sortType) {
-        return service.sortEntries(sortType);
     }
 }

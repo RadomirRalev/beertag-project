@@ -14,8 +14,6 @@ public interface BeersRepository {
 
     void deleteBeer(String name);
 
-    List<Beers> sortEntries(String sortType);
-
     boolean checkBeerExists(String name);
 
     void update(int id, Beers beerToUpdate);

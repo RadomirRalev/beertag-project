@@ -16,9 +16,7 @@ public class BeerDto {
     @NotBlank(message = "Description is mandatory")
     @NotNull
     private String description;
-    @NotBlank(message = "Country of origin is mandatory")
-    @NotNull
-    private String originCountry;
+    private int originCountryId;
     @NotBlank(message = "Brewery is mandatory")
     @NotNull
     private String brewery;
@@ -59,12 +57,12 @@ public class BeerDto {
         this.description = description;
     }
 
-    public String getOriginCountry() {
-        return originCountry;
+    public int getOriginCountryId() {
+        return originCountryId;
     }
 
-    public void setOriginCountry(String originCountry) {
-        this.originCountry = originCountry;
+    public void setOriginCountryId(int setOriginCountryId) {
+        this.originCountryId = originCountryId;
     }
 
     public String getBrewery() {

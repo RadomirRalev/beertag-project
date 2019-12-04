@@ -58,11 +58,6 @@ public class BeersServiceImpl implements BeersService {
     }
 
     @Override
-    public List<Beers> sortEntries(String sortType) {
-        return repository.sortEntries(sortType);
-    }
-
-    @Override
     public Beers update(int id, Beers beerToBeUpdated) {
         repository.update(id, beerToBeUpdated);
         return beerToBeUpdated;

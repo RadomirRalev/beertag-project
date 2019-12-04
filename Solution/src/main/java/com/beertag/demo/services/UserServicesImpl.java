@@ -15,8 +15,8 @@ import java.util.Date;
 @Service
 public class UserServicesImpl implements UserServices {
 
-    private static final String THIS_USER_ALREADY_EXIST = "This user already exist";
-    private static final String EMAIL_ALREADY_EXIST = "Email already exist";
+    private static final String THIS_USER_ALREADY_EXIST = "This user already exists";
+    private static final String EMAIL_ALREADY_EXIST = "Email already exists";
     private static final String NOT_ADULT = "You haven`t 18 years.";
     private static final int ADULT_YEAR = 18;
 

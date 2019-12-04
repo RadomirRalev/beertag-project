@@ -4,7 +4,7 @@ public class Beers {
     private int id;
     private String name;
     private String description;
-    private String originCountry;
+    private Country originCountry;
     private String brewery;
     private Style style;
     private String abvTag;
@@ -15,11 +15,9 @@ public class Beers {
 
     }
 
-    public Beers(String name, String description, String originCountry,
-                 String brewery, String abvTag, String picture, String tag) {
+    public Beers(String name, String description, String brewery, String abvTag, String picture, String tag) {
         this.name = name;
         this.description = description;
-        this.originCountry = originCountry;
         this.brewery = brewery;
         this.abvTag = abvTag;
         this.picture = picture;
@@ -50,11 +48,11 @@ public class Beers {
         this.description = description;
     }
 
-    public String getOriginCountry() {
+    public Country getOriginCountry() {
         return originCountry;
     }
 
-    public void setOriginCountry(String originCountry) {
+    public void setOriginCountry(Country originCountry) {
         this.originCountry = originCountry;
     }
 
