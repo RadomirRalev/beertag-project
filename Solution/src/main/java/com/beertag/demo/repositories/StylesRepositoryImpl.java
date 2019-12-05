@@ -35,4 +35,45 @@ public class StylesRepositoryImpl implements StylesRepository{
     public List<Style> getStylesList() {
         return stylesList;
     }
+
+    @Override
+    public Style getSpecificStyle(String name) {
+        return getStyle(name);
+    }
+
+    @Override
+    public void update(int id, Style country) {
+        for (int i = 0; i < stylesList.size(); i++) {
+            if (stylesList.get(i).getId() == id) {
+                stylesList.set(i, country);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void createStyle(Style newStyle) {
+        stylesList.add(newStyle);
+    }
+
+    @Override
+    public boolean checkStyleExists(String name) {
+        return stylesList.stream()
+                .anyMatch(style -> style.getName().equals(name));
+    }
+
+    @Override
+    public void deleteStyle(String name) {
+        Style styleToBeRemoved = getStyle(name);
+        stylesList.remove(styleToBeRemoved);
+    }
+
+    private Style getStyle(String name) {
+        return stylesList.stream()
+                .filter(style -> style.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Style %s not found in the database", name)));
+    }
+
 }

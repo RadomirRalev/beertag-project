@@ -39,14 +39,17 @@ public class CountriesRepositoryImpl implements CountriesRepository {
         return countryList;
     }
 
+    @Override
     public Country getSpecificCountry(String name) {
         return getCountry(name);
     }
 
+    @Override
     public void update(int id, Country country) {
         for (int i = 0; i < countryList.size(); i++) {
             if (countryList.get(i).getId() == id) {
                 countryList.set(i, country);
+                break;
             }
         }
     }

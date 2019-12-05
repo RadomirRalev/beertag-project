@@ -28,7 +28,7 @@ public class BeerServiceImplTests {
         //Arrange
 
         Mockito.when(repository.getById(0))
-                .thenReturn(new Beers("Zagorka", "kkkk", 
+                .thenReturn(new Beers("Zagorka", "kkkk",
                         "okok", "2.14", "pop", "tag"));
         //Act
         Beers returnedBeer = mockService.getById(0);
