@@ -1,7 +1,6 @@
 package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
-import com.beertag.demo.exceptions.InvalidAgeException;
 import com.beertag.demo.models.Beers;
 import com.beertag.demo.models.User;
 import com.beertag.demo.repositories.UserRepository;
@@ -15,9 +14,8 @@ import java.util.Date;
 @Service
 public class UserServicesImpl implements UserServices {
 
-    private static final String THIS_USER_ALREADY_EXIST = "This user already exists";
-    private static final String EMAIL_ALREADY_EXIST = "Email already exists";
-    private static final String NOT_ADULT = "You haven`t 18 years.";
+    private static final String THIS_USER_ALREADY_EXIST = "This user already exist";
+    private static final String EMAIL_ALREADY_EXIST = "Email already exist";
     private static final int ADULT_YEAR = 18;
 
     private UserRepository userRepository;
@@ -26,7 +24,6 @@ public class UserServicesImpl implements UserServices {
     public UserServicesImpl(UserRepository beerTagRepository) {
         this.userRepository = beerTagRepository;
     }
-
 
     @Override
     public Collection<User> showUsers() {
@@ -49,19 +46,17 @@ public class UserServicesImpl implements UserServices {
             throw new DuplicateEntityException(THIS_USER_ALREADY_EXIST);
         }
 
-        if (emailExist(user.getEmail())){
+        if (emailExist(user.getEmail())) {
             throw new DuplicateEntityException(EMAIL_ALREADY_EXIST);
         }
 
-        if (!isUserAdult(user.getDay(), user.getMonth(),user.getBirthYear())){
-            throw new InvalidAgeException(NOT_ADULT);
-        }
         if (isNull(user.getFirstName())){
             user.setFirstName("");
         }
         if (isNull(user.getLastName())){
             user.setLastName("");
         }
+
         userRepository.createUser(user);
     }
 
@@ -82,7 +77,7 @@ public class UserServicesImpl implements UserServices {
 
     @Override
     public boolean emailExist(String email) {
-        return userRepository.emailExist(email) ;
+        return userRepository.emailExist(email);
     }
 
     public boolean isUserAdult(int day, int month, int year) {

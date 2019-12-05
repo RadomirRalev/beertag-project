@@ -3,7 +3,9 @@ package com.beertag.demo.controllers;
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.exceptions.InvalidAgeException;
+import com.beertag.demo.models.DtoMapper;
 import com.beertag.demo.models.User;
+import com.beertag.demo.models.UserDto;
 import com.beertag.demo.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,23 +20,26 @@ import java.util.Collection;
 @RequestMapping("/user")
 public class UserController {
 
-    private UserServices beerTagServices;
-
+    private UserServices userServices;
+    private DtoMapper mapper;
 
     @Autowired
-    public UserController(UserServices beerTagServices) {
-        this.beerTagServices = beerTagServices;
+    public UserController(UserServices beerTagServices,DtoMapper mapper)
+    {
+        this.userServices = beerTagServices;
+        this.mapper = mapper;
     }
 
     @GetMapping
     public Collection<User> showUsers() {
-        return beerTagServices.showUsers();
+        return userServices.showUsers();
     }
 
     @PostMapping
-    public User create(@RequestBody @Valid User user) {
+    public User create(@RequestBody @Valid UserDto userDto) {
         try {
-            beerTagServices.createUser(user);
+            User user = mapper.fromDto(userDto);
+            userServices.createUser(user);
             return user;
         } catch (DuplicateEntityException | InvalidAgeException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
@@ -45,7 +50,7 @@ public class UserController {
     @PutMapping
     public User updateUser(@RequestBody @Valid User user) {
         try {
-            beerTagServices.updateUser(user);
+            userServices.updateUser(user);
             return user;
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -55,7 +60,7 @@ public class UserController {
     @DeleteMapping
     public void delete(@RequestBody User user) {
         try {
-            beerTagServices.deleteUser(user);
+            userServices.deleteUser(user);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
