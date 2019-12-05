@@ -24,8 +24,7 @@ public class UserController {
     private DtoMapper mapper;
 
     @Autowired
-    public UserController(UserServices beerTagServices,DtoMapper mapper)
-    {
+    public UserController(UserServices beerTagServices, DtoMapper mapper) {
         this.userServices = beerTagServices;
         this.mapper = mapper;
     }
@@ -39,28 +38,25 @@ public class UserController {
     public User create(@RequestBody @Valid UserDto userDto) {
         try {
             User user = mapper.fromDto(userDto);
-            userServices.createUser(user);
-            return user;
+            return userServices.createUser(user);
         } catch (DuplicateEntityException | InvalidAgeException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
 
-    //TODO дали не трябва да хвърля грешка ако го update със същите данни ?
     @PutMapping
     public User updateUser(@RequestBody @Valid User user) {
         try {
-            userServices.updateUser(user);
-            return user;
+            return userServices.updateUser(user);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
     @DeleteMapping
-    public void delete(@RequestBody User user) {
+    public User delete(@RequestBody User user) {
         try {
-            userServices.deleteUser(user);
+           return userServices.deleteUser(user);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

@@ -12,9 +12,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     private static final String USER_NOT_FOUND = "User with name %s not found";
 
-    private Map<String,User> usersList;
-    private Map<User,Beers> wishList;
-    private Map<User,Beers> drankList;
+    private Map<String, User> usersList;
+    private Map<User, Beers> wishList;
+    private Map<User, Beers> drankList;
 
     public UserRepositoryImpl() {
         usersList = new HashMap<>();
@@ -39,29 +39,30 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void createUser(User user) {
-        usersList.put(user.getUserName(), user);
+    public User createUser(User user) {
+         usersList.put(user.getUserName(), user);
+         return user;
     }
 
     @Override
     public User findUser(String name) {
-        if (userExist(name)){
+        if (userExist(name)) {
             return usersList.get(name);
         }
         throw new EntityNotFoundException(String.format(USER_NOT_FOUND, name));
     }
 
-
     @Override
-    public void deleteUser(User user) {
+    public User deleteUser(User user) {
         findUser(user.getUserName());
-        usersList.remove(user.getUserName());
+       return usersList.remove(user.getUserName());
     }
 
     @Override
-    public void updateUser(User user) {
+    public User updateUser(User user) {
         User userToUpdate = findUser(user.getUserName());
         userToUpdate.setEmail(user.getEmail());
+        return userToUpdate;
     }
 
     @Override
@@ -73,6 +74,6 @@ public class UserRepositoryImpl implements UserRepository {
     public boolean emailExist(String email) {
         return usersList.values().stream()
                 .map(User::getEmail)
-                .anyMatch(e->e.equals(email));
+                .anyMatch(e -> e.equals(email));
     }
 }

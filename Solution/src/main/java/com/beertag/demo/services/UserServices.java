@@ -13,11 +13,11 @@ public interface UserServices {
 
     Collection<Beers> getDrankList();
 
-    void createUser(User user);
+    User createUser(User user);
 
-    void deleteUser(User user);
+    User deleteUser(User user);
 
-    void updateUser(User user);
+    User updateUser(User user);
 
     boolean userExist(String name);
 

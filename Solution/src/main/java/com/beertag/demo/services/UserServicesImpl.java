@@ -41,7 +41,7 @@ public class UserServicesImpl implements UserServices {
     }
 
     @Override
-    public void createUser(User user) {
+    public User createUser(User user) {
         if (userExist(user.getUserName())) {
             throw new DuplicateEntityException(THIS_USER_ALREADY_EXIST);
         }
@@ -50,24 +50,24 @@ public class UserServicesImpl implements UserServices {
             throw new DuplicateEntityException(EMAIL_ALREADY_EXIST);
         }
 
-        if (isNull(user.getFirstName())){
+        if (isNull(user.getFirstName())) {
             user.setFirstName("");
         }
-        if (isNull(user.getLastName())){
+        if (isNull(user.getLastName())) {
             user.setLastName("");
         }
 
-        userRepository.createUser(user);
+        return userRepository.createUser(user);
     }
 
     @Override
-    public void deleteUser(User user) {
-        userRepository.deleteUser(user);
+    public User deleteUser(User user) {
+        return userRepository.deleteUser(user);
     }
 
     @Override
-    public void updateUser(User user) {
-        userRepository.updateUser(user);
+    public User updateUser(User user) {
+        return userRepository.updateUser(user);
     }
 
     @Override
