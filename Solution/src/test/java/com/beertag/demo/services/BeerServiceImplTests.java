@@ -1,5 +1,6 @@
 package com.beertag.demo.services;
 
+import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.Beers;
 import com.beertag.demo.repositories.BeersRepository;
@@ -15,6 +16,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.beertag.demo.services.Factory.*;
+import static org.mockito.ArgumentMatchers.*;
+
 @RunWith(MockitoJUnitRunner.class)
 public class BeerServiceImplTests {
     @Mock
@@ -26,26 +30,27 @@ public class BeerServiceImplTests {
     @Test
     public void getByIdShould_ReturnBeer_WhenBeerExists() {
         //Arrange
+        Beers expectedBeer = createBeer();
 
-        Mockito.when(repository.getById(0))
-                .thenReturn(new Beers("Zagorka", "kkkk",
-                        "okok", "2.14", "pop", "tag"));
+        Mockito.when(repository.getById(anyInt()))
+                .thenReturn(expectedBeer);
+
         //Act
-        Beers returnedBeer = mockService.getById(0);
+        Beers returnedBeer = mockService.getById(INDEX_OF_ARRAYLIST_ELEMENT);
 
         //Assert
-        Assert.assertSame(returnedBeer.getId(), 0);
+        Assert.assertSame(expectedBeer, returnedBeer);
     }
 
     @Test
-    public void getByIdShould_TrowException_WhenBeerDoesNotExist() {
-        //Arrange
-        Mockito.when(repository.getById(10))
-                .thenThrow(new EntityNotFoundException("Beer", 10));
+    public void getByIdShould_TrowExceptionInRepository_WhenBeerDoesNotExist() {
+
+        Mockito.when(repository.getById(anyInt()))
+                .thenThrow(new EntityNotFoundException("Beer", anyInt()));
 
         //Act & Assert
         Assertions.assertThrows(EntityNotFoundException.class,
-                () -> repository.getById(10));
+                () -> mockService.getById(INDEX_OF_ARRAYLIST_ELEMENT));
     }
 
     @Test
@@ -61,4 +66,60 @@ public class BeerServiceImplTests {
         //Assert
         Assert.assertSame(mockService.getBeersList(), beerList);
     }
+
+    @Test
+    public void getSpecificBeerShould_ReturnBeer_WhenBeerExists() {
+        //Arrange
+        Beers expectedBeer = createBeer();
+
+        Mockito.when(repository.getSpecificBeer(anyString()))
+                .thenReturn(expectedBeer);
+
+        //Act
+        Beers returnedBeer = mockService.getSpecificBeer(anyString());
+
+        //Assert
+        Assert.assertSame(expectedBeer, returnedBeer);
+    }
+
+    @Test
+    public void getSpecificBeerShould_TrowExceptionInRepository_WhenBeerDoesNotExist() {
+
+        Mockito.when(repository.getSpecificBeer(anyString()))
+                .thenThrow(new EntityNotFoundException("Beer", anyString()));
+
+        //Act & Assert
+        Assertions.assertThrows(EntityNotFoundException.class,
+                () -> repository.getSpecificBeer("anyName"));
+    }
+
+    @Test
+    public void getSpecificBeerShould_CallRepository() {
+        //Arrange
+        Beers expectedBeer = createBeer();
+
+        Mockito.when(mockService.getSpecificBeer(NAME_OF_BEER))
+                .thenReturn(expectedBeer);
+        //Act
+        mockService.getSpecificBeer(NAME_OF_BEER);
+
+        //Assert
+        Assert.assertSame(mockService.getSpecificBeer(NAME_OF_BEER), expectedBeer);
+    }
+
+    @Test
+    public void createBeerShould_CreateBeer_WhenBeerDoesNotExist() {
+        //Arrange
+        Beers expectedBeer = createBeer();
+        mockService.createBeer(expectedBeer);
+        List<Beers> beerList = new ArrayList<>();
+        beerList.add(expectedBeer);
+
+        //Act
+        Beers returnedBeer = beerList.get(INDEX_OF_ARRAYLIST_ELEMENT);
+
+        //Assert
+        Assert.assertSame(expectedBeer, returnedBeer);
+    }
+
 }
