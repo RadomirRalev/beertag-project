@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Repository
 public class BeersRepositoryImpl implements BeersRepository {
@@ -20,25 +17,25 @@ public class BeersRepositoryImpl implements BeersRepository {
     private List<Beers> beersList;
 
     @Autowired
-    public BeersRepositoryImpl(StylesRepository stylesRepository, CountriesRepository countriesRepository) {
+    public BeersRepositoryImpl(StylesRepository stylesRepository, CountriesRepository countriesRepository, BreweryRepository breweryRepository) {
         beersList = new ArrayList<>();
-        Beers beer = new Beers("Zagorka", "kkkk",
-                "okok", "2.14", "pop", "tag");
+        Beers beer = new Beers("Zagorka","okok", "2.14", "pop", "tag");
         beer.setId(BeersRepositoryImpl.nextId++);
         beer.setStyle(stylesRepository.getStyleById(0));
         beer.setOriginCountry(countriesRepository.getCountryById(0));
+        beer.setBrewery(breweryRepository.getBreweryById(0));
         beersList.add(beer);
-        beer = new Beers("Shumensko", "dgfdgd",
-                "okgsdgok", "3.12", "ads", "tag");
+        beer = new Beers("Shumensko","okgsdgok", "3.12", "ads", "tag");
         beer.setId(BeersRepositoryImpl.nextId++);
         beer.setStyle(stylesRepository.getStyleById(1));
         beer.setOriginCountry(countriesRepository.getCountryById(1));
+        beer.setBrewery(breweryRepository.getBreweryById(1));
         beersList.add(beer);
-        beer = new Beers("Pirinsko", "dsfdf",
-                "qwerrr", "2.84", "arghhtr", "tag");
+        beer = new Beers("Pirinsko", "qwerrr", "2.84", "arghhtr", "tag");
         beer.setId(BeersRepositoryImpl.nextId++);
         beer.setStyle(stylesRepository.getStyleById(2));
         beer.setOriginCountry(countriesRepository.getCountryById(2));
+        beer.setBrewery(breweryRepository.getBreweryById(2));
         beersList.add(beer);
     }
 
