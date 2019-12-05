@@ -1,8 +1,11 @@
 package com.beertag.demo.controllers;
 
+import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.models.Brewery;
 import com.beertag.demo.services.BreweryService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -38,7 +41,11 @@ public class BreweryController {
 
     @PostMapping
     public void createBrewery(@RequestBody Brewery newBrewery) {
-        service.createBrewery(newBrewery);
+        try {
+            service.createBrewery(newBrewery);
+        } catch (DuplicateEntityException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
     }
 
     @DeleteMapping("{name}")
