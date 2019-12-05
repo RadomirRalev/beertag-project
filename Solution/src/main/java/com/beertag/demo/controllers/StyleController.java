@@ -1,8 +1,12 @@
 package com.beertag.demo.controllers;
 
+import com.beertag.demo.exceptions.DuplicateEntityException;
+import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.Style;
 import com.beertag.demo.services.StylesService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -17,33 +21,52 @@ public class StyleController {
 
     @GetMapping("/{id}")
     public Style getetById(@PathVariable int id) {
-        return service.getStyleById(id);
+        try {
+            return service.getStyleById(id);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @GetMapping
     public List<Style> getStylesList() {
-        List result = service.getStylesList();
-        return result;
+        return service.getStylesList();
     }
 
     @GetMapping("/search")
     @ResponseBody
     public Style getSpecificStyle(@RequestParam(defaultValue = "test") String name) {
-        return service.getSpecificStyle(name);
+        try {
+            return service.getSpecificStyle(name);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
     public Style update(@PathVariable int id, @RequestBody Style style) {
-        return service.update(id, style);
+        try {
+            return service.update(id, style);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @PostMapping
     public void createStyle(@RequestBody Style newStyle) {
-        service.createStyle(newStyle);
+        try {
+            service.createStyle(newStyle);
+        } catch (DuplicateEntityException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
     }
 
     @DeleteMapping("{name}")
     public void deleteStyle(@PathVariable String name) {
-        service.deleteStyle(name);
+        try {
+            service.deleteStyle(name);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 }

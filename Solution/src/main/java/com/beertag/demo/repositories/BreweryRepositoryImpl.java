@@ -1,5 +1,6 @@
 package com.beertag.demo.repositories;
 
+import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.Brewery;
 import org.springframework.stereotype.Repository;
@@ -34,13 +35,17 @@ public class BreweryRepositoryImpl implements BreweryRepository {
     }
 
     @Override
-    public List<Brewery> getBreweryList() {
+    public List<Brewery> getBreweriesList() {
         return breweriesList;
     }
 
     @Override
     public Brewery getSpecificBrewery(String name) {
-        return getBrewery(name);
+        try {
+            return getBrewery(name);
+        } catch (Exception e) {
+            throw new EntityNotFoundException("Brewery", name);
+        }
     }
 
     @Override
@@ -50,12 +55,19 @@ public class BreweryRepositoryImpl implements BreweryRepository {
                 breweriesList.set(i, brewery);
                 break;
             }
+            if (i == breweriesList.size() - 1) {
+                throw new EntityNotFoundException("Brewery", id);
+            }
         }
     }
 
     @Override
     public void createBrewery(Brewery newBrewery) {
-        breweriesList.add(newBrewery);
+        try {
+            breweriesList.add(newBrewery);
+        } catch (Exception e) {
+            throw new DuplicateEntityException(newBrewery.getName());
+        }
     }
 
     @Override
@@ -66,8 +78,12 @@ public class BreweryRepositoryImpl implements BreweryRepository {
 
     @Override
     public void deleteBrewery(String name) {
-        Brewery breweryToBeRemoved = getBrewery(name);
-        breweriesList.remove(breweryToBeRemoved);
+        try {
+            Brewery breweryToBeRemoved = getBrewery(name);
+            breweriesList.remove(breweryToBeRemoved);
+        } catch (Exception e) {
+            throw new EntityNotFoundException("Brewery", name);
+        }
     }
 
     private Brewery getBrewery(String name) {

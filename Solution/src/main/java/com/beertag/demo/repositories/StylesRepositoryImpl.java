@@ -1,4 +1,5 @@
 package com.beertag.demo.repositories;
+import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.Style;
 import org.springframework.stereotype.Repository;
@@ -29,6 +30,7 @@ public class StylesRepositoryImpl implements StylesRepository{
                 .filter(style -> style.getId() == id)
                 .findFirst()
                 .orElseThrow(() -> new EntityNotFoundException("Style", id));
+
     }
 
     @Override
@@ -38,7 +40,11 @@ public class StylesRepositoryImpl implements StylesRepository{
 
     @Override
     public Style getSpecificStyle(String name) {
-        return getStyle(name);
+        try {
+            return getStyle(name);
+        } catch (Exception e) {
+            throw new EntityNotFoundException("Style", name);
+        }
     }
 
     @Override
@@ -48,12 +54,19 @@ public class StylesRepositoryImpl implements StylesRepository{
                 stylesList.set(i, country);
                 break;
             }
+            if (i == stylesList.size() - 1) {
+                throw new EntityNotFoundException("Style", id);
+            }
         }
     }
 
     @Override
     public void createStyle(Style newStyle) {
-        stylesList.add(newStyle);
+        try {
+            stylesList.add(newStyle);
+        } catch (Exception e) {
+            throw new DuplicateEntityException(newStyle.getName());
+        }
     }
 
     @Override
@@ -64,8 +77,12 @@ public class StylesRepositoryImpl implements StylesRepository{
 
     @Override
     public void deleteStyle(String name) {
-        Style styleToBeRemoved = getStyle(name);
-        stylesList.remove(styleToBeRemoved);
+        try {
+            Style styleToBeRemoved = getStyle(name);
+            stylesList.remove(styleToBeRemoved);
+        } catch (Exception e) {
+            throw new EntityNotFoundException("Style", name);
+        }
     }
 
     private Style getStyle(String name) {

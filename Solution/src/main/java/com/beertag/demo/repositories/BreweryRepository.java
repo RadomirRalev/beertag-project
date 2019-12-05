@@ -7,7 +7,7 @@ import java.util.List;
 public interface BreweryRepository {
     Brewery getBreweryById(int id);
 
-    List<Brewery> getBreweryList();
+    List<Brewery> getBreweriesList();
 
     Brewery getSpecificBrewery(String name);
 
