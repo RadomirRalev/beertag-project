@@ -25,7 +25,7 @@ public class BreweryServiceImpl implements BreweryService {
 
     @Override
     public List<Brewery> getBreweriesList() {
-        return breweryRepository.getBreweryList();
+        return breweryRepository.getBreweriesList();
     }
 
     @Override
@@ -39,6 +39,9 @@ public class BreweryServiceImpl implements BreweryService {
 
     @Override
     public Brewery update(int id, Brewery brewery) {
+        if (breweryRepository.checkBreweryExists(brewery.getName())) {
+            throw new DuplicateEntityException("Brewery", brewery.getName());
+        }
         breweryRepository.update(id, brewery);
         return brewery;
     }

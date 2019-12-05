@@ -1,6 +1,7 @@
 package com.beertag.demo.controllers;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
+import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.Brewery;
 import com.beertag.demo.services.BreweryService;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,11 @@ public class BreweryController {
 
     @GetMapping("/{id}")
     public Brewery getById(@PathVariable int id) {
-        return service.getBreweryById(id);
+        try {
+            return service.getBreweryById(id);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @GetMapping
@@ -31,12 +36,20 @@ public class BreweryController {
     @GetMapping("/search")
     @ResponseBody
     public Brewery getSpecificBrewery(@RequestParam(defaultValue = "test") String name) {
-        return service.getSpecificBrewery(name);
+        try {
+            return service.getSpecificBrewery(name);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
     public Brewery update(@PathVariable int id, @RequestBody Brewery brewery) {
-        return service.update(id, brewery);
+        try {
+            return service.update(id, brewery);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @PostMapping
@@ -50,7 +63,11 @@ public class BreweryController {
 
     @DeleteMapping("{name}")
     public void deleteBrewery(@PathVariable String name) {
-        service.deleteBrewery(name);
+        try {
+            service.deleteBrewery(name);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
 }

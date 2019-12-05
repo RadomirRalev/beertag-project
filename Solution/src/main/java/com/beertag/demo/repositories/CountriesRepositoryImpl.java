@@ -1,5 +1,6 @@
 package com.beertag.demo.repositories;
 
+import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.Country;
 import org.springframework.stereotype.Repository;
@@ -41,7 +42,11 @@ public class CountriesRepositoryImpl implements CountriesRepository {
 
     @Override
     public Country getSpecificCountry(String name) {
-        return getCountry(name);
+        try {
+            return getCountry(name);
+        } catch (Exception e) {
+            throw new EntityNotFoundException("Country", name);
+        }
     }
 
     @Override
@@ -50,6 +55,9 @@ public class CountriesRepositoryImpl implements CountriesRepository {
             if (countryList.get(i).getId() == id) {
                 countryList.set(i, country);
                 break;
+            }
+            if (i == countryList.size() - 1) {
+                throw new EntityNotFoundException("Country", id);
             }
         }
     }
@@ -64,7 +72,11 @@ public class CountriesRepositoryImpl implements CountriesRepository {
 
     @Override
     public void createCountry(Country newCountry) {
-        countryList.add(newCountry);
+        try {
+            countryList.add(newCountry);
+        } catch (Exception e) {
+            throw new DuplicateEntityException(newCountry.getName());
+        }
     }
 
     @Override
@@ -75,7 +87,11 @@ public class CountriesRepositoryImpl implements CountriesRepository {
 
     @Override
     public void deleteCountry(String name) {
-        Country countryToBeRemoved = getCountry(name);
-        countryList.remove(countryToBeRemoved);
+        try {
+            Country countryToBeRemoved = getCountry(name);
+            countryList.remove(countryToBeRemoved);
+        } catch (Exception e) {
+            throw new EntityNotFoundException("Country", name);
+        }
     }
 }

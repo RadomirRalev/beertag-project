@@ -1,9 +1,13 @@
 package com.beertag.demo.controllers;
 
+import com.beertag.demo.exceptions.DuplicateEntityException;
+import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.helpers.BeersCollectionHelper;
 import com.beertag.demo.models.Country;
 import com.beertag.demo.services.CountryService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -19,34 +23,53 @@ public class CountriesController {
 
     @GetMapping("/{id}")
     public Country getById(@PathVariable int id) {
-        return service.getCountryById(id);
+        try {
+            return service.getCountryById(id);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @GetMapping
     public List<Country> getCountriesList() {
         List result = service.getCountriesList();
-        //result = BeersCollectionHelper.sortBeersList(result, "name");
         return result;
     }
 
     @GetMapping("/search")
     @ResponseBody
     public Country getSpecificCountry(@RequestParam(defaultValue = "test") String name) {
-        return service.getSpecificCountry(name);
+        try {
+            return service.getSpecificCountry(name);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
     public Country update(@PathVariable int id, @RequestBody Country country) {
-        return service.update(id, country);
+        try {
+            return service.update(id, country);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @PostMapping
     public void createCountry(@RequestBody Country newCountry) {
-        service.createCountry(newCountry);
+        try {
+            service.createCountry(newCountry);
+        } catch (DuplicateEntityException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
     }
 
     @DeleteMapping("{name}")
     public void deleteCountry(@PathVariable String name) {
-        service.deleteCountry(name);
+        try {
+            service.deleteCountry(name);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 }
