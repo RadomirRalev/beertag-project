@@ -38,7 +38,7 @@ public class StyleController {
     }
 
     @PostMapping
-    public void createCountry(Style newStyle) {
+    public void createStyle(@RequestBody Style newStyle) {
         service.createStyle(newStyle);
     }
 

@@ -41,7 +41,7 @@ public class CountriesController {
     }
 
     @PostMapping
-    public void createCountry(Country newCountry) {
+    public void createCountry(@RequestBody Country newCountry) {
         service.createCountry(newCountry);
     }
 

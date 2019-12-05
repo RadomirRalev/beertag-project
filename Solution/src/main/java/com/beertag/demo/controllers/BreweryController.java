@@ -37,7 +37,7 @@ public class BreweryController {
     }
 
     @PostMapping
-    public void createBrewery(Brewery newBrewery) {
+    public void createBrewery(@RequestBody Brewery newBrewery) {
         service.createBrewery(newBrewery);
     }
 
