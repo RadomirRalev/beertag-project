@@ -9,18 +9,17 @@ public class Beers {
     private Style style;
     private String abvTag;
     private String picture;
-    private String tag;
+    private Tag tag;
 
     public Beers() {
 
     }
 
-    public Beers(String name, String description, String abvTag, String picture, String tag) {
+    public Beers(String name, String description, String abvTag, String picture) {
         this.name = name;
         this.description = description;
         this.abvTag = abvTag;
         this.picture = picture;
-        this.tag = tag;
     }
 
     public int getId() {
@@ -87,11 +86,11 @@ public class Beers {
         this.picture = picture;
     }
 
-    public String getTag() {
+    public Tag getTag() {
         return tag;
     }
 
-    public void setTag(String tag) {
+    public void setTag(Tag tag) {
         this.tag = tag;
     }
 }

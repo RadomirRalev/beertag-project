@@ -1,7 +1,7 @@
 package com.beertag.demo.services;
 
 import com.beertag.demo.models.Beers;
-import com.beertag.demo.models.User;
+import com.beertag.demo.models.user.User;
 
 import java.util.Collection;
 

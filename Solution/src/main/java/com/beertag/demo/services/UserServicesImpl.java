@@ -2,7 +2,7 @@ package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.models.Beers;
-import com.beertag.demo.models.User;
+import com.beertag.demo.models.user.User;
 import com.beertag.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.Date;
 @Service
 public class UserServicesImpl implements UserServices {
 
-    private static final String THIS_USER_ALREADY_EXIST = "This user already exist";
+    private static final String THIS_USER_ALREADY_EXIST = "User already exist";
     private static final String EMAIL_ALREADY_EXIST = "Email already exist";
     private static final int ADULT_YEAR = 18;
 
@@ -80,7 +80,7 @@ public class UserServicesImpl implements UserServices {
         return userRepository.emailExist(email);
     }
 
-    public boolean isUserAdult(int day, int month, int year) {
+    public boolean isUserAdult(int birthDay, int birthMonth, int birthYear) {
         Date date = new Date();
         SimpleDateFormat formatterYear = new SimpleDateFormat("yyyy");
         SimpleDateFormat formatterMonth = new SimpleDateFormat("MM");
@@ -89,13 +89,13 @@ public class UserServicesImpl implements UserServices {
         int currentMonth = Integer.parseInt(formatterMonth.format(date));
         int currentDay = Integer.parseInt(formatterDay.format(date));
 
-        if (day > currentDay) {
+        if (birthDay > currentDay) {
             currentMonth--;
         }
-        if (month > currentMonth) {
+        if (birthMonth > currentMonth) {
             currentYear--;
         }
-        return currentYear - year >= ADULT_YEAR;
+        return currentYear - birthYear >= ADULT_YEAR;
     }
 
     public boolean isNull(Object object) {

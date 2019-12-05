@@ -2,7 +2,7 @@ package com.beertag.demo.repositories;
 
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.Beers;
-import com.beertag.demo.models.User;
+import com.beertag.demo.models.user.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;

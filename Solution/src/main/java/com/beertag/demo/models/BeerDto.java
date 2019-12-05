@@ -22,6 +22,9 @@ public class BeerDto {
     private int breweryId;
 
     private int styleId;
+    @NotBlank
+    @NotNull
+    private int tagId;
 
     @NotBlank(message = "ABV tag is mandatory")
     @NotNull
@@ -59,6 +62,14 @@ public class BeerDto {
 
     public int getOriginCountryId() {
         return originCountryId;
+    }
+
+    public int getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(int tagId) {
+        this.tagId = tagId;
     }
 
     public void setOriginCountryId(int setOriginCountryId) {

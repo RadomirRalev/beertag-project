@@ -3,9 +3,9 @@ package com.beertag.demo.controllers;
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.exceptions.InvalidAgeException;
-import com.beertag.demo.models.DtoMapper;
-import com.beertag.demo.models.User;
-import com.beertag.demo.models.UserDto;
+import com.beertag.demo.models.user.RegistrationValidatorMapper;
+import com.beertag.demo.models.user.User;
+import com.beertag.demo.models.user.UserRegistrationValidation;
 import com.beertag.demo.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,16 +15,15 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 import java.util.Collection;
 
-
 @RestController
-@RequestMapping("/user")
+@RequestMapping("api/user")
 public class UserController {
 
     private UserServices userServices;
-    private DtoMapper mapper;
+    private RegistrationValidatorMapper mapper;
 
     @Autowired
-    public UserController(UserServices beerTagServices, DtoMapper mapper) {
+    public UserController(UserServices beerTagServices, RegistrationValidatorMapper mapper) {
         this.userServices = beerTagServices;
         this.mapper = mapper;
     }
@@ -35,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User create(@RequestBody @Valid UserDto userDto) {
+    public User create(@RequestBody @Valid UserRegistrationValidation userDto) {
         try {
             User user = mapper.fromDto(userDto);
             return userServices.createUser(user);

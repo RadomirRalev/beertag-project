@@ -17,25 +17,30 @@ public class BeersRepositoryImpl implements BeersRepository {
     private List<Beers> beersList;
 
     @Autowired
-    public BeersRepositoryImpl(StylesRepository stylesRepository, CountriesRepository countriesRepository, BreweryRepository breweryRepository) {
+    public BeersRepositoryImpl(StylesRepository stylesRepository,
+                               CountriesRepository countriesRepository,
+                               BreweryRepository breweryRepository, TagRepository tagRepository) {
         beersList = new ArrayList<>();
-        Beers beer = new Beers("Zagorka","okok", "2.14", "pop", "tag");
+        Beers beer = new Beers("Zagorka","okok", "2.14", "pop");
         beer.setId(BeersRepositoryImpl.nextId++);
         beer.setStyle(stylesRepository.getStyleById(0));
         beer.setOriginCountry(countriesRepository.getCountryById(0));
         beer.setBrewery(breweryRepository.getBreweryById(0));
+        beer.setTag(tagRepository.getTagById(0));
         beersList.add(beer);
-        beer = new Beers("Shumensko","okgsdgok", "3.12", "ads", "tag");
+        beer = new Beers("Shumensko","okgsdgok", "3.12", "ads");
         beer.setId(BeersRepositoryImpl.nextId++);
         beer.setStyle(stylesRepository.getStyleById(1));
         beer.setOriginCountry(countriesRepository.getCountryById(1));
         beer.setBrewery(breweryRepository.getBreweryById(1));
+        beer.setTag(tagRepository.getTagById(1));
         beersList.add(beer);
-        beer = new Beers("Pirinsko", "qwerrr", "2.84", "arghhtr", "tag");
+        beer = new Beers("Pirinsko", "qwerrr", "2.84", "arghhtr");
         beer.setId(BeersRepositoryImpl.nextId++);
         beer.setStyle(stylesRepository.getStyleById(2));
         beer.setOriginCountry(countriesRepository.getCountryById(2));
         beer.setBrewery(breweryRepository.getBreweryById(2));
+        beer.setTag(tagRepository.getTagById(2));
         beersList.add(beer);
     }
 
