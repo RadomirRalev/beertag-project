@@ -1,6 +1,5 @@
 package com.beertag.demo.services;
 
-import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.Beers;
 import com.beertag.demo.repositories.BeersRepository;
@@ -18,6 +17,7 @@ import java.util.List;
 
 import static com.beertag.demo.services.Factory.*;
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BeerServiceImplTests {
@@ -36,21 +36,21 @@ public class BeerServiceImplTests {
                 .thenReturn(expectedBeer);
 
         //Act
-        Beers returnedBeer = mockService.getById(INDEX_OF_ARRAYLIST_ELEMENT);
+        Beers returnedBeer = mockService.getById(INDEX);
 
         //Assert
         Assert.assertSame(expectedBeer, returnedBeer);
     }
 
     @Test
-    public void getByIdShould_TrowExceptionInRepository_WhenBeerDoesNotExist() {
+    public void getByIdShould_TrowException_WhenBeerDoesNotExist() {
 
         Mockito.when(repository.getById(anyInt()))
                 .thenThrow(new EntityNotFoundException("Beer", anyInt()));
 
         //Act & Assert
         Assertions.assertThrows(EntityNotFoundException.class,
-                () -> mockService.getById(INDEX_OF_ARRAYLIST_ELEMENT));
+                () -> mockService.getById(INDEX));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class BeerServiceImplTests {
         //Arrange
         List<Beers> beerList = new ArrayList<>();
 
-        Mockito.when(mockService.getBeersList())
+        Mockito.when(repository.getBeersList())
                 .thenReturn(beerList);
         //Act
         mockService.getBeersList();
@@ -83,14 +83,14 @@ public class BeerServiceImplTests {
     }
 
     @Test
-    public void getSpecificBeerShould_TrowExceptionInRepository_WhenBeerDoesNotExist() {
+    public void getSpecificBeerShould_TrowException_WhenBeerDoesNotExist() {
 
         Mockito.when(repository.getSpecificBeer(anyString()))
                 .thenThrow(new EntityNotFoundException("Beer", anyString()));
 
         //Act & Assert
         Assertions.assertThrows(EntityNotFoundException.class,
-                () -> repository.getSpecificBeer("anyName"));
+                () -> mockService.getSpecificBeer("anyName"));
     }
 
     @Test
@@ -98,17 +98,17 @@ public class BeerServiceImplTests {
         //Arrange
         Beers expectedBeer = createBeer();
 
-        Mockito.when(mockService.getSpecificBeer(NAME_OF_BEER))
+        Mockito.when(repository.getSpecificBeer(NAME))
                 .thenReturn(expectedBeer);
         //Act
-        mockService.getSpecificBeer(NAME_OF_BEER);
+        mockService.getSpecificBeer(NAME);
 
         //Assert
-        Assert.assertSame(mockService.getSpecificBeer(NAME_OF_BEER), expectedBeer);
+        Assert.assertSame(mockService.getSpecificBeer(NAME), expectedBeer);
     }
 
     @Test
-    public void createBeerShould_CreateBeer_WhenBeerDoesNotExist() {
+    public void createBeerShould_CallRepository() {
         //Arrange
         Beers expectedBeer = createBeer();
         mockService.createBeer(expectedBeer);
@@ -116,10 +116,54 @@ public class BeerServiceImplTests {
         beerList.add(expectedBeer);
 
         //Act
-        Beers returnedBeer = beerList.get(INDEX_OF_ARRAYLIST_ELEMENT);
+        Beers returnedBeer = beerList.get(INDEX);
 
         //Assert
         Assert.assertSame(expectedBeer, returnedBeer);
     }
 
+    @Test
+    public void createBeerShould_ThrowException_WhenBeerExists() {
+        //Arrange
+        doThrow(new RuntimeException()).when(repository).createBeer(any());
+
+        //Act & Assert
+        Assertions.assertThrows(RuntimeException.class,
+                () -> repository.createBeer(isA(Beers.class)));
+    }
+
+    @Test
+    public void deleteBeerShould_ThrowException_WhenBeerDoesNotExist() {
+
+        doThrow(new RuntimeException()).when(repository).deleteBeer(anyString());
+
+        //Act & Assert
+        Assertions.assertThrows(RuntimeException.class,
+                () -> repository.deleteBeer(anyString()));
+    }
+
+    @Test
+    public void updateShould_ThrowException_WhenBeerDoesNotExist() {
+
+        doThrow(new RuntimeException()).when(repository).update(anyInt(), any());
+
+        //Act & Assert
+        Assertions.assertThrows(RuntimeException.class,
+                () -> repository.update(anyInt(), any()));
+    }
+
+    @Test
+    public void updateShould_ReturnBeer_WhenBeerExists() {
+        //Arrange
+        Beers returnedBeer = createBeer();
+
+        Mockito.when(repository.update(anyInt(), any()))
+                .thenReturn(returnedBeer);
+
+        //Act
+        mockService.update(anyInt(), any());
+
+        //Assert
+        Assert.assertNotNull(returnedBeer);
+    }
 }

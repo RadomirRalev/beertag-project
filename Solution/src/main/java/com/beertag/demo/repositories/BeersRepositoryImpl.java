@@ -80,12 +80,13 @@ public class BeersRepositoryImpl implements BeersRepository {
     }
 
     @Override
-    public void update(int id, Beers beer) {
+    public Beers update(int id, Beers beer) {
         Beers beerToUpdate = getById(id);
         int index = beersList.indexOf(beerToUpdate);
         beer.setId(beerToUpdate.getId());
         beer.setStyle(beerToUpdate.getStyle());
         beersList.set(index, beer);
+        return beer;
     }
 
     private Beers getBeers(@PathVariable String name) {

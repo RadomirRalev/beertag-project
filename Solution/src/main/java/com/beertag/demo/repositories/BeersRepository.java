@@ -16,5 +16,5 @@ public interface BeersRepository {
 
     boolean checkBeerExists(String name);
 
-    void update(int id, Beers beerToUpdate);
+    Beers update(int id, Beers beerToUpdate);
 }

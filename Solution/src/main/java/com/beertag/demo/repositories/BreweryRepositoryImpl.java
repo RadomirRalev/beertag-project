@@ -49,22 +49,24 @@ public class BreweryRepositoryImpl implements BreweryRepository {
     }
 
     @Override
-    public void update(int id, Brewery brewery) {
+    public Brewery update(int id, Brewery brewery) {
         for (int i = 0; i < breweriesList.size(); i++) {
             if (breweriesList.get(i).getId() == id) {
                 breweriesList.set(i, brewery);
-                break;
+                return brewery;
             }
             if (i == breweriesList.size() - 1) {
                 throw new EntityNotFoundException("Brewery", id);
             }
         }
+        return brewery;
     }
 
     @Override
-    public void createBrewery(Brewery newBrewery) {
+    public Brewery createBrewery(Brewery newBrewery) {
         try {
             breweriesList.add(newBrewery);
+            return newBrewery;
         } catch (Exception e) {
             throw new DuplicateEntityException(newBrewery.getName());
         }

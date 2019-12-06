@@ -11,9 +11,9 @@ public interface BreweryRepository {
 
     Brewery getSpecificBrewery(String name);
 
-    void update(int id, Brewery brewery);
+    Brewery update(int id, Brewery brewery);
 
-    void createBrewery(Brewery newBrewery);
+    Brewery createBrewery(Brewery newBrewery);
 
     boolean checkBreweryExists(String name);
 
