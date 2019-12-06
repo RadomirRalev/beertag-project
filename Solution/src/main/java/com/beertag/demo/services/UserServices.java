@@ -23,8 +23,4 @@ public interface UserServices {
 
     boolean emailExist(String email);
 
-    boolean isUserAdult(int day, int month, int year);
-
-    boolean isNull(Object object);
-
 }

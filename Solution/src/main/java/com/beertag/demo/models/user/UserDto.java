@@ -4,7 +4,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.*;
 
-public class UserRegistrationValidation {
+public class UserDto {
     @Pattern(regexp = "^[a-z A-Z]+$") //ограничава позволените символи до малки-големи
     @Size(min = 3)
     private String firstName; //optional field

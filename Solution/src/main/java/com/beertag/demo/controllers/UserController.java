@@ -3,9 +3,9 @@ package com.beertag.demo.controllers;
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.exceptions.InvalidAgeException;
-import com.beertag.demo.models.user.RegistrationValidatorMapper;
+import com.beertag.demo.models.user.UserDtoMapper;
 import com.beertag.demo.models.user.User;
-import com.beertag.demo.models.user.UserRegistrationValidation;
+import com.beertag.demo.models.user.UserDto;
 import com.beertag.demo.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,10 +20,10 @@ import java.util.Collection;
 public class UserController {
 
     private UserServices userServices;
-    private RegistrationValidatorMapper mapper;
+    private UserDtoMapper mapper;
 
     @Autowired
-    public UserController(UserServices beerTagServices, RegistrationValidatorMapper mapper) {
+    public UserController(UserServices beerTagServices, UserDtoMapper mapper) {
         this.userServices = beerTagServices;
         this.mapper = mapper;
     }
@@ -34,9 +34,9 @@ public class UserController {
     }
 
     @PostMapping
-    public User create(@RequestBody @Valid UserRegistrationValidation userDto) {
+    public User create(@RequestBody @Valid UserDto userDto) {
         try {
-            User user = mapper.fromDto(userDto);
+            User user = mapper.isDataCorrect(userDto);
             return userServices.createUser(user);
         } catch (DuplicateEntityException | InvalidAgeException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());

@@ -7,16 +7,13 @@ import com.beertag.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Date;
 
 @Service
 public class UserServicesImpl implements UserServices {
 
     private static final String THIS_USER_ALREADY_EXIST = "User already exist";
     private static final String EMAIL_ALREADY_EXIST = "Email already exist";
-    private static final int ADULT_YEAR = 18;
 
     private UserRepository userRepository;
 
@@ -50,13 +47,6 @@ public class UserServicesImpl implements UserServices {
             throw new DuplicateEntityException(EMAIL_ALREADY_EXIST);
         }
 
-        if (isNull(user.getFirstName())) {
-            user.setFirstName("");
-        }
-        if (isNull(user.getLastName())) {
-            user.setLastName("");
-        }
-
         return userRepository.createUser(user);
     }
 
@@ -80,25 +70,4 @@ public class UserServicesImpl implements UserServices {
         return userRepository.emailExist(email);
     }
 
-    public boolean isUserAdult(int birthDay, int birthMonth, int birthYear) {
-        Date date = new Date();
-        SimpleDateFormat formatterYear = new SimpleDateFormat("yyyy");
-        SimpleDateFormat formatterMonth = new SimpleDateFormat("MM");
-        SimpleDateFormat formatterDay = new SimpleDateFormat("dd");
-        int currentYear = Integer.parseInt(formatterYear.format(date));
-        int currentMonth = Integer.parseInt(formatterMonth.format(date));
-        int currentDay = Integer.parseInt(formatterDay.format(date));
-
-        if (birthDay > currentDay) {
-            currentMonth--;
-        }
-        if (birthMonth > currentMonth) {
-            currentYear--;
-        }
-        return currentYear - birthYear >= ADULT_YEAR;
-    }
-
-    public boolean isNull(Object object) {
-        return object == null;
-    }
 }
