@@ -4,7 +4,7 @@ import com.beertag.demo.models.Country;
 
 import java.util.List;
 
-public interface CountriesRepository {
+public interface CountryRepository {
 
     Country getCountryById(int id);
 

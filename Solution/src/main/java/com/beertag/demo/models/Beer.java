@@ -1,6 +1,6 @@
 package com.beertag.demo.models;
 
-public class Beers {
+public class Beer {
     private int id;
     private String name;
     private String description;
@@ -11,11 +11,11 @@ public class Beers {
     private String picture;
     private Tag tag;
 
-    public Beers() {
+    public Beer() {
 
     }
 
-    public Beers(String name, String description, String abvTag, String picture) {
+    public Beer(String name, String description, String abvTag, String picture) {
         this.name = name;
         this.description = description;
         this.abvTag = abvTag;

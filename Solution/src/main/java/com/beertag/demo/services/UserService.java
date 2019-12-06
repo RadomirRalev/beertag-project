@@ -1,17 +1,17 @@
 package com.beertag.demo.services;
 
-import com.beertag.demo.models.Beers;
+import com.beertag.demo.models.Beer;
 import com.beertag.demo.models.user.User;
 
 import java.util.Collection;
 
-public interface UserServices {
+public interface UserService {
 
     Collection<User> showUsers();
 
-    Collection<Beers> getWishList();
+    Collection<Beer> getWishList();
 
-    Collection<Beers> getDrankList();
+    Collection<Beer> getDrankList();
 
     User createUser(User user);
 

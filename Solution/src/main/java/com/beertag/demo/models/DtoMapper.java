@@ -2,7 +2,7 @@ package com.beertag.demo.models;
 
 import com.beertag.demo.services.BreweryService;
 import com.beertag.demo.services.CountryService;
-import com.beertag.demo.services.StylesService;
+import com.beertag.demo.services.StyleService;
 import com.beertag.demo.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,23 +10,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class DtoMapper {
 
-    private StylesService stylesService;
+    private StyleService styleService;
     private CountryService countryService;
     private BreweryService breweryService;
     private TagService tagService;
 
     @Autowired
-    public DtoMapper(StylesService stylesService, CountryService countryService,
+    public DtoMapper(StyleService styleService, CountryService countryService,
                      BreweryService breweryService, TagService tagService) {
-        this.stylesService = stylesService;
+        this.styleService = styleService;
         this.countryService = countryService;
         this.breweryService = breweryService;
         this.tagService = tagService;
     }
 
-    public Beers fromDto(BeerDto beerDto) {
-        Beers beer = new Beers(beerDto.getName(), beerDto.getDescription(), beerDto.getAbvTag(), beerDto.getPicture());
-        Style style = stylesService.getStyleById(beerDto.getStyleId());
+    public Beer fromDto(BeerDto beerDto) {
+        Beer beer = new Beer(beerDto.getName(), beerDto.getDescription(), beerDto.getAbvTag(), beerDto.getPicture());
+        Style style = styleService.getStyleById(beerDto.getStyleId());
         Country country = countryService.getCountryById(beerDto.getOriginCountryId());
         Brewery brewery = breweryService.getBreweryById(beerDto.getBreweryId());
         Tag tag = tagService.getTagById(beerDto.getTagId());

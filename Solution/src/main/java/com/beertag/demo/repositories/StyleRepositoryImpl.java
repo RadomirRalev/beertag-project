@@ -7,20 +7,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class StylesRepositoryImpl implements StylesRepository{
+public class StyleRepositoryImpl implements StyleRepository {
     private static int styleID;
     private List<Style> stylesList;
 
-    public StylesRepositoryImpl() {
+    public StyleRepositoryImpl() {
         stylesList = new ArrayList<>();
         Style style = new Style("Special Ale");
-        style.setId(StylesRepositoryImpl.styleID++);
+        style.setId(StyleRepositoryImpl.styleID++);
         stylesList.add(style);
         style = new Style("English Porter");
-        style.setId(StylesRepositoryImpl.styleID++);
+        style.setId(StyleRepositoryImpl.styleID++);
         stylesList.add(style);
         style = new Style("Indian Pale Ale");
-        style.setId(StylesRepositoryImpl.styleID++);
+        style.setId(StyleRepositoryImpl.styleID++);
         stylesList.add(style);
     }
 

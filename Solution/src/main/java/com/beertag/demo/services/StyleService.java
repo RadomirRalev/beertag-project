@@ -4,7 +4,7 @@ import com.beertag.demo.models.Style;
 
 import java.util.List;
 
-public interface StylesService {
+public interface StyleService {
     Style getStyleById(int id);
 
     List<Style> getStylesList();

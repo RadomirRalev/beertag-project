@@ -6,7 +6,7 @@ import com.beertag.demo.exceptions.InvalidAgeException;
 import com.beertag.demo.models.user.UserDtoMapper;
 import com.beertag.demo.models.user.User;
 import com.beertag.demo.models.user.UserDto;
-import com.beertag.demo.services.UserServices;
+import com.beertag.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,25 +19,25 @@ import java.util.Collection;
 @RequestMapping("api/user")
 public class UserController {
 
-    private UserServices userServices;
+    private UserService userService;
     private UserDtoMapper mapper;
 
     @Autowired
-    public UserController(UserServices beerTagServices, UserDtoMapper mapper) {
-        this.userServices = beerTagServices;
+    public UserController(UserService beerTagServices, UserDtoMapper mapper) {
+        this.userService = beerTagServices;
         this.mapper = mapper;
     }
 
     @GetMapping
     public Collection<User> showUsers() {
-        return userServices.showUsers();
+        return userService.showUsers();
     }
 
     @PostMapping
     public User create(@RequestBody @Valid UserDto userDto) {
         try {
             User user = mapper.isDataCorrect(userDto);
-            return userServices.createUser(user);
+            return userService.createUser(user);
         } catch (DuplicateEntityException | InvalidAgeException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
@@ -46,7 +46,7 @@ public class UserController {
     @PutMapping
     public User updateUser(@RequestBody @Valid User user) {
         try {
-            return userServices.updateUser(user);
+            return userService.updateUser(user);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
@@ -55,7 +55,7 @@ public class UserController {
     @DeleteMapping
     public User delete(@RequestBody User user) {
         try {
-           return userServices.deleteUser(user);
+           return userService.deleteUser(user);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

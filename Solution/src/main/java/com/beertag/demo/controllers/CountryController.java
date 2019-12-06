@@ -2,7 +2,6 @@ package com.beertag.demo.controllers;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.helpers.BeersCollectionHelper;
 import com.beertag.demo.models.Country;
 import com.beertag.demo.services.CountryService;
 import org.springframework.http.HttpStatus;
@@ -13,11 +12,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/countries")
-public class CountriesController {
+public class CountryController {
     private CountryService service;
     private Country country;
 
-    public CountriesController(CountryService service) {
+    public CountryController(CountryService service) {
         this.service = service;
     }
 

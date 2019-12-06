@@ -10,20 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class CountriesRepositoryImpl implements CountriesRepository {
+public class CountryRepositoryImpl implements CountryRepository {
     private static int countryID;
     private List<Country> countryList;
 
-    public CountriesRepositoryImpl() {
+    public CountryRepositoryImpl() {
         countryList = new ArrayList<>();
         Country country = new Country("Bulgaria");
-        country.setId(CountriesRepositoryImpl.countryID++);
+        country.setId(CountryRepositoryImpl.countryID++);
         countryList.add(country);
         country = new Country("Serbia");
-        country.setId(CountriesRepositoryImpl.countryID++);
+        country.setId(CountryRepositoryImpl.countryID++);
         countryList.add(country);
         country = new Country("Czech Republic");
-        country.setId(CountriesRepositoryImpl.countryID++);
+        country.setId(CountryRepositoryImpl.countryID++);
         countryList.add(country);
     }
 

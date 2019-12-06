@@ -2,24 +2,24 @@ package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.models.Beers;
-import com.beertag.demo.repositories.BeersRepository;
+import com.beertag.demo.models.Beer;
+import com.beertag.demo.repositories.BeerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class BeersServiceImpl implements BeersService {
-    private BeersRepository repository;
+public class BeerServiceImpl implements BeerService {
+    private BeerRepository repository;
 
     @Autowired
-    public BeersServiceImpl(BeersRepository repository) {
+    public BeerServiceImpl(BeerRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public Beers getById(int id) {
+    public Beer getById(int id) {
         try {
             return repository.getById(id);
         } catch (EntityNotFoundException ex) {
@@ -28,12 +28,12 @@ public class BeersServiceImpl implements BeersService {
     }
 
     @Override
-    public List<Beers> getBeersList() {
-        return repository.getBeersList();
+    public List<Beer> getBeersList() {
+        return repository.getBeerList();
     }
 
     @Override
-    public Beers getSpecificBeer(String name) {
+    public Beer getSpecificBeer(String name) {
         try {
             return repository.getSpecificBeer(name);
         } catch (EntityNotFoundException ex) {
@@ -42,11 +42,13 @@ public class BeersServiceImpl implements BeersService {
     }
 
     @Override
-    public void createBeer(Beers newBeer) {
-        if (repository.checkBeerExists(newBeer.getName())) {
+    public Beer createBeer(Beer newBeer) {
+        try {
+            repository.createBeer(newBeer);
+            return newBeer;
+        } catch (Exception ex) {
             throw new DuplicateEntityException(newBeer.getName());
         }
-        repository.createBeer(newBeer);
     }
 
     @Override
@@ -58,7 +60,7 @@ public class BeersServiceImpl implements BeersService {
     }
 
     @Override
-    public Beers update(int id, Beers beerToBeUpdated) {
+    public Beer update(int id, Beer beerToBeUpdated) {
         repository.update(id, beerToBeUpdated);
         return beerToBeUpdated;
     }

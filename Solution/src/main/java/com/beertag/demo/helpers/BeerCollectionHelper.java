@@ -1,45 +1,45 @@
 package com.beertag.demo.helpers;
 
-import com.beertag.demo.models.Beers;
+import com.beertag.demo.models.Beer;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class BeersCollectionHelper {
-    public static List<Beers> filterByName(List<Beers> beersList, String name) {
+public class BeerCollectionHelper {
+    public static List<Beer> filterByName(List<Beer> beerList, String name) {
         if (name != null && !name.isEmpty()) {
-            beersList = beersList.stream()
+            beerList = beerList.stream()
                     .filter(beers -> beers.getName().toLowerCase().contains(name.toLowerCase()))
                     .collect(Collectors.toList());
         }
-        return beersList;
+        return beerList;
     }
 
-    public static List<Beers> filterByStyle(List<Beers> beersList, String style) {
+    public static List<Beer> filterByStyle(List<Beer> beerList, String style) {
         if (style != null && !style.isEmpty()) {
-            beersList = beersList.stream()
+            beerList = beerList.stream()
                     .filter(beers -> beers.getStyle().getName().toLowerCase().contains(style.toLowerCase()))
                     .collect(Collectors.toList());
         }
-        return beersList;
+        return beerList;
     }
 
-    public static List sortBeersList(List<Beers> beersList, String sortType) {
+    public static List<Beer> sortBeersList(List<Beer> beerList, String sortType) {
         if (sortType != null && !sortType.isEmpty() &&
                 (sortType.equalsIgnoreCase("name") || sortType.equalsIgnoreCase("abv"))) {
-            beersList = beersList.stream()
+            beerList = beerList.stream()
                     .sorted(Comparator.comparing(getTypeOfSort(sortType)))
                     .collect(Collectors.toList());
         }
-        return beersList;
+        return beerList;
     }
 
-    private static Function<Beers, String> getTypeOfSort(String sortType) {
+    private static Function<Beer, String> getTypeOfSort(String sortType) {
         if (sortType.equalsIgnoreCase("name")) {
-            return Beers::getName;
+            return Beer::getName;
         }
-        return Beers::getAbvTag;
+        return Beer::getAbvTag;
     }
 }
