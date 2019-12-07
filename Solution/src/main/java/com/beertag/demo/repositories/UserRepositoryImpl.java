@@ -1,16 +1,17 @@
 package com.beertag.demo.repositories;
 
+import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.models.Beer;
+import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.user.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+import static com.beertag.demo.models.Constants.*;
+
 @Repository
 public class UserRepositoryImpl implements UserRepository {
-
-    private static final String USER_NOT_FOUND = "User with name %s not found";
 
     private Map<String, User> usersList;
     private Map<User, Beer> wishList;
@@ -40,29 +41,42 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User createUser(User user) {
-         usersList.put(user.getUserName(), user);
-         return user;
+        try {
+            usersList.put(user.getUserName(), user);
+        } catch (Exception e) {
+            throw new DuplicateEntityException(USER_NAME_EXISTS, user.getUserName());
+        }
+        return user;
     }
 
     @Override
     public User findUser(String name) {
-        if (userExist(name)) {
+        try {
             return usersList.get(name);
+        } catch (Exception e) {
+            throw new EntityNotFoundException(String.format(USER_NAME_NOT_FOUND, name));
         }
-        throw new EntityNotFoundException(String.format(USER_NOT_FOUND, name));
     }
 
     @Override
     public User deleteUser(User user) {
-        findUser(user.getUserName());
-       return usersList.remove(user.getUserName());
+        try {
+            findUser(user.getUserName());
+            return usersList.remove(user.getUserName());
+        } catch (Exception e) {
+            throw new EntityNotFoundException(USER_NAME_NOT_FOUND, user.getUserName());
+        }
     }
 
     @Override
     public User updateUser(User user) {
-        User userToUpdate = findUser(user.getUserName());
-        userToUpdate.setEmail(user.getEmail());
-        return userToUpdate;
+        try {
+            User userToUpdate = findUser(user.getUserName());
+            userToUpdate.setEmail(user.getEmail());
+            return userToUpdate;
+        } catch (Exception e) {
+            throw new EntityNotFoundException(USER_NAME_NOT_FOUND, user.getUserName());
+        }
     }
 
     @Override

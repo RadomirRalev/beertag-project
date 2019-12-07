@@ -1,6 +1,6 @@
 package com.beertag.demo.helpers;
 
-import com.beertag.demo.models.Beer;
+import com.beertag.demo.models.beer.Beer;
 
 import java.util.Comparator;
 import java.util.List;

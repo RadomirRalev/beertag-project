@@ -2,7 +2,7 @@ package com.beertag.demo.controllers;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.models.Brewery;
+import com.beertag.demo.models.beer.Brewery;
 import com.beertag.demo.services.BreweryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +30,11 @@ public class BreweryController {
 
     @GetMapping
     public List<Brewery> getBreweriesList() {
-        return service.getBreweriesList();
+        try {
+            return service.getBreweriesList();
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @GetMapping("/search")
@@ -53,9 +57,10 @@ public class BreweryController {
     }
 
     @PostMapping
-    public void createBrewery(@RequestBody Brewery newBrewery) {
+    public Brewery createBrewery(@RequestBody Brewery newBrewery) {
         try {
             service.createBrewery(newBrewery);
+            return newBrewery;
         } catch (DuplicateEntityException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }

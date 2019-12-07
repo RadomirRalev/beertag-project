@@ -6,16 +6,12 @@ public class EntityNotFoundException extends RuntimeException {
         super(message);
     }
 
-    public EntityNotFoundException(String itemName, String itemType) {
-        super(String.format("We didn't found a beer with %s %s.", itemName, itemType));
+    public EntityNotFoundException(String message, String name) {
+        super(String.format(message, name));
     }
 
-    public EntityNotFoundException(String itemType, int id) {
-        this(itemType, "id", String.valueOf(id));
-    }
-
-    public EntityNotFoundException(String itemType, String attribute, String value) {
-        super(String.format("%s with %s %s not found.", itemType, attribute, value));
+    public EntityNotFoundException(String message, int id) {
+        super(String.format(message, id));
     }
 }
 

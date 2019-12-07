@@ -2,12 +2,14 @@ package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.models.Country;
+import com.beertag.demo.models.beer.Country;
 import com.beertag.demo.repositories.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.beertag.demo.models.Constants.*;
 
 @Service
 public class CountryServiceImpl implements CountryService {
@@ -20,42 +22,57 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public Country getCountryById(int id) {
-        return countryRepository.getCountryById(id);
+        try {
+            return countryRepository.getCountryById(id);
+        } catch (Exception e) {
+            throw new EntityNotFoundException (COUNTRY_ID_NOT_FOUND, id);
+        }
     }
 
     @Override
     public List<Country> getCountriesList() {
-        return countryRepository.getCountriesList();
+        try {
+            return countryRepository.getCountriesList();
+        } catch (Exception e) {
+            throw new EntityNotFoundException (LIST_EMPTY);
+        }
     }
 
     @Override
     public Country getSpecificCountry(String name) {
         try {
             return countryRepository.getSpecificCountry(name);
-        } catch (EntityNotFoundException ex) {
-            throw new EntityNotFoundException (String.format("Country %s not found in the database", name));
+        } catch (Exception ex) {
+            throw new EntityNotFoundException (COUNTRY_NAME_NOT_FOUND, name);
         }
     }
 
     @Override
     public Country update(int id, Country country) {
-        countryRepository.update(id, country);
-        return country;
+        try {
+            countryRepository.update(id, country);
+            return country;
+        } catch (Exception e) {
+            throw new EntityNotFoundException (COUNTRY_ID_NOT_FOUND, id);
+        }
     }
 
     @Override
-    public void createCountry(Country newCountry) {
-        if (countryRepository.checkCountryExists(newCountry.getName())) {
-            throw new DuplicateEntityException("Country", newCountry.getName());
+    public Country createCountry(Country newCountry) {
+        try {
+            countryRepository.createCountry(newCountry);
+            return newCountry;
+        } catch (Exception e) {
+            throw new DuplicateEntityException(COUNTRY_NAME_EXISTS, newCountry.getName());
         }
-        countryRepository.createCountry(newCountry);
     }
 
     @Override
     public void deleteCountry(String name) {
-        if (countryRepository.checkCountryExists(name)) {
-            throw new EntityNotFoundException(String.format("Country %s does not exist.", name));
+        try {
+            countryRepository.deleteCountry(name);
+        } catch (Exception e) {
+            throw new EntityNotFoundException (COUNTRY_NAME_NOT_FOUND, name);
         }
-        countryRepository.deleteCountry(name);
     }
 }

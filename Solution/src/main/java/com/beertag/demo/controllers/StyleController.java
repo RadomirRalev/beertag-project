@@ -2,7 +2,7 @@ package com.beertag.demo.controllers;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.models.Style;
+import com.beertag.demo.models.beer.Style;
 import com.beertag.demo.services.StyleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +30,11 @@ public class StyleController {
 
     @GetMapping
     public List<Style> getStylesList() {
-        return service.getStylesList();
+        try {
+            return service.getStylesList();
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @GetMapping("/search")
@@ -53,9 +57,10 @@ public class StyleController {
     }
 
     @PostMapping
-    public void createStyle(@RequestBody Style newStyle) {
+    public Style createStyle(@RequestBody Style newStyle) {
         try {
             service.createStyle(newStyle);
+            return newStyle;
         } catch (DuplicateEntityException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }

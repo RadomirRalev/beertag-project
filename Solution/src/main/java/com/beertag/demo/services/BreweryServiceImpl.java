@@ -2,12 +2,14 @@ package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.models.Brewery;
+import com.beertag.demo.models.beer.Brewery;
 import com.beertag.demo.repositories.BreweryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.beertag.demo.models.Constants.*;
 
 @Service
 public class BreweryServiceImpl implements BreweryService {
@@ -20,12 +22,20 @@ public class BreweryServiceImpl implements BreweryService {
 
     @Override
     public Brewery getBreweryById(int id) {
-        return breweryRepository.getBreweryById(id);
+        try {
+            return breweryRepository.getBreweryById(id);
+        } catch (Exception e) {
+            throw new EntityNotFoundException (BREWERY_ID_NOT_FOUND, id);
+        }
     }
 
     @Override
     public List<Brewery> getBreweriesList() {
-        return breweryRepository.getBreweriesList();
+        try {
+            return breweryRepository.getBreweriesList();
+        } catch (Exception e) {
+            throw new EntityNotFoundException (LIST_EMPTY);
+        }
     }
 
     @Override
@@ -33,32 +43,36 @@ public class BreweryServiceImpl implements BreweryService {
         try {
             return breweryRepository.getSpecificBrewery(name);
         } catch (EntityNotFoundException ex) {
-            throw new EntityNotFoundException (String.format("Brewery %s not found in the database", name));
+            throw new EntityNotFoundException (BREWERY_NAME_NOT_FOUND, name);
         }
     }
 
     @Override
     public Brewery update(int id, Brewery brewery) {
-        if (breweryRepository.checkBreweryExists(brewery.getName())) {
-            throw new DuplicateEntityException("Brewery", brewery.getName());
+        try {
+            breweryRepository.update(id, brewery);
+            return brewery;
+        } catch (Exception e) {
+            throw new EntityNotFoundException (BREWERY_ID_NOT_FOUND, id);
         }
-        breweryRepository.update(id, brewery);
-        return brewery;
     }
 
     @Override
-    public void createBrewery(Brewery newBrewery) {
-        if (breweryRepository.checkBreweryExists(newBrewery.getName())) {
-            throw new DuplicateEntityException("Brewery", newBrewery.getName());
+    public Brewery createBrewery(Brewery newBrewery) {
+        try {
+            breweryRepository.createBrewery(newBrewery);
+            return newBrewery;
+        } catch (Exception e) {
+            throw new DuplicateEntityException(BREWERY_NAME_EXISTS, newBrewery.getName());
         }
-        breweryRepository.createBrewery(newBrewery);
     }
 
     @Override
     public void deleteBrewery(String name) {
-        if (breweryRepository.checkBreweryExists(name)) {
-            throw new EntityNotFoundException(String.format("Brewery %s does not exist.", name));
+        try {
+            breweryRepository.deleteBrewery(name);
+        } catch (Exception e) {
+            throw new EntityNotFoundException (BREWERY_NAME_NOT_FOUND, name);
         }
-        breweryRepository.deleteBrewery(name);
     }
 }

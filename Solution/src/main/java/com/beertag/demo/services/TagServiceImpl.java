@@ -1,12 +1,15 @@
 package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
-import com.beertag.demo.models.Tag;
+import com.beertag.demo.exceptions.EntityNotFoundException;
+import com.beertag.demo.models.beer.Tag;
 import com.beertag.demo.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.beertag.demo.models.Constants.*;
 
 @Service
 public class TagServiceImpl implements TagService {
@@ -20,34 +23,55 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag getTagById(int id) {
-        return tagRepository.getTagById(id);
+        try {
+            return tagRepository.getTagById(id);
+        } catch (Exception e) {
+            throw new EntityNotFoundException(TAG_ID_NOT_FOUND, id);
+        }
     }
 
     @Override
     public List<Tag> getTagList() {
-        return tagRepository.getTagList();
+        try {
+            return tagRepository.getTagList();
+        } catch (Exception e) {
+            throw new EntityNotFoundException(LIST_EMPTY);
+        }
     }
 
     @Override
     public Tag getSpecificTag(String name) {
-        return tagRepository.getSpecificTag(name);
+        try {
+            return tagRepository.getSpecificTag(name);
+        } catch (Exception e) {
+            throw new EntityNotFoundException(TAG_NAME_NOT_FOUND, name);
+        }
     }
 
     @Override
     public void update(int id, Tag tag) {
-        tagRepository.update(id, tag);
+        try {
+            tagRepository.update(id, tag);
+        } catch (Exception e) {
+            throw new EntityNotFoundException(TAG_ID_NOT_FOUND, id);
+        }
     }
 
     @Override
     public void createTag(Tag tag) {
-        if (tagRepository.checkTagExists(tag.getName())) {
-            throw new DuplicateEntityException("Tag", tag.getName());
+        try {
+            tagRepository.createTag(tag);
+        } catch (Exception e) {
+            throw new EntityNotFoundException(TAG_NAME_NOT_FOUND, tag.getName());
         }
-        tagRepository.createTag(tag);
     }
 
     @Override
     public void deleteTag(String name) {
-        tagRepository.deleteTag(name);
+        try {
+            tagRepository.deleteTag(name);
+        } catch (Exception e) {
+            throw new EntityNotFoundException(TAG_NAME_NOT_FOUND, name);
+        }
     }
 }

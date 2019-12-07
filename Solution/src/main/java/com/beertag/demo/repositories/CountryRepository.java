@@ -1,6 +1,6 @@
 package com.beertag.demo.repositories;
 
-import com.beertag.demo.models.Country;
+import com.beertag.demo.models.beer.Country;
 
 import java.util.List;
 
@@ -12,9 +12,9 @@ public interface CountryRepository {
 
     Country getSpecificCountry(String name);
 
-    void update(int id, Country country);
+    Country update(int id, Country country);
 
-    void createCountry(Country newCountry);
+    Country createCountry(Country newCountry);
 
     boolean checkCountryExists(String name);
 
