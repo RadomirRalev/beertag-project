@@ -1,10 +1,12 @@
 package com.beertag.demo.repositories;
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.models.Style;
+import com.beertag.demo.models.beer.Style;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.beertag.demo.models.Constants.*;
 
 @Repository
 public class StyleRepositoryImpl implements StyleRepository {
@@ -29,13 +31,17 @@ public class StyleRepositoryImpl implements StyleRepository {
         return stylesList.stream()
                 .filter(style -> style.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("Style", id));
+                .orElseThrow(() -> new EntityNotFoundException(STYLE_ID_NOT_FOUND, id));
 
     }
 
     @Override
     public List<Style> getStylesList() {
-        return stylesList;
+        try {
+            return stylesList;
+        } catch (Exception e) {
+            throw new EntityNotFoundException(LIST_EMPTY);
+        }
     }
 
     @Override
@@ -43,29 +49,31 @@ public class StyleRepositoryImpl implements StyleRepository {
         try {
             return getStyle(name);
         } catch (Exception e) {
-            throw new EntityNotFoundException("Style", name);
+            throw new EntityNotFoundException(STYLE_NAME_NOT_FOUND, name);
         }
     }
 
     @Override
-    public void update(int id, Style country) {
+    public Style update(int id, Style style) {
         for (int i = 0; i < stylesList.size(); i++) {
             if (stylesList.get(i).getId() == id) {
-                stylesList.set(i, country);
+                stylesList.set(i, style);
                 break;
             }
             if (i == stylesList.size() - 1) {
-                throw new EntityNotFoundException("Style", id);
+                throw new EntityNotFoundException(STYLE_ID_NOT_FOUND, id);
             }
         }
+        return style;
     }
 
     @Override
-    public void createStyle(Style newStyle) {
+    public Style createStyle(Style newStyle) {
         try {
             stylesList.add(newStyle);
+            return newStyle;
         } catch (Exception e) {
-            throw new DuplicateEntityException(newStyle.getName());
+            throw new DuplicateEntityException(STYLE_NAME_EXISTS, newStyle.getName());
         }
     }
 
@@ -81,7 +89,7 @@ public class StyleRepositoryImpl implements StyleRepository {
             Style styleToBeRemoved = getStyle(name);
             stylesList.remove(styleToBeRemoved);
         } catch (Exception e) {
-            throw new EntityNotFoundException("Style", name);
+            throw new EntityNotFoundException(STYLE_NAME_NOT_FOUND, name);
         }
     }
 
@@ -90,7 +98,7 @@ public class StyleRepositoryImpl implements StyleRepository {
                 .filter(style -> style.getName().equalsIgnoreCase(name))
                 .findFirst()
                 .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Style %s not found in the database", name)));
+                        String.format(STYLE_NAME_NOT_FOUND, name)));
     }
 
 }

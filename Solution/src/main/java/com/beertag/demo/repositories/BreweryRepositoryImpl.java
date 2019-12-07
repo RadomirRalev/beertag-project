@@ -2,11 +2,13 @@ package com.beertag.demo.repositories;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.models.Brewery;
+import com.beertag.demo.models.beer.Brewery;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.beertag.demo.models.Constants.*;
 
 @Repository
 public class BreweryRepositoryImpl implements BreweryRepository {
@@ -31,12 +33,16 @@ public class BreweryRepositoryImpl implements BreweryRepository {
         return breweriesList.stream()
                 .filter(brewery -> brewery.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("Brewery", id));
+                .orElseThrow(() -> new EntityNotFoundException(BREWERY_ID_NOT_FOUND, id));
     }
 
     @Override
     public List<Brewery> getBreweriesList() {
-        return breweriesList;
+        try {
+            return breweriesList;
+        } catch (Exception e) {
+            throw new EntityNotFoundException(LIST_EMPTY);
+        }
     }
 
     @Override
@@ -44,7 +50,7 @@ public class BreweryRepositoryImpl implements BreweryRepository {
         try {
             return getBrewery(name);
         } catch (Exception e) {
-            throw new EntityNotFoundException("Brewery", name);
+            throw new EntityNotFoundException(BREWERY_NAME_NOT_FOUND, name);
         }
     }
 
@@ -56,7 +62,7 @@ public class BreweryRepositoryImpl implements BreweryRepository {
                 return brewery;
             }
             if (i == breweriesList.size() - 1) {
-                throw new EntityNotFoundException("Brewery", id);
+                throw new EntityNotFoundException(BREWERY_NAME_NOT_FOUND, brewery.getName());
             }
         }
         return brewery;
@@ -68,7 +74,7 @@ public class BreweryRepositoryImpl implements BreweryRepository {
             breweriesList.add(newBrewery);
             return newBrewery;
         } catch (Exception e) {
-            throw new DuplicateEntityException(newBrewery.getName());
+            throw new DuplicateEntityException(BREWERY_NAME_EXISTS, newBrewery.getName());
         }
     }
 
@@ -84,7 +90,7 @@ public class BreweryRepositoryImpl implements BreweryRepository {
             Brewery breweryToBeRemoved = getBrewery(name);
             breweriesList.remove(breweryToBeRemoved);
         } catch (Exception e) {
-            throw new EntityNotFoundException("Brewery", name);
+            throw new EntityNotFoundException(BREWERY_NAME_NOT_FOUND, name);
         }
     }
 
@@ -93,6 +99,6 @@ public class BreweryRepositoryImpl implements BreweryRepository {
                 .filter(brewery -> brewery.getName().equalsIgnoreCase(name))
                 .findFirst()
                 .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Brewery %s not found in the database", name)));
+                        String.format(BREWERY_NAME_NOT_FOUND, name)));
     }
 }

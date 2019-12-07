@@ -1,6 +1,6 @@
 package com.beertag.demo.repositories;
 
-import com.beertag.demo.models.Style;
+import com.beertag.demo.models.beer.Style;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ public interface StyleRepository {
 
     Style getSpecificStyle(String name);
 
-    void update(int id, Style country);
+    Style update(int id, Style country);
 
-    void createStyle(Style newStyle);
+    Style createStyle(Style newStyle);
 
     boolean checkStyleExists(String name);
 

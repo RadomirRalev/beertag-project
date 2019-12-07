@@ -2,12 +2,14 @@ package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.models.Beer;
+import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.repositories.BeerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.beertag.demo.models.Constants.*;
 
 @Service
 public class BeerServiceImpl implements BeerService {
@@ -23,13 +25,17 @@ public class BeerServiceImpl implements BeerService {
         try {
             return repository.getById(id);
         } catch (EntityNotFoundException ex) {
-            throw new EntityNotFoundException("Beer", id);
+            throw new EntityNotFoundException(BEER_ID_NOT_FOUND, id);
         }
     }
 
     @Override
     public List<Beer> getBeersList() {
-        return repository.getBeerList();
+        try {
+            return repository.getBeerList();
+        } catch (Exception e) {
+        throw new EntityNotFoundException(LIST_EMPTY);
+        }
     }
 
     @Override
@@ -37,7 +43,7 @@ public class BeerServiceImpl implements BeerService {
         try {
             return repository.getSpecificBeer(name);
         } catch (EntityNotFoundException ex) {
-            throw new EntityNotFoundException(name, "name");
+            throw new EntityNotFoundException(BEER_NAME_NOT_FOUND, name);
         }
     }
 
@@ -47,21 +53,26 @@ public class BeerServiceImpl implements BeerService {
             repository.createBeer(newBeer);
             return newBeer;
         } catch (Exception ex) {
-            throw new DuplicateEntityException(newBeer.getName());
+            throw new DuplicateEntityException(BEER_NAME_EXISTS, newBeer.getName());
         }
     }
 
     @Override
     public void deleteBeer(String name) {
-        if (repository.checkBeerExists(name)) {
-            throw new EntityNotFoundException(name, "name");
+        try {
+            repository.deleteBeer(name);
+        } catch (Exception e) {
+            throw new EntityNotFoundException(BEER_NAME_NOT_FOUND, name);
         }
-        repository.deleteBeer(name);
     }
 
     @Override
     public Beer update(int id, Beer beerToBeUpdated) {
-        repository.update(id, beerToBeUpdated);
-        return beerToBeUpdated;
+        try {
+            repository.update(id, beerToBeUpdated);
+            return beerToBeUpdated;
+        } catch (Exception e) {
+            throw new EntityNotFoundException(BEER_ID_NOT_FOUND, id);
+        }
     }
 }

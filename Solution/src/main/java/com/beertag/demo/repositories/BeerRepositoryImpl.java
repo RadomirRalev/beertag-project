@@ -1,15 +1,19 @@
 package com.beertag.demo.repositories;
 
+import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.models.Beer;
+import com.beertag.demo.models.beer.Beer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.beertag.demo.models.Constants.BEER_ID_NOT_FOUND;
+import static com.beertag.demo.models.Constants.BEER_NAME_NOT_FOUND;
+import static com.beertag.demo.models.Constants.BEER_NAME_EXISTS;
+
 
 @Repository
 public class BeerRepositoryImpl implements BeerRepository {
@@ -59,19 +63,28 @@ public class BeerRepositoryImpl implements BeerRepository {
 
     @Override
     public Beer getSpecificBeer(String name) {
-        return getBeers(name);
+        return getBeer(name);
     }
 
     @Override
     public Beer createBeer(Beer newBeer) {
-        beerList.add(newBeer);
+        try {
+            beerList.add(newBeer);
+        } catch (Exception e) {
+            throw new DuplicateEntityException(BEER_NAME_EXISTS, newBeer.getName());
+            }
         return newBeer;
     }
 
     @Override
     public void deleteBeer(String name) {
-        Beer beerToBeRemoved = getBeers(name);
-        beerList.remove(beerToBeRemoved);
+        try {
+            Beer beerToBeRemoved = getBeer(name);
+            beerList.remove(beerToBeRemoved);
+        } catch (Exception e) {
+            throw new EntityNotFoundException(
+                    String.format(BEER_NAME_NOT_FOUND, name));
+        }
     }
 
     @Override
@@ -82,19 +95,24 @@ public class BeerRepositoryImpl implements BeerRepository {
 
     @Override
     public Beer update(int id, Beer beer) {
-        Beer beerToUpdate = getById(id);
-        int index = beerList.indexOf(beerToUpdate);
-        beer.setId(beerToUpdate.getId());
-        beer.setStyle(beerToUpdate.getStyle());
-        beerList.set(index, beer);
+        try {
+            Beer beerToUpdate = getById(id);
+            int index = beerList.indexOf(beerToUpdate);
+            beer.setId(beerToUpdate.getId());
+            beer.setStyle(beerToUpdate.getStyle());
+            beerList.set(index, beer);
+        } catch (Exception e) {
+            throw new EntityNotFoundException(
+                    String.format(BEER_ID_NOT_FOUND, id));
+        }
         return beer;
     }
 
-    private Beer getBeers(@PathVariable String name) {
+    private Beer getBeer(@PathVariable String name) {
         return beerList.stream()
                 .filter(beers -> beers.getName().equalsIgnoreCase(name))
                 .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        String.format("Beer %s not found in the database", name)));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format(BEER_NAME_NOT_FOUND, name)));
     }
 }

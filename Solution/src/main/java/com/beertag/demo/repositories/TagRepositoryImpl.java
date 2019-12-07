@@ -1,11 +1,14 @@
 package com.beertag.demo.repositories;
 
+import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.models.Tag;
+import com.beertag.demo.models.beer.Tag;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.beertag.demo.models.Constants.*;
 
 @Repository
 public class TagRepositoryImpl implements TagRepository {
@@ -35,19 +38,31 @@ public class TagRepositoryImpl implements TagRepository {
 
     @Override
     public List<Tag> getTagList() {
-        return tagList;
+        try {
+            return tagList;
+        } catch (Exception e) {
+            throw new EntityNotFoundException(LIST_EMPTY);
+        }
     }
 
     @Override
     public void update(int id, Tag updateTag) {
-        Tag currentTag = getTagById(id);
-        currentTag.setName(updateTag.getName());
+        try {
+            Tag currentTag = getTagById(id);
+            currentTag.setName(updateTag.getName());
+        } catch (Exception e) {
+            throw new EntityNotFoundException(TAG_ID_NOT_FOUND, id);
+        }
     }
 
     @Override
     public void createTag(Tag newTag) {
-        newTag.setId(tagID++);
-        tagList.add(newTag);
+        try {
+            newTag.setId(tagID++);
+            tagList.add(newTag);
+        } catch (Exception e) {
+            throw new DuplicateEntityException(TAG_NAME_EXISTS, newTag.getName());
+        }
     }
 
     @Override
@@ -58,8 +73,12 @@ public class TagRepositoryImpl implements TagRepository {
 
     @Override
     public void deleteTag(String name) {
-        Tag tagToBeRemoved = getByString(name);
-        tagList.remove(tagToBeRemoved);
+        try {
+            Tag tagToBeRemoved = getByString(name);
+            tagList.remove(tagToBeRemoved);
+        } catch (Exception e) {
+            throw new EntityNotFoundException(TAG_NAME_NOT_FOUND, name);
+        }
     }
 
     @Override
@@ -71,6 +90,6 @@ public class TagRepositoryImpl implements TagRepository {
         return tagList.stream()
                 .filter(tag -> tag.getName().equalsIgnoreCase(name))
                 .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("Tag %s not found in the database", name));
+                .orElseThrow(() -> new EntityNotFoundException(TAG_NAME_NOT_FOUND, name));
     }
 }

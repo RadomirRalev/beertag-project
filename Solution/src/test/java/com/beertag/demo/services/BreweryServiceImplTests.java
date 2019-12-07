@@ -1,7 +1,7 @@
 package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.models.Brewery;
+import com.beertag.demo.models.beer.Brewery;
 import com.beertag.demo.repositories.BreweryRepository;
 import org.junit.Assert;
 import org.junit.Test;

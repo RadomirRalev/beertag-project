@@ -4,8 +4,8 @@ import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.helpers.BeerCollectionHelper;
 import com.beertag.demo.models.BeerDto;
-import com.beertag.demo.models.Beer;
-import com.beertag.demo.models.DtoMapper;
+import com.beertag.demo.models.beer.Beer;
+import com.beertag.demo.models.beer.DtoMapper;
 import com.beertag.demo.services.BeerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,11 @@ public class BeerController {
 
     @GetMapping("/{id}")
     public Beer getById(@PathVariable int id) {
+        try {
             return service.getById(id);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @GetMapping

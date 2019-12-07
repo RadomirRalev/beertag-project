@@ -2,7 +2,7 @@ package com.beertag.demo.controllers;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.models.Country;
+import com.beertag.demo.models.beer.Country;
 import com.beertag.demo.services.CountryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +31,11 @@ public class CountryController {
 
     @GetMapping
     public List<Country> getCountriesList() {
-        List result = service.getCountriesList();
-        return result;
+        try {
+            return service.getCountriesList();
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @GetMapping("/search")
@@ -55,9 +58,10 @@ public class CountryController {
     }
 
     @PostMapping
-    public void createCountry(@RequestBody Country newCountry) {
+    public Country createCountry(@RequestBody Country newCountry) {
         try {
             service.createCountry(newCountry);
+            return newCountry;
         } catch (DuplicateEntityException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }

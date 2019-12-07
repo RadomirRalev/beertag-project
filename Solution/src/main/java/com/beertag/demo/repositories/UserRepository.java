@@ -1,6 +1,6 @@
 package com.beertag.demo.repositories;
 
-import com.beertag.demo.models.Beer;
+import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.user.User;
 
 import java.util.Collection;

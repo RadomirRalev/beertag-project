@@ -1,14 +1,14 @@
-package com.beertag.demo.models;
+package com.beertag.demo.models.beer;
 
-public class Style {
+public class Brewery {
     private int id;
     private String name;
 
-    public Style() {
+    public Brewery() {
 
     }
 
-    public Style(String name) {
+    public Brewery(String name) {
         this.name = name;
     }
 

@@ -1,6 +1,6 @@
 package com.beertag.demo.services;
 
-import com.beertag.demo.models.Tag;
+import com.beertag.demo.models.beer.Tag;
 
 import java.util.List;
 

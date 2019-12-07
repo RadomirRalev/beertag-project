@@ -1,7 +1,7 @@
 package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
-import com.beertag.demo.models.Beer;
+import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.user.User;
 import com.beertag.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+import static com.beertag.demo.models.Constants.EMAIL_ALREADY_EXISTS;
+import static com.beertag.demo.models.Constants.USER_ALREADY_EXISTS;
+
 @Service
 public class UserServiceImpl implements UserService {
-
-    private static final String THIS_USER_ALREADY_EXIST = "User already exist";
-    private static final String EMAIL_ALREADY_EXIST = "Email already exist";
 
     private UserRepository userRepository;
 
@@ -40,11 +40,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(User user) {
         if (userExist(user.getUserName())) {
-            throw new DuplicateEntityException(THIS_USER_ALREADY_EXIST);
+            throw new DuplicateEntityException(USER_ALREADY_EXISTS);
         }
 
         if (emailExist(user.getEmail())) {
-            throw new DuplicateEntityException(EMAIL_ALREADY_EXIST);
+            throw new DuplicateEntityException(EMAIL_ALREADY_EXISTS);
         }
 
         return userRepository.createUser(user);

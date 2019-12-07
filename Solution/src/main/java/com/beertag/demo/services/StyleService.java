@@ -1,6 +1,6 @@
 package com.beertag.demo.services;
 
-import com.beertag.demo.models.Style;
+import com.beertag.demo.models.beer.Style;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface StyleService {
 
     Style update(int id, Style country);
 
-    void createStyle(Style newStyle);
+    Style createStyle(Style newStyle);
 
     void deleteStyle(String name);
 }

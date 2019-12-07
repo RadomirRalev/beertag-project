@@ -1,6 +1,6 @@
 package com.beertag.demo.services;
 
-import com.beertag.demo.models.Brewery;
+import com.beertag.demo.models.beer.Brewery;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface BreweryService {
 
     Brewery update(int id, Brewery brewery);
 
-    void createBrewery(Brewery newBrewery);
+    Brewery createBrewery(Brewery newBrewery);
 
     void deleteBrewery(String name);
 }

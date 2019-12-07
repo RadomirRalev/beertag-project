@@ -1,4 +1,4 @@
-package com.beertag.demo.models;
+package com.beertag.demo.models.beer;
 
 public class Beer {
     private int id;

@@ -1,18 +1,14 @@
-package com.beertag.demo.models;
+package com.beertag.demo.models.beer;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
-public class Tag {
-
+public class Country {
     private int id;
-    @NotBlank
     private String name;
 
-    public Tag() {
+    public Country() {
+
     }
 
-    public Tag(String name) {
+    public Country(String name) {
         this.name = name;
     }
 

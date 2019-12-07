@@ -2,12 +2,14 @@ package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.models.Style;
+import com.beertag.demo.models.beer.Style;
 import com.beertag.demo.repositories.StyleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.beertag.demo.models.Constants.*;
 
 @Service
 public class StyleServiceImpl implements StyleService {
@@ -17,14 +19,23 @@ public class StyleServiceImpl implements StyleService {
     public StyleServiceImpl(StyleRepository styleRepository) {
         this.styleRepository = styleRepository;
     }
+
     @Override
     public Style getStyleById(int id) {
-        return styleRepository.getStyleById(id);
+        try {
+            return styleRepository.getStyleById(id);
+        } catch (Exception e) {
+            throw new EntityNotFoundException(STYLE_ID_NOT_FOUND, id);
+        }
     }
 
     @Override
     public List<Style> getStylesList() {
-        return styleRepository.getStylesList();
+        try {
+            return styleRepository.getStylesList();
+        } catch (Exception e) {
+            throw new EntityNotFoundException(LIST_EMPTY);
+        }
     }
 
     @Override
@@ -32,29 +43,36 @@ public class StyleServiceImpl implements StyleService {
         try {
             return styleRepository.getSpecificStyle(name);
         } catch (EntityNotFoundException ex) {
-            throw new EntityNotFoundException (String.format("Style %s not found in the database", name));
+            throw new EntityNotFoundException(STYLE_NAME_NOT_FOUND, name);
         }
     }
 
     @Override
     public Style update(int id, Style style) {
-        styleRepository.update(id, style);
-        return style;
+        try {
+            styleRepository.update(id, style);
+            return style;
+        } catch (Exception e) {
+            throw new EntityNotFoundException(STYLE_ID_NOT_FOUND, id);
+        }
     }
 
     @Override
-    public void createStyle(Style newStyle) {
-        if (styleRepository.checkStyleExists(newStyle.getName())) {
-            throw new DuplicateEntityException("Style", newStyle.getName());
+    public Style createStyle(Style newStyle) {
+        try {
+            styleRepository.createStyle(newStyle);
+            return newStyle;
+        } catch (Exception e) {
+            throw new DuplicateEntityException(STYLE_NAME_EXISTS, newStyle.getName());
         }
-        styleRepository.createStyle(newStyle);
     }
 
     @Override
     public void deleteStyle(String name) {
-        if (styleRepository.checkStyleExists(name)) {
-            throw new EntityNotFoundException(String.format("Style %s does not exist.", name));
+        try {
+            styleRepository.deleteStyle(name);
+        } catch (Exception e) {
+            throw new EntityNotFoundException(STYLE_NAME_NOT_FOUND, name);
         }
-        styleRepository.deleteStyle(name);
     }
 }

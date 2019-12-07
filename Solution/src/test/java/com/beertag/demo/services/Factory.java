@@ -1,7 +1,7 @@
 package com.beertag.demo.services;
 
-import com.beertag.demo.models.Beer;
-import com.beertag.demo.models.Brewery;
+import com.beertag.demo.models.beer.Beer;
+import com.beertag.demo.models.beer.Brewery;
 
 public class Factory {
     public static final int INDEX = 0;

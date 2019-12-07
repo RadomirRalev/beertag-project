@@ -1,6 +1,6 @@
 package com.beertag.demo.repositories;
 
-import com.beertag.demo.models.Brewery;
+import com.beertag.demo.models.beer.Brewery;
 
 import java.util.List;
 
