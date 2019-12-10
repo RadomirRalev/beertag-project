@@ -52,18 +52,6 @@ public class UserServiceImplTest {
     @InjectMocks
     UserServiceImpl mockService;
 
-
-
-
-    @Test
-    public void check() {
-        //Arrange
-
-        //Act
-
-        //Assert
-    }
-
     @Test
     public void createUserShould_ThrowException_WhenUserExist() {
         //Arrange
@@ -83,7 +71,7 @@ public class UserServiceImplTest {
         Assertions.assertThrows(DuplicateEntityException.class,
                 () -> mockService.createUser(createUser()));
     }
- //TODO
+    //TODO
 //    @Test
 //    public void createUserShould_ThrowException_WhenUserNameHaveInvalidSymbols() {
 //        //Arrange
@@ -108,15 +96,23 @@ public class UserServiceImplTest {
         //Assert
         Assert.assertSame(mockService.showUsers(), userList);
     }
-//    @Test
-//    public void deleteUserShould_ThrowException_WhenUserNotExist() {
-//        doThrow(new EntityNotFoundException("vla")).when(repository).deleteUser(createUser());
-//
-//        //Act & Assert
-//        Assertions.assertThrows(EntityNotFoundException.class,
-//                () -> repository.deleteUser(createUser()));
-//    }
 
+    @Test
+    public void updateUserShould_ThrowException_whenNameNotExist() {
+        //Arrange
+        Mockito.when(mockService.userExist(anyString())).thenReturn(false);
 
+        //Assert
+        Assertions.assertThrows(EntityNotFoundException.class,
+                () -> mockService.updateUser(createUser()));
+    }
+    @Test
+    public void deleteUserShould_ThrowException_whenNameNotExist() {
+        //Arrange
+        Mockito.when(mockService.userExist(anyString())).thenReturn(false);
 
+        //Assert
+        Assertions.assertThrows(EntityNotFoundException.class,
+                () -> mockService.updateUser(createUser()));
+    }
 }

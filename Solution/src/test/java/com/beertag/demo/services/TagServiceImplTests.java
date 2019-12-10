@@ -116,7 +116,7 @@ public class TagServiceImplTests {
         tagList.add(expectedTag);
 
         //Act
-        Tag returnedTag = tagList.get(INDEX);
+        Tag returnedTag = tagList.get(anyInt());
 
         //Assert
         Assert.assertSame(expectedTag, returnedTag);

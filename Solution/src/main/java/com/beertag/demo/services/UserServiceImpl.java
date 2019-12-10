@@ -1,6 +1,7 @@
 package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
+import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.user.User;
 import com.beertag.demo.repositories.UserRepository;
@@ -9,8 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
-import static com.beertag.demo.models.Constants.EMAIL_ALREADY_EXISTS;
-import static com.beertag.demo.models.Constants.USER_ALREADY_EXISTS;
+import static com.beertag.demo.models.Constants.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -52,12 +52,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(User user) {
+        if (!userExist(user.getUserName())){
+            throw new EntityNotFoundException(USER_NAME_NOT_FOUND);
+        }
          userRepository.deleteUser(user);
     }
 
     @Override
     public User updateUser(User user) {
+        if (!userExist(user.getUserName())){
+            throw new EntityNotFoundException(USER_NAME_NOT_FOUND);
+        }
         return userRepository.updateUser(user);
+
     }
 
     @Override
