@@ -51,8 +51,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User deleteUser(User user) {
-        return userRepository.deleteUser(user);
+    public void deleteUser(User user) {
+         userRepository.deleteUser(user);
     }
 
     @Override
@@ -66,8 +66,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean emailExist(String email) {
-        return userRepository.emailExist(email);
+    public boolean emailExist(String name) {
+        return userRepository.emailExist(name);
     }
 
 }

@@ -60,8 +60,7 @@ public class StyleServiceImpl implements StyleService {
     @Override
     public Style createStyle(Style newStyle) {
         try {
-            styleRepository.createStyle(newStyle);
-            return newStyle;
+            return styleRepository.createStyle(newStyle);
         } catch (Exception e) {
             throw new DuplicateEntityException(STYLE_NAME_EXISTS, newStyle.getName());
         }

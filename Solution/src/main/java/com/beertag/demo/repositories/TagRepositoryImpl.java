@@ -46,20 +46,22 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
-    public void update(int id, Tag updateTag) {
+    public Tag update(int id, Tag updateTag) {
         try {
             Tag currentTag = getTagById(id);
             currentTag.setName(updateTag.getName());
+            return currentTag;
         } catch (Exception e) {
             throw new EntityNotFoundException(TAG_ID_NOT_FOUND, id);
         }
     }
 
     @Override
-    public void createTag(Tag newTag) {
+    public Tag createTag(Tag newTag) {
         try {
             newTag.setId(tagID++);
             tagList.add(newTag);
+            return newTag;
         } catch (Exception e) {
             throw new DuplicateEntityException(TAG_NAME_EXISTS, newTag.getName());
         }

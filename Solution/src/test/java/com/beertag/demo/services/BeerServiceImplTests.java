@@ -32,8 +32,8 @@ public class BeerServiceImplTests {
         //Arrange
         Beer expectedBeer = createBeer();
 
-        Mockito.when(repository.getById(anyInt()))
-                .thenReturn(expectedBeer);
+            Mockito.when(repository.getById(anyInt()))
+                    .thenReturn(expectedBeer);
 
         //Act
         Beer returnedBeer = mockService.getById(INDEX);

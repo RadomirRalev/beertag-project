@@ -60,8 +60,7 @@ public class CountryController {
     @PostMapping
     public Country createCountry(@RequestBody Country newCountry) {
         try {
-            service.createCountry(newCountry);
-            return newCountry;
+            return service.createCountry(newCountry);
         } catch (DuplicateEntityException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }

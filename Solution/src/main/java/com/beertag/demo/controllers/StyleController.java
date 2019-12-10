@@ -59,8 +59,7 @@ public class StyleController {
     @PostMapping
     public Style createStyle(@RequestBody Style newStyle) {
         try {
-            service.createStyle(newStyle);
-            return newStyle;
+            return service.createStyle(newStyle);
         } catch (DuplicateEntityException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }

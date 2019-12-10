@@ -53,9 +53,9 @@ public class UserController {
     }
 
     @DeleteMapping
-    public User delete(@RequestBody User user) {
+    public void delete(@RequestBody User user) {
         try {
-           return userService.deleteUser(user);
+            userService.deleteUser(user);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

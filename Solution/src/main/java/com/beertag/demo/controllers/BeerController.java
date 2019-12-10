@@ -37,9 +37,9 @@ public class BeerController {
     }
 
     @GetMapping
-    public List<Beer> getBeersList(@RequestParam (required = false) String name,
-                                   @RequestParam (required = false) String style,
-                                   @RequestParam (required = false) String sortType) {
+    public List<Beer> getBeersList(@RequestParam(required = false) String name,
+                                   @RequestParam(required = false) String style,
+                                   @RequestParam(required = false) String sortType) {
         List<Beer> result = service.getBeersList();
         result = BeerCollectionHelper.filterByName(result, name);
         result = BeerCollectionHelper.filterByStyle(result, style);
@@ -71,8 +71,7 @@ public class BeerController {
     public Beer createBeer(@RequestBody @Valid BeerDto newBeerDto) {
         try {
             Beer newBeer = mapper.fromDto(newBeerDto);
-            service.createBeer(newBeer);
-            return newBeer;
+            return service.createBeer(newBeer);
         } catch (DuplicateEntityException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }

@@ -59,8 +59,7 @@ public class BreweryController {
     @PostMapping
     public Brewery createBrewery(@RequestBody Brewery newBrewery) {
         try {
-            service.createBrewery(newBrewery);
-            return newBrewery;
+            return service.createBrewery(newBrewery);
         } catch (DuplicateEntityException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }

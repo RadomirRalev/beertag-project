@@ -34,7 +34,7 @@ public class BeerServiceImpl implements BeerService {
         try {
             return repository.getBeerList();
         } catch (Exception e) {
-        throw new EntityNotFoundException(LIST_EMPTY);
+            throw new EntityNotFoundException(LIST_EMPTY);
         }
     }
 
@@ -50,8 +50,7 @@ public class BeerServiceImpl implements BeerService {
     @Override
     public Beer createBeer(Beer newBeer) {
         try {
-            repository.createBeer(newBeer);
-            return newBeer;
+            return repository.createBeer(newBeer);
         } catch (Exception ex) {
             throw new DuplicateEntityException(BEER_NAME_EXISTS, newBeer.getName());
         }

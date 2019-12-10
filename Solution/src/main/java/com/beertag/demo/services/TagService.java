@@ -11,9 +11,9 @@ public interface TagService {
 
     Tag getSpecificTag(String name);
 
-    void update(int id, Tag tag);
+    Tag update(int id, Tag tag);
 
-    void createTag(Tag tag);
+    Tag createTag(Tag tag);
 
     void deleteTag(String name);
 }
