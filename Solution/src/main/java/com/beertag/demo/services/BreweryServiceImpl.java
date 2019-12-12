@@ -60,8 +60,7 @@ public class BreweryServiceImpl implements BreweryService {
     @Override
     public Brewery createBrewery(Brewery newBrewery) {
         try {
-            breweryRepository.createBrewery(newBrewery);
-            return newBrewery;
+           return breweryRepository.createBrewery(newBrewery);
         } catch (Exception e) {
             throw new DuplicateEntityException(BREWERY_NAME_EXISTS, newBrewery.getName());
         }

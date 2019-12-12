@@ -6,10 +6,10 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.*;
 
 public class User {
-    @Pattern(regexp = "^[a-z A-Z]+$")
+    @Pattern(regexp = "^[a-zA-Z]+$",message = "First Name field may only contain letters.")
     @Size(min = 3)
     private String firstName; //optional field
-    @Pattern(regexp = "^[a-z A-Z]+$")
+    @Pattern(regexp = "^[a-zA-Z]+$",message = "Last Name field may only contain letters.")
     @Size(min = 3)
     private String lastName; // optional field
     @NotBlank
@@ -19,7 +19,7 @@ public class User {
     private String userName;
     //https://emailregex.com/
     @Email(regexp = "(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)"
-            , message = "Please provide a valid email address")
+            , message = "Please provide a valid email address.")
     private String email;
 
     public User() {

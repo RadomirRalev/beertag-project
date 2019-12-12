@@ -60,8 +60,7 @@ public class CountryServiceImpl implements CountryService {
     @Override
     public Country createCountry(Country newCountry) {
         try {
-            countryRepository.createCountry(newCountry);
-            return newCountry;
+           return countryRepository.createCountry(newCountry);
         } catch (Exception e) {
             throw new DuplicateEntityException(COUNTRY_NAME_EXISTS, newCountry.getName());
         }

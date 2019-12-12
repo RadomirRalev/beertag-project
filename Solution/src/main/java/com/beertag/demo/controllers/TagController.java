@@ -36,11 +36,10 @@ public class TagController {
 
     @GetMapping("/search")
     @ResponseBody //какво прави ?
-    public Tag getSpecificTag (@RequestParam(defaultValue = "test") String name){
+    public Tag getSpecificTag(@RequestParam(defaultValue = "test") String name) {
         try {
             return tagService.getSpecificTag(name);
-        }
-        catch (EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
@@ -48,30 +47,27 @@ public class TagController {
     @PostMapping
     public Tag create(@RequestBody @Valid Tag tag) {
         try {
-            tagService.createTag(tag);
+            return tagService.createTag(tag);
         } catch (DuplicateEntityException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
-        return tag;
     }
 
     @PutMapping("/{id}")
-    public  Tag update (@RequestBody @Valid Tag tag, @PathVariable int id){
+    public Tag update(@RequestBody @Valid Tag tag, @PathVariable int id) {
         try {
             tagService.update(id, tag);
-        }
-        catch (DuplicateEntityException e){
+        } catch (DuplicateEntityException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
         return tag;
     }
 
     @DeleteMapping("{name}")
-    public void delete (@PathVariable String name){
+    public void delete(@PathVariable String name) {
         try {
             tagService.deleteTag(name);
-        }
-        catch (EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }

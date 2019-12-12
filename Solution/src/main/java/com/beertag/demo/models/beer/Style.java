@@ -1,7 +1,12 @@
 package com.beertag.demo.models.beer;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class Style {
     private int id;
+    @Size(min = 3, max = 20)
+    @Pattern(regexp = "^[a-zA-Z]+$",message = "Style field may contain only letters.")
     private String name;
 
     public Style() {

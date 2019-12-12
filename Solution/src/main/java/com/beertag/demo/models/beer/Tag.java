@@ -1,12 +1,13 @@
 package com.beertag.demo.models.beer;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 public class Tag {
 
     private int id;
     @NotBlank
+    @Size(min = 3, max = 40)
+    @Pattern(regexp = "^[a-zA-Z]+$",message = "Tag field may contain only letters.")
     private String name;
 
     public Tag() {

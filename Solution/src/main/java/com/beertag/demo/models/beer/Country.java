@@ -1,7 +1,14 @@
 package com.beertag.demo.models.beer;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class Country {
     private int id;
+    @NotBlank
+    @Size(min = 3, max = 40)
+    @Pattern(regexp = "^[a-zA-Z]+$",message = "Country field may contain only letters.")
     private String name;
 
     public Country() {

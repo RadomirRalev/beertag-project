@@ -59,10 +59,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User deleteUser(User user) {
+    public void deleteUser(User user) {
         try {
             findUser(user.getUserName());
-            return usersList.remove(user.getUserName());
+            usersList.remove(user.getUserName());
         } catch (Exception e) {
             throw new EntityNotFoundException(USER_NAME_NOT_FOUND, user.getUserName());
         }

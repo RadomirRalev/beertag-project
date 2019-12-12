@@ -49,18 +49,19 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public void update(int id, Tag tag) {
+    public Tag update(int id, Tag tag) {
         try {
             tagRepository.update(id, tag);
+            return tag;
         } catch (Exception e) {
             throw new EntityNotFoundException(TAG_ID_NOT_FOUND, id);
         }
     }
 
     @Override
-    public void createTag(Tag tag) {
+    public Tag createTag(Tag tag) {
         try {
-            tagRepository.createTag(tag);
+           return tagRepository.createTag(tag);
         } catch (Exception e) {
             throw new EntityNotFoundException(TAG_NAME_NOT_FOUND, tag.getName());
         }

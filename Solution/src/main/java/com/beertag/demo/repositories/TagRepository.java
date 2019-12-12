@@ -10,9 +10,9 @@ public interface TagRepository {
 
     List<Tag> getTagList();
 
-    void update(int id, Tag name);
+    Tag update(int id, Tag name);
 
-    void createTag(Tag newTag);
+    Tag createTag(Tag newTag);
 
     boolean checkTagExists(String name);
 

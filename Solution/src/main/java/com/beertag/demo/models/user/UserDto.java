@@ -5,10 +5,10 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.*;
 
 public class UserDto {
-    @Pattern(regexp = "^[a-z A-Z]+$") //ограничава позволените символи до малки-големи
+    @Pattern(regexp = "^[a-zA-Z]+$",message = "First Name field contain may only contain letters.")
     @Size(min = 3)
     private String firstName; //optional field
-    @Pattern(regexp = "^[a-z A-Z]+$") //ограничава позволените символи до малки-големи
+    @Pattern(regexp = "^[a-zA-Z]+$",message = "Last Name field may contain only contain letters.")
     @Size(min = 3)
     private String lastName; // optional field
 
@@ -25,14 +25,14 @@ public class UserDto {
     private int day;
 
     @NotBlank
-    @Length(min = 5, max = 50)
+    @Length(min = 4, max = 30)
     @Pattern(regexp = "^[\\w-]+$", //ограничава позволените символи до букви, цифри, _ и -
             message = "The User Name field may only contain alpha-numeric characters, underscores, and dashes.")
     private String userName;
 
     //https://emailregex.com/
     @Email(regexp = "(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)"
-            , message = "Please provide a valid email address")
+            , message = "Please provide a valid email address.")
     private String email;
 
     public String getFirstName() {
