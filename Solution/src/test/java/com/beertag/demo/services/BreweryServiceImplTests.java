@@ -28,7 +28,7 @@ public class BreweryServiceImplTests {
     BreweryServiceImpl mockService;
 
     @Test
-    public void getBreweryByIdShould_ReturnBeer_WhenBeerExists() {
+    public void getBreweryByIdShould_ReturnBrewery_WhenBreweryExists() {
         //Arrange
         Brewery expectedBrewery = createBrewery();
 
@@ -43,7 +43,7 @@ public class BreweryServiceImplTests {
     }
 
     @Test
-    public void getBreweryByIdShould_TrowException_WhenBeerDoesNotExist() {
+    public void getBreweryByIdShould_TrowException_WhenBreweryDoesNotExist() {
 
         Mockito.when(breweryRepository.getBreweryById(anyInt()))
                 .thenThrow(new EntityNotFoundException("Beer", anyInt()));

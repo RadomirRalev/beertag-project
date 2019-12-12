@@ -3,9 +3,9 @@ package com.beertag.demo.controllers;
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.helpers.BeerCollectionHelper;
-import com.beertag.demo.models.BeerDto;
+import com.beertag.demo.models.beer.BeerDto;
 import com.beertag.demo.models.beer.Beer;
-import com.beertag.demo.models.beer.DtoMapper;
+import com.beertag.demo.models.DtoMapper;
 import com.beertag.demo.services.BeerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -71,8 +71,7 @@ public class BeerController {
     public Beer createBeer(@RequestBody @Valid BeerDto newBeerDto) {
         try {
             Beer newBeer = mapper.fromDto(newBeerDto);
-            service.createBeer(newBeer);
-            return newBeer;
+            return service.createBeer(newBeer);
         } catch (DuplicateEntityException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }

@@ -70,8 +70,8 @@ public class StyleRepositoryImpl implements StyleRepository {
     @Override
     public Style createStyle(Style newStyle) {
         try {
-            stylesList.add(newStyle);
-            return newStyle;
+           stylesList.add(newStyle);
+           return newStyle;
         } catch (Exception e) {
             throw new DuplicateEntityException(STYLE_NAME_EXISTS, newStyle.getName());
         }

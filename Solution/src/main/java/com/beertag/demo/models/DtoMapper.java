@@ -1,6 +1,6 @@
-package com.beertag.demo.models.beer;
+package com.beertag.demo.models;
 
-import com.beertag.demo.models.BeerDto;
+import com.beertag.demo.models.beer.*;
 import com.beertag.demo.services.BreweryService;
 import com.beertag.demo.services.CountryService;
 import com.beertag.demo.services.StyleService;

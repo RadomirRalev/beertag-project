@@ -72,10 +72,10 @@ public class BreweryRepositoryImpl implements BreweryRepository {
     public Brewery createBrewery(Brewery newBrewery) {
         try {
             breweriesList.add(newBrewery);
-            return newBrewery;
         } catch (Exception e) {
             throw new DuplicateEntityException(BREWERY_NAME_EXISTS, newBrewery.getName());
         }
+        return newBrewery;
     }
 
     @Override

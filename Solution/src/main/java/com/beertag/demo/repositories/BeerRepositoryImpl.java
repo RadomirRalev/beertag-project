@@ -72,7 +72,7 @@ public class BeerRepositoryImpl implements BeerRepository {
             beerList.add(newBeer);
         } catch (Exception e) {
             throw new DuplicateEntityException(BEER_NAME_EXISTS, newBeer.getName());
-            }
+        }
         return newBeer;
     }
 

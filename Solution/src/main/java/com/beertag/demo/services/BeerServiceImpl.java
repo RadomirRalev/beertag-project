@@ -69,8 +69,7 @@ public class BeerServiceImpl implements BeerService {
     @Override
     public Beer update(int id, Beer beerToBeUpdated) {
         try {
-            repository.update(id, beerToBeUpdated);
-            return beerToBeUpdated;
+            return repository.update(id, beerToBeUpdated);
         } catch (Exception e) {
             throw new EntityNotFoundException(BEER_ID_NOT_FOUND, id);
         }
