@@ -1,11 +1,8 @@
 package com.beertag.demo.services;
 
-import com.beertag.demo.models.beer.Beer;
-import com.beertag.demo.models.beer.Brewery;
-import com.beertag.demo.models.beer.Tag;
+import com.beertag.demo.models.beer.*;
 import com.beertag.demo.models.user.User;
 import com.beertag.demo.models.user.UserDto;
-import com.beertag.demo.models.beer.Country;
 
 public class Factory {
     public static final int INDEX = 0;
@@ -34,6 +31,10 @@ public class Factory {
 
     public static Country createCountry(){
         return new Country("Bulgaria");
+    }
+
+    public static Style createStyle(){
+        return new Style("New Style");
     }
 
 }
