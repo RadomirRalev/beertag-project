@@ -11,6 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,9 @@ import static org.mockito.Mockito.doThrow;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StyleServiceImplTests {
+
+    private LocalValidatorFactoryBean validator;
+
     @Mock
     com.beertag.demo.repositories.StyleRepository StyleRepository;
 
