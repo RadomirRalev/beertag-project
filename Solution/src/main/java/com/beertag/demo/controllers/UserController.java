@@ -36,7 +36,7 @@ public class UserController {
     @PostMapping
     public User create(@RequestBody @Valid UserDto userDto) {
         try {
-            User user = mapper.isDataCorrect(userDto);
+            User user = mapper.validationData(userDto);
             return userService.createUser(user);
         } catch (DuplicateEntityException | InvalidAgeException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());

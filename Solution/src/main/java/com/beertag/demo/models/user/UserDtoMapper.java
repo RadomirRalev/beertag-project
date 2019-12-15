@@ -9,7 +9,7 @@ public class UserDtoMapper {
 
     private static final String NOT_ADULT = "User is under 18 years";
 
-    public User isDataCorrect(UserDto userDto) {
+    public User validationData(UserDto userDto) {
         if (UserRegistrationHelper.isUserAdult(userDto.getDay(), userDto.getMonth(), userDto.getBirthYear())) {
             checkOptionalForNull(userDto);
             return new User(userDto.getFirstName(), userDto.getLastName(),
@@ -18,13 +18,12 @@ public class UserDtoMapper {
         throw new InvalidAgeException(NOT_ADULT);
     }
 
-    private UserDto checkOptionalForNull (UserDto userDto) {
+    private void checkOptionalForNull (UserDto userDto) {
         if (UserRegistrationHelper.isNull(userDto.getFirstName())){
             userDto.setFirstName("");
         }
         if (UserRegistrationHelper.isNull(userDto.getLastName())){
             userDto.setLastName("");
         }
-        return userDto;
     }
 }
