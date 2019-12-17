@@ -1,8 +1,10 @@
 package com.beertag.demo.controllers;
 
 import com.beertag.demo.exceptions.EntityNotFoundException;
+import com.beertag.demo.helpers.BeerCollectionHelper;
 import com.beertag.demo.models.DtoMapper;
 import com.beertag.demo.models.beer.Beer;
+import com.beertag.demo.models.beer.Style;
 import com.beertag.demo.services.BeerService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,8 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.beertag.demo.services.Factory.INDEX;
-import static com.beertag.demo.services.Factory.createBeer;
+import static com.beertag.demo.services.Factory.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 
@@ -84,5 +85,23 @@ public class BeerControllerTests {
 
         //Assert
         Assert.assertSame(expectedBeer, returnedBeer);
+    }
+
+    @Test
+    public void getBeerList_should_filter_by_country() {
+        //Arrange
+        Beer expectedBeer1 = createBeer();
+        Beer expectedBeer2 = createBeer2();
+        List<Beer> beerList = new ArrayList<>();
+        beerList.add(expectedBeer1);
+        beerList.add(expectedBeer2);
+        Mockito.when(beerController.getBeersList(expectedBeer1.getName(), null, null))
+                .thenReturn(BeerCollectionHelper.filterByName(beerList, expectedBeer1.getName()));
+
+        //Act
+        beerList = beerController.getBeersList(expectedBeer1.getName(), null, null);
+        //Assert
+        Assert.assertEquals(beerList.size(), 1);
+        Assert.assertEquals(expectedBeer1.getName(), beerList.get(0).getName());
     }
 }

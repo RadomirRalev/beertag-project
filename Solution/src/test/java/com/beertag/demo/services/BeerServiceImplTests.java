@@ -1,5 +1,6 @@
 package com.beertag.demo.services;
 
+import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.repositories.BeerRepository;
@@ -43,7 +44,7 @@ public class BeerServiceImplTests {
     }
 
     @Test
-    public void getByIdShould_TrowException_WhenBeerDoesNotExist() {
+    public void getByIdShould_ThrowException_WhenBeerDoesNotExist() {
 
         Mockito.when(repository.getById(anyInt()))
                 .thenThrow(new EntityNotFoundException("Beer", anyInt()));
