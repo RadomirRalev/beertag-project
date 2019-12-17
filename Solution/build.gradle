@@ -26,6 +26,9 @@ dependencies {
     // https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'mysql:mysql-connector-java'
+
 }
 
 test {
