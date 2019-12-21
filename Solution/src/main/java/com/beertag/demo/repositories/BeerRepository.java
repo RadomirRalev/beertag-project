@@ -8,7 +8,7 @@ public interface BeerRepository {
 
     List<Beer> getBeerList();
 
-    Beer getSpecificBeer(String name);
+    List<Beer> getBeerByName(String name);
 
     Beer createBeer(Beer newBeer);
 

@@ -1,15 +1,40 @@
 package com.beertag.demo.models.beer;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "beer")
 public class Beer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "beer_id")
     private int id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "description")
     private String description;
+    @ManyToOne
+    @JoinColumn(name = "beer_country_fk")
     private Country originCountry;
+    @ManyToOne
+    @JoinColumn(name = "beer_brewery_fk")
     private Brewery brewery;
+    @ManyToOne
+    @JoinColumn(name = "beer_style_fk")
     private Style style;
+    @Column(name = "abv")
     private String abvTag;
+    @Column(name = "beer_picture")
     private String picture;
-    private Tag tag;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "beertag",
+            joinColumns = @JoinColumn(name = "beer_beer_id"),
+            inverseJoinColumns = @JoinColumn(name = "beertag_id")
+    )
+    private List<Tag> tags;
+
 
     public Beer() {
 
@@ -86,11 +111,12 @@ public class Beer {
         this.picture = picture;
     }
 
-    public Tag getTag() {
-        return tag;
+    public List<Tag> getTags() {
+        return tags;
     }
 
-    public void setTag(Tag tag) {
-        this.tag = tag;
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
+
 }

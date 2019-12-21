@@ -39,9 +39,9 @@ public class StyleServiceImpl implements StyleService {
     }
 
     @Override
-    public Style getSpecificStyle(String name) {
+    public Style getStyleByName(String name) {
         try {
-            return styleRepository.getSpecificStyle(name);
+            return styleRepository.getStyleByName(name);
         } catch (EntityNotFoundException ex) {
             throw new EntityNotFoundException(STYLE_NAME_NOT_FOUND, name);
         }

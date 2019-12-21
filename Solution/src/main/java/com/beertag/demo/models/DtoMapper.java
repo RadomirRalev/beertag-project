@@ -34,7 +34,7 @@ public class DtoMapper {
         beer.setStyle(style);
         beer.setOriginCountry(country);
         beer.setBrewery(brewery);
-        beer.setTag(tag);
+       // beer.setTag(tag);
         return beer;
     }
 }

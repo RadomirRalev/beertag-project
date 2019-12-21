@@ -49,9 +49,9 @@ public class BeerController {
 
     @GetMapping("/search")
     @ResponseBody
-    public Beer getSpecificBeer(@RequestParam(defaultValue = "test") String name) {
+    public List<Beer> getBeerByName(@RequestParam(defaultValue = "test") String name) {
         try {
-            return service.getSpecificBeer(name);
+            return service.getBeerByName(name);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

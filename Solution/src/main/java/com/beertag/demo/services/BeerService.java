@@ -10,7 +10,7 @@ public interface BeerService {
 
     List<Beer> getBeersList();
 
-    Beer getSpecificBeer(String name);
+    List<Beer> getBeerByName(String name);
 
     Beer createBeer(Beer newBeer);
 

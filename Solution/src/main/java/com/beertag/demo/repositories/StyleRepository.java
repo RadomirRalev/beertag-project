@@ -9,7 +9,7 @@ public interface StyleRepository {
 
     List<Style> getStylesList();
 
-    Style getSpecificStyle(String name);
+    Style getStyleByName(String name);
 
     Style update(int id, Style country);
 

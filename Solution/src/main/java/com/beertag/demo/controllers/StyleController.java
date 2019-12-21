@@ -39,9 +39,9 @@ public class StyleController {
 
     @GetMapping("/search")
     @ResponseBody
-    public Style getSpecificStyle(@RequestParam String name) {
+    public Style getStyleByName(@RequestParam String name) {
         try {
-            return service.getSpecificStyle(name);
+            return service.getStyleByName(name);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

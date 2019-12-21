@@ -1,7 +1,12 @@
 package com.beertag.demo.repositories;
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
+import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Style;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,40 +17,37 @@ import static com.beertag.demo.models.Constants.*;
 public class StyleRepositoryImpl implements StyleRepository {
     private static int styleID;
     private List<Style> stylesList;
+    private SessionFactory sessionFactory;
 
-    public StyleRepositoryImpl() {
-        stylesList = new ArrayList<>();
-        Style style = new Style("Special Ale");
-        style.setId(StyleRepositoryImpl.styleID++);
-        stylesList.add(style);
-        style = new Style("English Porter");
-        style.setId(StyleRepositoryImpl.styleID++);
-        stylesList.add(style);
-        style = new Style("Indian Pale Ale");
-        style.setId(StyleRepositoryImpl.styleID++);
-        stylesList.add(style);
+    @Autowired
+    public StyleRepositoryImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
     public Style getStyleById(int id) {
-        return stylesList.stream()
-                .filter(style -> style.getId() == id)
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException(STYLE_ID_NOT_FOUND, id));
-
+        try(Session session = sessionFactory.openSession()) {
+            Style style = session.get(Style.class, id);
+            if (style == null) {
+                throw new EntityNotFoundException(
+                        String.format(STYLE_ID_NOT_FOUND, id));
+            }
+            return style;
+        }
     }
 
     @Override
     public List<Style> getStylesList() {
-        try {
-            return stylesList;
+        try(Session session = sessionFactory.openSession()) {
+            Query<Style> query = session.createQuery("from Style", Style.class);
+            return query.list();
         } catch (Exception e) {
             throw new EntityNotFoundException(LIST_EMPTY);
         }
     }
 
     @Override
-    public Style getSpecificStyle(String name) {
+    public Style getStyleByName(String name) {
         try {
             return getStyle(name);
         } catch (Exception e) {

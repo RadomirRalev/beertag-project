@@ -39,9 +39,9 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public Beer getSpecificBeer(String name) {
+    public List<Beer> getBeerByName(String name) {
         try {
-            return repository.getSpecificBeer(name);
+            return repository.getBeerByName(name);
         } catch (EntityNotFoundException ex) {
             throw new EntityNotFoundException(BEER_NAME_NOT_FOUND, name);
         }
