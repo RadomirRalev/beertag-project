@@ -14,17 +14,17 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@PropertySource("classpath:application.properties")
+@PropertySource(value = "file:src/main/resources/db.properties")
 public class HibernateConfig {
     private String dbUrl;
     private String dbUserName;
     private String dbPassword;
 
     @Autowired
-    public HibernateConfig(Environment environment) {
-        dbUrl = environment.getProperty("database.url");
-        dbUserName = environment.getProperty("username.url");
-        dbPassword = environment.getProperty("password.url");
+    public HibernateConfig(Environment env) {
+        dbUrl = env.getProperty("database.url");
+        dbUserName = env.getProperty("database.username");
+        dbPassword = env.getProperty("database.password");
     }
 
     @Bean
