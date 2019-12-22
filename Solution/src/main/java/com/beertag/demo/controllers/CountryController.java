@@ -2,6 +2,7 @@ package com.beertag.demo.controllers;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
+import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Country;
 import com.beertag.demo.services.CountryService;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,6 @@ import java.util.List;
 @RequestMapping("api/countries")
 public class CountryController {
     private CountryService service;
-    private Country country;
 
     public CountryController(CountryService service) {
         this.service = service;
@@ -40,9 +40,18 @@ public class CountryController {
 
     @GetMapping("/search")
     @ResponseBody
-    public Country getSpecificCountry(@RequestParam(defaultValue = "test") String name) {
+    public List<Country> getSpecificCountry(@RequestParam(defaultValue = "test") String name) {
         try {
-            return service.getSpecificCountry(name);
+            return service.getCountryByName(name);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @GetMapping("/{countryId}/beers")
+    public List<Beer> getBeersByStyleId(@PathVariable int countryId) {
+        try {
+            return service.getBeersByCountryId(countryId);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
@@ -66,10 +75,10 @@ public class CountryController {
         }
     }
 
-    @DeleteMapping("{name}")
-    public void deleteCountry(@PathVariable String name) {
+    @DeleteMapping("{id}")
+    public void deleteCountry(@PathVariable int id) {
         try {
-            service.deleteCountry(name);
+            service.deleteCountry(id);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

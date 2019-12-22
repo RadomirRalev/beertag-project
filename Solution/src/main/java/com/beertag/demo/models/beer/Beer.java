@@ -33,8 +33,8 @@ public class Beer {
             joinColumns = @JoinColumn(name = "beer_beer_id"),
             inverseJoinColumns = @JoinColumn(name = "beertag_id")
     )
-    private List<Tag> tags;
 
+    private List<Tag> tags;
 
     public Beer() {
 

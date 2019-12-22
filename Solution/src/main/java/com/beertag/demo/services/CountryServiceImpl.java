@@ -2,7 +2,9 @@ package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
+import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Country;
+import com.beertag.demo.repositories.BeerRepository;
 import com.beertag.demo.repositories.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,12 @@ import static com.beertag.demo.models.Constants.*;
 @Service
 public class CountryServiceImpl implements CountryService {
     private CountryRepository countryRepository;
+    private BeerRepository beerRepository;
 
     @Autowired
-    public CountryServiceImpl(CountryRepository countryRepository) {
+    public CountryServiceImpl(CountryRepository countryRepository, BeerRepository beerRepository) {
         this.countryRepository = countryRepository;
+        this.beerRepository = beerRepository;
     }
 
     @Override
@@ -39,12 +43,17 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public Country getSpecificCountry(String name) {
+    public List<Country> getCountryByName(String name) {
         try {
-            return countryRepository.getSpecificCountry(name);
+            return countryRepository.getCountryByName(name);
         } catch (Exception ex) {
             throw new EntityNotFoundException (COUNTRY_NAME_NOT_FOUND, name);
         }
+    }
+
+    @Override
+    public List<Beer> getBeersByCountryId(int countryId) {
+        return beerRepository.getBeersByCountryId(countryId);
     }
 
     @Override
@@ -67,11 +76,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public void deleteCountry(String name) {
-        try {
-            countryRepository.deleteCountry(name);
-        } catch (Exception e) {
-            throw new EntityNotFoundException (COUNTRY_NAME_NOT_FOUND, name);
-        }
+    public void deleteCountry(int id) {
+            countryRepository.deleteCountry(id);
     }
 }

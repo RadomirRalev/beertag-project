@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.beertag.demo.models.Constants.BEER_ID_NOT_FOUND;
+import static com.beertag.demo.models.Constants.*;
 
 @Repository
 public class BeerRepositoryImpl implements BeerRepository {
@@ -51,22 +51,62 @@ public class BeerRepositoryImpl implements BeerRepository {
     }
 
     @Override
-    public Beer createBeer(Beer newBeer) {
-        return null;
+    public List<Beer> getBeersByStyleId(int styleId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Beer> query = session.createQuery("from Beer where style.id = :styleId", Beer.class);
+            query.setParameter("styleId", styleId);
+            return query.list();
+        }
     }
 
     @Override
-    public void deleteBeer(String name) {
+    public List<Beer> getBeersByCountryId(int countryId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Beer> query = session.createQuery("from Beer where originCountry.id = :countryId", Beer.class);
+            query.setParameter("countryId", countryId);
+            return query.list();
+        }
+    }
 
+    @Override
+    public List<Beer> getBeersByBreweryId(int breweryId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Beer> query = session.createQuery("from Beer where brewery.id = :breweryId", Beer.class);
+            query.setParameter("breweryId", breweryId);
+            return query.list();
+        }
+    }
+
+    @Override
+    public Beer createBeer(Beer newBeer) {
+        try (Session session = sessionFactory.openSession()) {
+            session.save(newBeer);
+        }
+        return newBeer;
+    }
+
+    @Override
+    public void deleteBeer(int id) {
+        try(Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            Beer beerToBeDeleted = session.get(Beer.class, id);
+            session.delete(beerToBeDeleted);
+            session.getTransaction().commit();
+        }
     }
 
     @Override
     public boolean checkBeerExists(String name) {
-        return false;
+        return getBeerByName(name).size() != 0;
     }
 
     @Override
     public Beer update(int id, Beer beerToUpdate) {
-        return null;
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.update(beerToUpdate);
+            session.getTransaction().commit();
+            return beerToUpdate;
+        }
     }
 }

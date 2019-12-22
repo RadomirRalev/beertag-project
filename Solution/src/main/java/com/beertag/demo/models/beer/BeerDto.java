@@ -6,43 +6,15 @@ import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 public class BeerDto {
-    @PositiveOrZero(message = "Id should be positive or zero")
-    @NotNull
-    private int id;
-    @NotBlank(message = "Name is mandatory")
-    @NotNull
-    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 symbols long")
     private String name;
-    @NotBlank(message = "Description is mandatory")
-    @NotNull
     private String description;
     private int originCountryId;
-    @NotBlank(message = "Brewery is mandatory")
-    @NotNull
     private int breweryId;
-
     private int styleId;
-    @NotBlank
-    @NotNull
     private int tagId;
-
-    @NotBlank(message = "ABV tag is mandatory")
-    @NotNull
     private String abvTag;
-    @NotBlank(message = "Picture is mandatory")
-    @NotNull
     private String picture;
-    @NotBlank(message = "Tag is mandatory")
-    @NotNull
     private String tag;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

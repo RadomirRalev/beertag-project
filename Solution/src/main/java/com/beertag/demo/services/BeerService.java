@@ -14,7 +14,7 @@ public interface BeerService {
 
     Beer createBeer(Beer newBeer);
 
-    void deleteBeer(String name);
+    void deleteBeer(int id);
 
     Beer update(int id, Beer beerToBeUpdated);
 

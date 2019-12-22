@@ -9,7 +9,7 @@ public interface BreweryRepository {
 
     List<Brewery> getBreweriesList();
 
-    Brewery getSpecificBrewery(String name);
+    List<Brewery> getBreweryByName(String name);
 
     Brewery update(int id, Brewery brewery);
 
@@ -17,6 +17,5 @@ public interface BreweryRepository {
 
     boolean checkBreweryExists(String name);
 
-    void deleteBrewery(String name);
-
+    void deleteBrewery(int id);
 }

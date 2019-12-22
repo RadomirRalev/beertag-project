@@ -77,10 +77,10 @@ public class BeerController {
         }
     }
 
-    @DeleteMapping("deletebeer/{name}")
-    public void deleteBeer(@PathVariable String name) {
+    @DeleteMapping("{id}")
+    public void deleteBeer(@PathVariable int id) {
         try {
-            service.deleteBeer(name);
+            service.deleteBeer(id);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

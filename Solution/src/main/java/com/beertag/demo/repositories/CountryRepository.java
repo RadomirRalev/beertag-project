@@ -10,7 +10,7 @@ public interface CountryRepository {
 
     List<Country> getCountriesList();
 
-    Country getSpecificCountry(String name);
+    List<Country> getCountryByName(String name);
 
     Country update(int id, Country country);
 
@@ -18,5 +18,5 @@ public interface CountryRepository {
 
     boolean checkCountryExists(String name);
 
-    void deleteCountry(String name);
+    void deleteCountry(int id);
 }

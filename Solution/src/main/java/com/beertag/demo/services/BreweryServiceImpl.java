@@ -2,7 +2,9 @@ package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
+import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Brewery;
+import com.beertag.demo.repositories.BeerRepository;
 import com.beertag.demo.repositories.BreweryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,12 @@ import static com.beertag.demo.models.Constants.*;
 @Service
 public class BreweryServiceImpl implements BreweryService {
     private BreweryRepository breweryRepository;
+    private BeerRepository beerRepository;
 
     @Autowired
-    public BreweryServiceImpl(BreweryRepository breweryRepository) {
+    public BreweryServiceImpl(BreweryRepository breweryRepository, BeerRepository beerRepository) {
         this.breweryRepository = breweryRepository;
+        this.beerRepository = beerRepository;
     }
 
     @Override
@@ -39,9 +43,14 @@ public class BreweryServiceImpl implements BreweryService {
     }
 
     @Override
-    public Brewery getSpecificBrewery(String name) {
+    public List<Beer> getBeersByBreweryId(int breweryId) {
+        return beerRepository.getBeersByBreweryId(breweryId);
+    }
+
+    @Override
+    public List<Brewery> getBreweryByName(String name) {
         try {
-            return breweryRepository.getSpecificBrewery(name);
+            return breweryRepository.getBreweryByName(name);
         } catch (EntityNotFoundException ex) {
             throw new EntityNotFoundException (BREWERY_NAME_NOT_FOUND, name);
         }
@@ -67,11 +76,7 @@ public class BreweryServiceImpl implements BreweryService {
     }
 
     @Override
-    public void deleteBrewery(String name) {
-        try {
-            breweryRepository.deleteBrewery(name);
-        } catch (Exception e) {
-            throw new EntityNotFoundException (BREWERY_NAME_NOT_FOUND, name);
-        }
+    public void deleteBrewery(int id) {
+         breweryRepository.deleteBrewery(id);
     }
 }

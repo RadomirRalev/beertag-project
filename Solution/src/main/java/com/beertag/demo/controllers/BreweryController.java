@@ -2,6 +2,7 @@ package com.beertag.demo.controllers;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
+import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Brewery;
 import com.beertag.demo.services.BreweryService;
 import org.springframework.http.HttpStatus;
@@ -37,11 +38,20 @@ public class BreweryController {
         }
     }
 
+    @GetMapping("/{breweryId}/beers")
+    public List<Beer> getBeersByBreweryId(@PathVariable int breweryId) {
+        try {
+            return service.getBeersByBreweryId(breweryId);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
     @GetMapping("/search")
     @ResponseBody
-    public Brewery getSpecificBrewery(@RequestParam(defaultValue = "test") String name) {
+    public List<Brewery> getBreweryByName(@RequestParam(defaultValue = "test") String name) {
         try {
-            return service.getSpecificBrewery(name);
+            return service.getBreweryByName(name);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
@@ -65,10 +75,10 @@ public class BreweryController {
         }
     }
 
-    @DeleteMapping("{name}")
-    public void deleteBrewery(@PathVariable String name) {
+    @DeleteMapping("{id}")
+    public void deleteBrewery(@PathVariable int id) {
         try {
-            service.deleteBrewery(name);
+            service.deleteBrewery(id);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

@@ -1,5 +1,6 @@
 package com.beertag.demo.services;
 
+import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Country;
 
 import java.util.List;
@@ -9,11 +10,13 @@ public interface CountryService {
 
     List<Country> getCountriesList();
 
-    Country getSpecificCountry(String name);
+    List<Country> getCountryByName(String name);
+
+    List<Beer> getBeersByCountryId(int countryId);
 
     Country update(int id, Country country);
 
     Country createCountry(Country newCountry);
 
-    void deleteCountry(String name);
+    void deleteCountry(int id);
 }

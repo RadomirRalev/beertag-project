@@ -9,7 +9,7 @@ public interface StyleRepository {
 
     List<Style> getStylesList();
 
-    Style getStyleByName(String name);
+    List<Style> getStyleByName(String name);
 
     Style update(int id, Style country);
 
@@ -17,5 +17,5 @@ public interface StyleRepository {
 
     boolean checkStyleExists(String name);
 
-    void deleteStyle(String name);
+    void deleteStyle(int id);
 }

@@ -13,14 +13,10 @@ public class Style {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "style_id")
     private int id;
-
     @Column(name = "name")
     @Size(min = 3, max = 20)
     @Pattern(regexp = "^[a-zA-Z]+$",message = "Style field may contain only letters.")
     private String name;
-
-    @OneToMany(mappedBy = "style")
-    private List<Beer> beers;
 
     public Style() {
 

@@ -1,5 +1,6 @@
 package com.beertag.demo.services;
 
+import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Style;
 
 import java.util.List;
@@ -9,11 +10,13 @@ public interface StyleService {
 
     List<Style> getStylesList();
 
-    Style getStyleByName(String name);
+    List<Style> getStyleByName(String name);
 
     Style update(int id, Style country);
 
     Style createStyle(Style newStyle);
 
-    void deleteStyle(String name);
+    List<Beer> getBeersByStyleId(int styleId);
+
+    void deleteStyle(int id);
 }

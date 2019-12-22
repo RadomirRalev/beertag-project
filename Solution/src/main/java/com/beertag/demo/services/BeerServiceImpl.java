@@ -57,20 +57,12 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public void deleteBeer(String name) {
-        try {
-            repository.deleteBeer(name);
-        } catch (Exception e) {
-            throw new EntityNotFoundException(BEER_NAME_NOT_FOUND, name);
-        }
+    public void deleteBeer(int id) {
+            repository.deleteBeer(id);
     }
 
     @Override
     public Beer update(int id, Beer beerToBeUpdated) {
-        try {
             return repository.update(id, beerToBeUpdated);
-        } catch (Exception e) {
-            throw new EntityNotFoundException(BEER_ID_NOT_FOUND, id);
-        }
     }
 }

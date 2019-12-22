@@ -10,9 +10,15 @@ public interface BeerRepository {
 
     List<Beer> getBeerByName(String name);
 
+    List<Beer> getBeersByStyleId(int styleId);
+
+    List<Beer> getBeersByCountryId(int styleId);
+
+    List<Beer> getBeersByBreweryId(int countryId);
+
     Beer createBeer(Beer newBeer);
 
-    void deleteBeer(String name);
+    void deleteBeer(int id);
 
     boolean checkBeerExists(String name);
 

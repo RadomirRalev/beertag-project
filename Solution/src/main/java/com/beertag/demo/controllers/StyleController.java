@@ -2,6 +2,7 @@ package com.beertag.demo.controllers;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
+import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Style;
 import com.beertag.demo.services.StyleService;
 import org.springframework.http.HttpStatus;
@@ -39,9 +40,18 @@ public class StyleController {
 
     @GetMapping("/search")
     @ResponseBody
-    public Style getStyleByName(@RequestParam String name) {
+    public List<Style> getStyleByName(@RequestParam String name) {
         try {
             return service.getStyleByName(name);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @GetMapping("/{styleId}/beers")
+    public List<Beer> getBeersByStyleId(@PathVariable int styleId) {
+        try {
+            return service.getBeersByStyleId(styleId);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
@@ -65,10 +75,10 @@ public class StyleController {
         }
     }
 
-    @DeleteMapping("{name}")
-    public void deleteStyle(@PathVariable String name) {
+    @DeleteMapping("{id}")
+    public void deleteStyle(@PathVariable int id) {
         try {
-            service.deleteStyle(name);
+            service.deleteStyle(id);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

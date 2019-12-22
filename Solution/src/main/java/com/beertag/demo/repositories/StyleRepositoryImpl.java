@@ -2,6 +2,7 @@ package com.beertag.demo.repositories;
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.beer.Beer;
+import com.beertag.demo.models.beer.Brewery;
 import com.beertag.demo.models.beer.Style;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,8 +16,6 @@ import static com.beertag.demo.models.Constants.*;
 
 @Repository
 public class StyleRepositoryImpl implements StyleRepository {
-    private static int styleID;
-    private List<Style> stylesList;
     private SessionFactory sessionFactory;
 
     @Autowired
@@ -47,60 +46,47 @@ public class StyleRepositoryImpl implements StyleRepository {
     }
 
     @Override
-    public Style getStyleByName(String name) {
-        try {
-            return getStyle(name);
+    public List<Style> getStyleByName(String name) {
+        try(Session session = sessionFactory.openSession()) {
+            Query<Style> query = session.createQuery("from Style where name= :name", Style.class);
+            query.setParameter(name, "name");
+            return query.list();
         } catch (Exception e) {
             throw new EntityNotFoundException(STYLE_NAME_NOT_FOUND, name);
         }
     }
 
     @Override
-    public Style update(int id, Style style) {
-        for (int i = 0; i < stylesList.size(); i++) {
-            if (stylesList.get(i).getId() == id) {
-                stylesList.set(i, style);
-                break;
-            }
-            if (i == stylesList.size() - 1) {
-                throw new EntityNotFoundException(STYLE_ID_NOT_FOUND, id);
-            }
+    public Style update(int id, Style styleToUpdate) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.update(styleToUpdate);
+            session.getTransaction().commit();
+            return styleToUpdate;
         }
-        return style;
     }
 
     @Override
     public Style createStyle(Style newStyle) {
-        try {
-           stylesList.add(newStyle);
-           return newStyle;
-        } catch (Exception e) {
-            throw new DuplicateEntityException(STYLE_NAME_EXISTS, newStyle.getName());
+        try (Session session = sessionFactory.openSession()) {
+            session.save(newStyle);
         }
+        return newStyle;
     }
 
     @Override
     public boolean checkStyleExists(String name) {
-        return stylesList.stream()
-                .anyMatch(style -> style.getName().equals(name));
+        return getStyleByName(name).size() != 0;
+
     }
 
     @Override
-    public void deleteStyle(String name) {
-        try {
-            Style styleToBeRemoved = getStyle(name);
-            stylesList.remove(styleToBeRemoved);
-        } catch (Exception e) {
-            throw new EntityNotFoundException(STYLE_NAME_NOT_FOUND, name);
+    public void deleteStyle(int id) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            Style styleToBeDeleted = session.get(Style.class, id);
+            session.delete(styleToBeDeleted);
+            session.getTransaction().commit();
         }
     }
-
-    private Style getStyle(String name) {
-        return stylesList.stream()
-                .filter(style -> style.getName().equalsIgnoreCase(name))
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format(STYLE_NAME_NOT_FOUND, name)));
-    }
-
 }

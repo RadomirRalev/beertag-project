@@ -2,7 +2,9 @@ package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
+import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Style;
+import com.beertag.demo.repositories.BeerRepository;
 import com.beertag.demo.repositories.StyleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,12 @@ import static com.beertag.demo.models.Constants.*;
 @Service
 public class StyleServiceImpl implements StyleService {
     private StyleRepository styleRepository;
+    private BeerRepository beerRepository;
 
     @Autowired
-    public StyleServiceImpl(StyleRepository styleRepository) {
+    public StyleServiceImpl(StyleRepository styleRepository, BeerRepository beersRepository) {
         this.styleRepository = styleRepository;
+        this.beerRepository = beersRepository;
     }
 
     @Override
@@ -39,7 +43,7 @@ public class StyleServiceImpl implements StyleService {
     }
 
     @Override
-    public Style getStyleByName(String name) {
+    public List<Style> getStyleByName(String name) {
         try {
             return styleRepository.getStyleByName(name);
         } catch (EntityNotFoundException ex) {
@@ -67,11 +71,12 @@ public class StyleServiceImpl implements StyleService {
     }
 
     @Override
-    public void deleteStyle(String name) {
-        try {
-            styleRepository.deleteStyle(name);
-        } catch (Exception e) {
-            throw new EntityNotFoundException(STYLE_NAME_NOT_FOUND, name);
-        }
+    public List<Beer> getBeersByStyleId(int styleId) {
+        return beerRepository.getBeersByStyleId(styleId);
+    }
+
+    @Override
+    public void deleteStyle(int id) {
+            styleRepository.deleteStyle(id);
     }
 }
