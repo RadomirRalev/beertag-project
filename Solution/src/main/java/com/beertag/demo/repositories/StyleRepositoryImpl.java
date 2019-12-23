@@ -48,8 +48,8 @@ public class StyleRepositoryImpl implements StyleRepository {
     @Override
     public List<Style> getStyleByName(String name) {
         try(Session session = sessionFactory.openSession()) {
-            Query<Style> query = session.createQuery("from Style where name= :name", Style.class);
-            query.setParameter(name, "name");
+            Query<Style> query = session.createQuery("from Style where name LIKE :name", Style.class);
+            query.setParameter("name", "%" + name + "%");
             return query.list();
         } catch (Exception e) {
             throw new EntityNotFoundException(STYLE_NAME_NOT_FOUND, name);

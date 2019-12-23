@@ -26,7 +26,7 @@ public class TagServiceImpl implements TagService {
         try {
             return tagRepository.getTagById(id);
         } catch (Exception e) {
-            throw new EntityNotFoundException(TAG_ID_NOT_FOUND, id);
+            throw new EntityNotFoundException(STYLE_ID_NOT_FOUND, id);
         }
     }
 
@@ -40,9 +40,9 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag getSpecificTag(String name) {
+    public List<Tag> getTagByName(String name) {
         try {
-            return tagRepository.getSpecificTag(name);
+            return tagRepository.getTagByName(name);
         } catch (Exception e) {
             throw new EntityNotFoundException(TAG_NAME_NOT_FOUND, name);
         }
@@ -54,25 +54,26 @@ public class TagServiceImpl implements TagService {
             tagRepository.update(id, tag);
             return tag;
         } catch (Exception e) {
-            throw new EntityNotFoundException(TAG_ID_NOT_FOUND, id);
+            throw new EntityNotFoundException(STYLE_ID_NOT_FOUND, id);
         }
     }
 
     @Override
-    public Tag createTag(Tag tag) {
+    public Tag createTag(Tag newTag) {
         try {
-           return tagRepository.createTag(tag);
+            return tagRepository.createTag(newTag);
         } catch (Exception e) {
-            throw new EntityNotFoundException(TAG_NAME_NOT_FOUND, tag.getName());
+            throw new DuplicateEntityException(STYLE_NAME_EXISTS, newTag.getName());
         }
     }
 
     @Override
-    public void deleteTag(String name) {
-        try {
-            tagRepository.deleteTag(name);
-        } catch (Exception e) {
-            throw new EntityNotFoundException(TAG_NAME_NOT_FOUND, name);
-        }
+    public void deleteTag(int id) {
+          tagRepository.deleteTag(id);
+    }
+
+    @Override
+    public void addTagToBeer(int tagId, int beerId) {
+        tagRepository.addTagToBeer(tagId, beerId);
     }
 }

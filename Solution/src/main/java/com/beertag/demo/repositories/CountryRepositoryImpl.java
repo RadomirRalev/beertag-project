@@ -44,8 +44,8 @@ public class CountryRepositoryImpl implements CountryRepository {
     @Override
     public List<Country> getCountryByName(String name) {
         try(Session session = sessionFactory.openSession()) {
-            Query<Country> query = session.createQuery("from Country where name= :name", Country.class);
-            query.setParameter(name, "name");
+            Query<Country> query = session.createQuery("from Country where name LIKE :name", Country.class);
+            query.setParameter("name", "%" + name + "%");
             return query.list();
         } catch (Exception e) {
             throw new EntityNotFoundException(COUNTRY_NAME_NOT_FOUND, name);

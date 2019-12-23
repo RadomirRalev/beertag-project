@@ -3,6 +3,7 @@ package com.beertag.demo.repositories;
 import com.beertag.demo.models.beer.Tag;
 
 import java.util.List;
+import java.util.Set;
 
 public interface TagRepository {
 
@@ -16,9 +17,9 @@ public interface TagRepository {
 
     boolean checkTagExists(String name);
 
-    void deleteTag(String name);
+    void deleteTag(int id);
 
-    Tag getSpecificTag(String name);
+    List<Tag> getTagByName(String name);
 
-
+    void addTagToBeer(int tagId, int beerId);
 }

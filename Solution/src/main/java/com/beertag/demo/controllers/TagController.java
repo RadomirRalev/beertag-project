@@ -2,6 +2,7 @@ package com.beertag.demo.controllers;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
+import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Tag;
 import com.beertag.demo.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,29 +26,37 @@ public class TagController {
     }
 
     @GetMapping("/{id}")
-    public Tag getByID(@PathVariable int id) {
-        return tagService.getTagById(id);
+    public Tag GetTagById(@PathVariable int id) {
+        try {
+            return tagService.getTagById(id);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @GetMapping
     public List<Tag> getTagList() {
-        return tagService.getTagList();
+        try {
+            return tagService.getTagList();
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @GetMapping("/search")
-    @ResponseBody //какво прави ?
-    public Tag getSpecificTag(@RequestParam(defaultValue = "test") String name) {
+    @ResponseBody
+    public List<Tag> getTagByName(@RequestParam(defaultValue = "test") String name) {
         try {
-            return tagService.getSpecificTag(name);
+            return tagService.getTagByName(name);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
     @PostMapping
-    public Tag create(@RequestBody @Valid Tag tag) {
+    public Tag createTag(@RequestBody @Valid Tag newTag) {
         try {
-            return tagService.createTag(tag);
+            return tagService.createTag(newTag);
         } catch (DuplicateEntityException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
@@ -63,10 +72,10 @@ public class TagController {
         return tag;
     }
 
-    @DeleteMapping("{name}")
-    public void delete(@PathVariable String name) {
+    @DeleteMapping("{id}")
+    public void deleteTag(@PathVariable int id) {
         try {
-            tagService.deleteTag(name);
+            tagService.deleteTag(id);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

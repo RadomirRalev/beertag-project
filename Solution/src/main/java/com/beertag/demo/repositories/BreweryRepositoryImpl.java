@@ -45,8 +45,8 @@ public class BreweryRepositoryImpl implements BreweryRepository {
     @Override
     public List<Brewery> getBreweryByName(String name) {
         try(Session session = sessionFactory.openSession()) {
-            Query<Brewery> query = session.createQuery("from Brewery where name= :name", Brewery.class);
-            query.setParameter(name, "name");
+            Query<Brewery> query = session.createQuery("from Brewery where name LIKE :name", Brewery.class);
+            query.setParameter("name", "%" + name + "%");
             return query.list();
         } catch (Exception e) {
             throw new EntityNotFoundException(BREWERY_NAME_NOT_FOUND, name);

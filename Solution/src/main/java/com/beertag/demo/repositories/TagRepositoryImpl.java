@@ -1,97 +1,103 @@
 package com.beertag.demo.repositories;
 
-import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
+import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Tag;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static com.beertag.demo.models.Constants.*;
 
 @Repository
 public class TagRepositoryImpl implements TagRepository {
-    private static int tagID;
-    private List<Tag> tagList;
+    private SessionFactory sessionFactory;
 
-    public TagRepositoryImpl() {
-        tagList = new ArrayList<>();
-        Tag tag = new Tag("Tag1");
-        tag.setId(tagID++);
-        tagList.add(tag);
-        tag = new Tag("Tag2");
-        tag.setId(tagID++);
-        tagList.add(tag);
-        tag = new Tag("Tag3");
-        tag.setId(tagID++);
-        tagList.add(tag);
+    @Autowired
+    public TagRepositoryImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
     public Tag getTagById(int id) {
-        return tagList.stream()
-                .filter(tag -> tag.getId() == id)
-                .findAny()
-                .orElseThrow(() -> new EntityNotFoundException("Tag", id));
+        try(Session session = sessionFactory.openSession()) {
+            Tag tag = session.get(Tag.class, id);
+            if (tag == null) {
+                throw new EntityNotFoundException(
+                        String.format(TAG_ID_NOT_FOUND, id));
+            }
+            return tag;
+        }
     }
 
     @Override
     public List<Tag> getTagList() {
-        try {
-            return tagList;
+        try(Session session = sessionFactory.openSession()) {
+            Query<Tag> query = session.createQuery("from Tag", Tag.class);
+            return query.list();
         } catch (Exception e) {
             throw new EntityNotFoundException(LIST_EMPTY);
         }
     }
 
     @Override
-    public Tag update(int id, Tag updateTag) {
-        try {
-            Tag currentTag = getTagById(id);
-            currentTag.setName(updateTag.getName());
-            return currentTag;
-        } catch (Exception e) {
-            throw new EntityNotFoundException(TAG_ID_NOT_FOUND, id);
+    public Tag update(int id, Tag tagToUpdate) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.update(tagToUpdate);
+            session.getTransaction().commit();
+            return tagToUpdate;
         }
     }
 
     @Override
     public Tag createTag(Tag newTag) {
-        try {
-            newTag.setId(tagID++);
-            tagList.add(newTag);
-            return newTag;
-        } catch (Exception e) {
-            throw new DuplicateEntityException(TAG_NAME_EXISTS, newTag.getName());
+        try (Session session = sessionFactory.openSession()) {
+            session.save(newTag);
         }
+        return newTag;
     }
 
     @Override
     public boolean checkTagExists(String name) {
-        return tagList.stream()
-                .anyMatch(tag -> tag.getName().equals(name));
+        return getTagByName(name).size() != 0;
     }
 
     @Override
-    public void deleteTag(String name) {
-        try {
-            Tag tagToBeRemoved = getByString(name);
-            tagList.remove(tagToBeRemoved);
+    public void deleteTag(int id) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            Tag tagToBeDeleted = session.get(Tag.class, id);
+            session.delete(tagToBeDeleted);
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public List<Tag> getTagByName(String name) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Tag> query = session.createQuery("from Tag where name LIKE :name", Tag.class);
+            query.setParameter("name", "%" + name + "%");
+            return query.list();
         } catch (Exception e) {
             throw new EntityNotFoundException(TAG_NAME_NOT_FOUND, name);
         }
     }
 
     @Override
-    public Tag getSpecificTag(String name) {
-        return getByString(name);
-    }
-
-    private Tag getByString(String name) {
-        return tagList.stream()
-                .filter(tag -> tag.getName().equalsIgnoreCase(name))
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException(TAG_NAME_NOT_FOUND, name));
+    public void addTagToBeer(int tagId, int beerId) {
+        try (Session session = sessionFactory.openSession()) {
+                session.beginTransaction();
+                Tag tag = session.get(Tag.class,tagId);
+                Beer beer = session.get(Beer.class,beerId);
+                beer.getTags().add(tag);
+                session.update(beer);
+                session.getTransaction().commit();
+        }
     }
 }

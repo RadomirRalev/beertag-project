@@ -12,7 +12,7 @@ public class BeerDto {
     private int breweryId;
     private int styleId;
     private int tagId;
-    private String abvTag;
+    private double abvTag;
     private String picture;
     private String tag;
 
@@ -64,11 +64,11 @@ public class BeerDto {
         this.styleId = styleId;
     }
 
-    public String getAbvTag() {
+    public double getAbvTag() {
         return abvTag;
     }
 
-    public void setAbvTag(String abvTag) {
+    public void setAbvTag(double abvTag) {
         this.abvTag = abvTag;
     }
 

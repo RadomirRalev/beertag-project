@@ -24,23 +24,22 @@ public class Beer {
     @JoinColumn(name = "beer_style_fk")
     private Style style;
     @Column(name = "abv")
-    private String abvTag;
+    private double abvTag;
     @Column(name = "beer_picture")
     private String picture;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "beertag",
             joinColumns = @JoinColumn(name = "beer_beer_id"),
-            inverseJoinColumns = @JoinColumn(name = "beertag_id")
+            inverseJoinColumns = @JoinColumn(name = "tag_tag_id")
     )
-
     private List<Tag> tags;
 
     public Beer() {
 
     }
 
-    public Beer(String name, String description, String abvTag, String picture) {
+    public Beer(String name, String description, double abvTag, String picture) {
         this.name = name;
         this.description = description;
         this.abvTag = abvTag;
@@ -95,11 +94,11 @@ public class Beer {
         this.style = style;
     }
 
-    public String getAbvTag() {
+    public double getAbvTag() {
         return abvTag;
     }
 
-    public void setAbvTag(String abvTag) {
+    public void setAbvTag(double abvTag) {
         this.abvTag = abvTag;
     }
 

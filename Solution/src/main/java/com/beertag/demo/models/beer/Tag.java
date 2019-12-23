@@ -1,7 +1,10 @@
 package com.beertag.demo.models.beer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.List;
 
 @Entity
 @Table(name = "tag")
@@ -15,6 +18,15 @@ public class Tag {
     @Pattern(regexp = "^[a-zA-Z]+$",message = "Tag field may contain only letters.")
     @Column(name = "name")
     private String name;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "beertag",
+            joinColumns = @JoinColumn(name = "tag_tag_id"),
+            inverseJoinColumns = @JoinColumn(name = "beer_beer_id")
+    )
+    @JsonIgnore
+    private List<Beer> beers;
 
     public Tag() {
     }
@@ -37,5 +49,13 @@ public class Tag {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Beer> getBeers() {
+        return beers;
+    }
+
+    public void setBeers(List<Beer> beers) {
+        this.beers = beers;
     }
 }

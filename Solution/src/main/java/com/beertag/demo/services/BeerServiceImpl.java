@@ -3,10 +3,14 @@ package com.beertag.demo.services;
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.beer.Beer;
+import com.beertag.demo.models.beer.Tag;
 import com.beertag.demo.repositories.BeerRepository;
+import com.beertag.demo.repositories.TagRepository;
+import com.beertag.demo.repositories.TagRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.beertag.demo.models.Constants.*;
@@ -14,10 +18,13 @@ import static com.beertag.demo.models.Constants.*;
 @Service
 public class BeerServiceImpl implements BeerService {
     private BeerRepository repository;
+    private TagRepository tagRepository;
+
 
     @Autowired
-    public BeerServiceImpl(BeerRepository repository) {
+    public BeerServiceImpl(BeerRepository repository, TagRepository tagRepository) {
         this.repository = repository;
+        this.tagRepository = tagRepository;
     }
 
     @Override
@@ -45,6 +52,25 @@ public class BeerServiceImpl implements BeerService {
         } catch (EntityNotFoundException ex) {
             throw new EntityNotFoundException(BEER_NAME_NOT_FOUND, name);
         }
+    }
+
+    @Override
+    public List<Beer> getBeersByStyleName(String styleName) {
+        try {
+            return repository.getBeersByStyleName(styleName);
+        } catch (EntityNotFoundException ex) {
+            throw new EntityNotFoundException(STYLE_NAME_NOT_FOUND, styleName);
+        }
+    }
+
+    @Override
+    public List<Beer> getBeersByTagName(String tagName) {
+        List<Beer> listB = new ArrayList<>();
+        List<Tag> tag = tagRepository.getTagByName(tagName);
+        for (int i = 0; i < tag.size(); i++) {
+            listB.addAll(tag.get(i).getBeers());
+        }
+        return listB;
     }
 
     @Override

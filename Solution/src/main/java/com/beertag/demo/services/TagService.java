@@ -9,11 +9,13 @@ public interface TagService {
 
     List<Tag> getTagList();
 
-    Tag getSpecificTag(String name);
+    List<Tag> getTagByName(String name);
 
     Tag update(int id, Tag tag);
 
     Tag createTag(Tag tag);
 
-    void deleteTag(String name);
+    void deleteTag(int id);
+
+    void addTagToBeer(int tagId, int beerId);
 }

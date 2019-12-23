@@ -23,4 +23,7 @@ public interface BeerRepository {
     boolean checkBeerExists(String name);
 
     Beer update(int id, Beer beerToUpdate);
+
+    List<Beer> getBeersByStyleName(String styleName);
+
 }

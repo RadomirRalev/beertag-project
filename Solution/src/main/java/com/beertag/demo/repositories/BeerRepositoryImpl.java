@@ -2,6 +2,7 @@ package com.beertag.demo.repositories;
 
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.beer.Beer;
+import com.beertag.demo.models.beer.Tag;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -44,8 +45,8 @@ public class BeerRepositoryImpl implements BeerRepository {
     @Override
     public List<Beer> getBeerByName(String name) {
         try(Session session = sessionFactory.openSession()) {
-            Query<Beer> query = session.createQuery("from Beer where name= :name", Beer.class);
-            query.setParameter(name, "name");
+            Query<Beer> query = session.createQuery("from Beer where name LIKE :name", Beer.class);
+            query.setParameter("name", "%" + name + "%");
             return query.list();
         }
     }
@@ -55,6 +56,15 @@ public class BeerRepositoryImpl implements BeerRepository {
         try (Session session = sessionFactory.openSession()) {
             Query<Beer> query = session.createQuery("from Beer where style.id = :styleId", Beer.class);
             query.setParameter("styleId", styleId);
+            return query.list();
+        }
+    }
+
+    @Override
+    public List<Beer> getBeersByStyleName(String styleName) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Beer> query = session.createQuery("from Beer where style.name LIKE :styleName", Beer.class);
+            query.setParameter("styleName", "%" + styleName + "%");
             return query.list();
         }
     }

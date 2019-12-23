@@ -18,4 +18,7 @@ public interface BeerService {
 
     Beer update(int id, Beer beerToBeUpdated);
 
+    List<Beer> getBeersByStyleName(String styleName);
+
+    List<Beer> getBeersByTagName(String tagName);
 }
