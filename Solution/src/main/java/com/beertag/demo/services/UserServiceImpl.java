@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
 import static com.beertag.demo.models.Constants.*;
 
@@ -23,23 +24,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Collection<User> showUsers() {
+    public List<User> showUsers() {
         return userRepository.showUsers();
     }
 
     @Override
-    public Collection<Beer> getWishList() {
+    public List<Beer> getWishList() {
         return userRepository.getWishList();
     }
 
     @Override
-    public Collection<Beer> getDrankList() {
+    public List<Beer> getDrankList() {
         return userRepository.getDrankList();
     }
 
     @Override
     public User createUser(User user) {
-        if (userExist(user.getUserName())) {
+        if (userExist(user.getNickName())) {
             throw new DuplicateEntityException(USER_ALREADY_EXISTS);
         }
 
@@ -51,16 +52,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getByNickname(String name) {
+        return userRepository.getByNickname(name);
+    }
+
+    @Override
+    public User getById(int id) {
+        return userRepository.getById(id);
+    }
+
+    @Override
     public void deleteUser(User user) {
-        if (!userExist(user.getUserName())){
+        if (!userExist(user.getNickName())) {
             throw new EntityNotFoundException(USER_NAME_NOT_FOUND);
         }
-         userRepository.deleteUser(user);
+        userRepository.deleteUser(user);
     }
 
     @Override
     public User updateUser(User user) {
-        if (!userExist(user.getUserName())){
+        if (!userExist(user.getNickName())) {
             throw new EntityNotFoundException(USER_NAME_NOT_FOUND);
         }
         return userRepository.updateUser(user);

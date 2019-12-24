@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/user")
@@ -56,6 +57,20 @@ public class UserController {
     public void delete(@RequestBody User user) {
         try {
             userService.deleteUser(user);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @GetMapping("/{Nickname}")
+    public List<User> getByNickname(@PathVariable String Nickname) {
+        return userService.getByNickname(Nickname);
+    }
+
+    @GetMapping("/id/{id}")
+    public User getByNickname(@PathVariable int id) {
+        try {
+            return userService.getById(id);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
