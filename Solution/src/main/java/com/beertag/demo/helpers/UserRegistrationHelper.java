@@ -1,6 +1,7 @@
 package com.beertag.demo.helpers;
 
 import com.beertag.demo.models.user.UserRegistration;
+import com.beertag.demo.models.user.UserUpdateDTO;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,6 +35,15 @@ public class UserRegistrationHelper {
         }
         if (isNull(userRegistration.getLastName())) {
             userRegistration.setLastName("empty");
+        }
+    }
+
+    public static void setOptionalFields(UserUpdateDTO userUpdateDTO) {
+        if (isNull(userUpdateDTO.getFirstName())) {
+            userUpdateDTO.setFirstName("empty");
+        }
+        if (isNull(userUpdateDTO.getLastName())) {
+            userUpdateDTO.setLastName("empty");
         }
     }
 
