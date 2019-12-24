@@ -16,11 +16,9 @@ public interface UserRepository {
 
     User createUser(User user);
 
-    User findUser(String name);
+    User getById(int id);
 
-    User getById (int id);
-
-    List<User> getByNickname (String name);
+    List<User> getByNickname(String name);
 
     void deleteUser(User user);
 

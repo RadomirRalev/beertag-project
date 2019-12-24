@@ -2,7 +2,6 @@ package com.beertag.demo.services;
 
 import com.beertag.demo.models.beer.*;
 import com.beertag.demo.models.user.User;
-import com.beertag.demo.models.user.UserDto;
 
 public class Factory {
     public static final int INDEX = 0;

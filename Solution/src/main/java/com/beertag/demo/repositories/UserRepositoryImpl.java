@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-import static com.beertag.demo.models.Constants.*;
+import static com.beertag.demo.exceptions.Constants.*;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -42,11 +42,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User createUser(User user) {
-//        try {
-//            usersList.put(user.getNickName(), user);
-//        } catch (Exception e) {
-//            throw new DuplicateEntityException(USER_NAME_EXISTS, user.getNickName());
-//        }
+        try (Session session = sessionFactory.openSession()) {
+            session.save(user);
+        }
         return user;
     }
 
@@ -60,16 +58,6 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-    @Override
-    public User findUser(String name) {
-//        try {
-//            return usersList.get(name);
-//        } catch (Exception e) {
-//            throw new EntityNotFoundException(String.format(USER_NAME_NOT_FOUND, name));
-//        }
-        return null;
-
-    }
 
     @Override
     public User getById(int id) {
@@ -94,27 +82,24 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User updateUser(User user) {
-        try {
-            User userToUpdate = findUser(user.getNickName());
-            userToUpdate.setEmail(user.getEmail());
-            return userToUpdate;
-        } catch (Exception e) {
-            throw new EntityNotFoundException(USER_NAME_NOT_FOUND, user.getNickName());
-        }
+        return null;
     }
 
     @Override
     public boolean userExist(String name) {
-//        return usersList.containsKey(name);
-        return false;
+        try (Session session = sessionFactory.openSession()) {
+            Query<User> query = session.createQuery("from User where nickName = :name", User.class);
+            query.setParameter("name", name);
+            return query.list().size() != 0;
+        }
     }
 
     @Override
     public boolean emailExist(String email) {
-//        return usersList.values().stream()
-//                .map(User::getEmail)
-//                .anyMatch(e -> e.equals(email));
-        return false;
-
+        try (Session session = sessionFactory.openSession()) {
+            Query<User> query = session.createQuery("from User where email = :name", User.class);
+            query.setParameter("name", email);
+            return query.list().size() != 0;
+        }
     }
 }

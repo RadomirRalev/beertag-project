@@ -1,6 +1,5 @@
 package com.beertag.demo.models.user;
 
-
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;

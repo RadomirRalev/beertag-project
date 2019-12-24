@@ -1,14 +1,16 @@
 package com.beertag.demo.models.user;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.*;
 
-public class UserDto {
-    @Pattern(regexp = "^[a-zA-Z]+$",message = "First Name field contain may only contain letters.")
+public class UserRegistration {
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "First Name field contain may only contain letters.")
     @Size(min = 3)
+    @Nullable
     private String firstName; //optional field
-    @Pattern(regexp = "^[a-zA-Z]+$",message = "Last Name field may contain only contain letters.")
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "Last Name field may contain only contain letters.")
     @Size(min = 3)
     private String lastName; // optional field
 
@@ -35,12 +37,20 @@ public class UserDto {
             , message = "Please provide a valid email address.")
     private String email;
 
+    public UserRegistration() {
+    }
+
     public String getFirstName() {
         return firstName;
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        if (firstName.equals("")) {
+            this.firstName = "empty";
+        } else {
+            this.firstName = firstName;
+        }
+
     }
 
     public String getLastName() {
@@ -48,7 +58,11 @@ public class UserDto {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        if (lastName.equals("")) {
+            this.lastName = "empty";
+        } else {
+            this.lastName = lastName;
+        }
     }
 
     public String getUserName() {

@@ -6,14 +6,13 @@ import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Tag;
 import com.beertag.demo.repositories.BeerRepository;
 import com.beertag.demo.repositories.TagRepository;
-import com.beertag.demo.repositories.TagRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.beertag.demo.models.Constants.*;
+import static com.beertag.demo.exceptions.Constants.*;
 
 @Service
 public class BeerServiceImpl implements BeerService {

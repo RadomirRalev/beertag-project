@@ -1,26 +1,28 @@
 package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
-import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.user.User;
+import com.beertag.demo.models.user.UserRegistration;
+import com.beertag.demo.models.user.UserRegistrationMapper;
 import com.beertag.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 
-import static com.beertag.demo.models.Constants.*;
+import static com.beertag.demo.exceptions.Constants.*;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
+    private UserRegistrationMapper mapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository beerTagRepository) {
-        this.userRepository = beerTagRepository;
+    public UserServiceImpl(UserRepository userRepository, UserRegistrationMapper mapper) {
+        this.userRepository = userRepository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -39,13 +41,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(User user) {
+    public User createUser(UserRegistration userRegistration) {
+        User user = mapper.validationData(userRegistration);
+
         if (userExist(user.getNickName())) {
-            throw new DuplicateEntityException(USER_ALREADY_EXISTS);
+            throw new DuplicateEntityException(USER_NICKNAME_EXISTS, user.getNickName());
         }
 
         if (emailExist(user.getEmail())) {
-            throw new DuplicateEntityException(EMAIL_ALREADY_EXISTS);
+            throw new DuplicateEntityException(USER_EMAIL_EXISTS, user.getEmail());
         }
 
         return userRepository.createUser(user);
@@ -63,17 +67,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(User user) {
-        if (!userExist(user.getNickName())) {
-            throw new EntityNotFoundException(USER_NAME_NOT_FOUND);
-        }
         userRepository.deleteUser(user);
     }
 
     @Override
     public User updateUser(User user) {
-        if (!userExist(user.getNickName())) {
-            throw new EntityNotFoundException(USER_NAME_NOT_FOUND);
-        }
         return userRepository.updateUser(user);
 
     }
