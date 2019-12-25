@@ -20,7 +20,7 @@ public interface UserService {
 
     User getById(int id);
 
-    void deleteUser(User user);
+    void softDeleteUser(User user);
 
     User updateUser(User user);
 

@@ -51,7 +51,8 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User getByUsername(String name) {
         try (Session session = sessionFactory.openSession()) {
-            Query<User> query = session.createQuery("from User where username like :name", User.class);
+            Query<User> query = session.createQuery("from User" +
+                    " where username = :name and deleted = false ", User.class);
             query.setParameter("name", name);
             if (query.list().size() != 1) {
                 throw new EntityNotFoundException(USER_USERNAME_NOT_FOUND, name);
@@ -65,21 +66,11 @@ public class UserRepositoryImpl implements UserRepository {
     public User getById(int id) {
         try (Session session = sessionFactory.openSession()) {
             User user = session.get(User.class, id);
-            if (user == null) {
+            if (user == null || user.isDeleted()) {
                 throw new EntityNotFoundException(USER_ID_NOT_FOUND, id);
             }
             return user;
         }
-    }
-
-    @Override
-    public void deleteUser(User user) {
-//        try {
-//            findUser(user.getNickName());
-//            usersList.remove(user.getNickName());
-//        } catch (Exception e) {
-//            throw new EntityNotFoundException(USER_NAME_NOT_FOUND, user.getNickName());
-//        }
     }
 
     @Override
@@ -89,6 +80,19 @@ public class UserRepositoryImpl implements UserRepository {
             session.update(user);
             session.getTransaction().commit();
             return user;
+        }
+    }
+
+    @Override
+    public void softDeleteUser(User user) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("update User " +
+                    "set deleted = true " +
+                    "where id = :id ");
+            query.setParameter("id", user.getId());
+            query.executeUpdate();
+            session.getTransaction().commit();
         }
     }
 

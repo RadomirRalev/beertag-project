@@ -20,7 +20,7 @@ public interface UserRepository {
 
     User getByUsername(String name);
 
-    void deleteUser(User user);
+    void softDeleteUser(User user);
 
     User updateUser(User user);
 

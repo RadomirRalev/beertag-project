@@ -4,7 +4,7 @@ import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.user.User;
 import com.beertag.demo.models.user.UserRegistration;
-import com.beertag.demo.models.user.UserRegistrationMapper;
+import com.beertag.demo.models.user.UserMapper;
 import com.beertag.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +17,10 @@ import static com.beertag.demo.exceptions.Constants.*;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
-    private UserRegistrationMapper mapper;
+    private UserMapper mapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserRegistrationMapper mapper) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper mapper) {
         this.userRepository = userRepository;
         this.mapper = mapper;
     }
@@ -66,8 +66,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(User user) {
-        userRepository.deleteUser(user);
+    public void softDeleteUser(User user) {
+        userRepository.softDeleteUser(user);
     }
 
     @Override

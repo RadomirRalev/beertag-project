@@ -7,7 +7,7 @@ import static com.beertag.demo.exceptions.Constants.*;
 import static com.beertag.demo.helpers.UserRegistrationHelper.*;
 
 @Component
-public class UserRegistrationMapper {
+public class UserMapper {
 
     public User validationData(UserRegistration userRegistration) {
         if (isUserAdult(userRegistration.getDay(), userRegistration.getMonth(), userRegistration.getBirthYear())) {
@@ -19,5 +19,13 @@ public class UserRegistrationMapper {
         }
 
         throw new InvalidAgeException(NOT_ADULT);
+    }
+
+    public void validationData(UserUpdateDTO userUpdateDTO, User user) {
+
+        setOptionalFields(userUpdateDTO);
+        user.setFirstName(userUpdateDTO.getFirstName());
+        user.setLastName(userUpdateDTO.getLastName());
+
     }
 }

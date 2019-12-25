@@ -18,17 +18,36 @@ import java.util.List;
 public class UserController {
 
     private UserService userService;
-    private UserUpdateMapper updateMapper;
+    private UserMapper mapper;
 
     @Autowired
-    public UserController(UserService beerTagServices, UserUpdateMapper updateMapper) {
+    public UserController(UserService beerTagServices, UserMapper mapper) {
         this.userService = beerTagServices;
-        this.updateMapper = updateMapper;
+        this.mapper = mapper;
     }
 
     @GetMapping
     public List<User> showUsers() {
         return userService.showUsers();
+    }
+
+    @GetMapping("/username/{username}")
+    public User getByUsername(@PathVariable String username) {
+        try {
+            return userService.getByUsername(username);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+
+    } 
+
+    @GetMapping("/id/{id}")
+    public User getById(@PathVariable int id) {
+        try {
+            return userService.getById(id);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @PostMapping
@@ -42,37 +61,17 @@ public class UserController {
 
     @PutMapping("/update/{id}")
     public User updateUser(@PathVariable int id, @RequestBody @Valid UserUpdateDTO userUpdateDTO) {
-        User user = getById(id);
-        updateMapper.validationData(userUpdateDTO, user);
-        return userService.updateUser(user);
-    }
-//TODO
-    @DeleteMapping
-    public void delete(@RequestBody User user) {
-//        try {
-//            userService.deleteUser(user);
-//        } catch (EntityNotFoundException e) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-//        }
+        User userToUpdate = getById(id);
+        mapper.validationData(userUpdateDTO, userToUpdate);
+        return userService.updateUser(userToUpdate);
     }
 
-    @GetMapping("/username/{username}")
-    public User getById(@PathVariable String username) {
-        try {
-            return userService.getByUsername(username);
-        }
-        catch (EntityNotFoundException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage());
-        }
+
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable int id) {
+        User userToDelete = getById(id);
+        userService.softDeleteUser(userToDelete);
 
     }
 
-    @GetMapping("/id/{id}")
-    public User getById(@PathVariable int id) {
-        try {
-            return userService.getById(id);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
-    }
 }

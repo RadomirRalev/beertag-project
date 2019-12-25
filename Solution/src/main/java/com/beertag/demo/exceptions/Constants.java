@@ -18,8 +18,8 @@ public class Constants {
     public static final String TAG_ID_NOT_FOUND = "Tag with %d not found in the database.";
     public static final String TAG_NAME_EXISTS = "Tag %s already exists.";
     public static final String USER_ID_NOT_FOUND = "User with %d not found in the database.";
-    public static final String USER_USERNAME_NOT_FOUND = "User with %d not found in the database.";
-    public static final String USER_USERNAME_EXISTS = "User with name %s already exists.";
+    public static final String USER_USERNAME_NOT_FOUND = "User with username %s not found in the database.";
+    public static final String USER_USERNAME_EXISTS = "User with username %s already exists.";
     public static final String USER_EMAIL_EXISTS = "User with email %s already exists.";
     public static final String USER_CAN_NOT_MODIFY = "User with username %s can not modify beer with name %s.";
     public static final String NOT_ADULT = "User should have 18 years";
