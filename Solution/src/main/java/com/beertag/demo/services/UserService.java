@@ -16,9 +16,9 @@ public interface UserService {
 
     User createUser(UserRegistration userRegistration);
 
-    List<User> getByNickname(String name);
+    User getByUsername(String name);
 
-    User getById (int id);
+    User getById(int id);
 
     void deleteUser(User user);
 

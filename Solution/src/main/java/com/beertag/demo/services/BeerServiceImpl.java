@@ -2,8 +2,10 @@ package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
+import com.beertag.demo.exceptions.InvalidPermission;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Tag;
+import com.beertag.demo.models.user.User;
 import com.beertag.demo.repositories.BeerRepository;
 import com.beertag.demo.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +89,11 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public Beer update(int id, Beer beerToBeUpdated) {
+    public Beer update(int id, Beer beerToBeUpdated, User requestUser) {
+        if (beerToBeUpdated.getCreateBy().getId() != requestUser.getId() &&
+                requestUser.getRoles().stream().noneMatch(role -> role.getName().equals("admin"))){
+            throw new InvalidPermission(USER_CAN_NOT_MODIFY,requestUser.getUsername(),beerToBeUpdated.getName());
+        }
             return repository.update(id, beerToBeUpdated);
     }
 }

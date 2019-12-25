@@ -48,13 +48,15 @@ public class UserRepositoryImpl implements UserRepository {
         return user;
     }
 
-    //TODO
     @Override
-    public List<User> getByNickname(String name) {
+    public User getByUsername(String name) {
         try (Session session = sessionFactory.openSession()) {
-            Query<User> query = session.createQuery("from User where nickName like :name", User.class);
-            query.setParameter("name", "%" + name + "%");
-            return query.list();
+            Query<User> query = session.createQuery("from User where username like :name", User.class);
+            query.setParameter("name", name);
+            if (query.list().size() != 1) {
+                throw new EntityNotFoundException(USER_USERNAME_NOT_FOUND, name);
+            }
+            return query.list().get(0);
         }
     }
 
@@ -82,7 +84,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User updateUser(User user) {
-        try (Session session = sessionFactory.openSession()){
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.update(user);
             session.getTransaction().commit();
@@ -93,7 +95,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean userExist(String name) {
         try (Session session = sessionFactory.openSession()) {
-            Query<User> query = session.createQuery("from User where nickName = :name", User.class);
+            Query<User> query = session.createQuery("from User where username = :name", User.class);
             query.setParameter("name", name);
             return query.list().size() != 0;
         }

@@ -2,11 +2,14 @@ package com.beertag.demo.controllers;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
+import com.beertag.demo.exceptions.InvalidPermission;
 import com.beertag.demo.helpers.BeerCollectionHelper;
 import com.beertag.demo.models.beer.BeerDto;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.DtoMapper;
+import com.beertag.demo.models.user.User;
 import com.beertag.demo.services.BeerService;
+import com.beertag.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +22,14 @@ import java.util.List;
 @RequestMapping("/api/beers")
 public class BeerController {
     private BeerService service;
+    private UserService userService;
     private DtoMapper mapper;
 
     @Autowired
-    public BeerController(BeerService service, DtoMapper mapper) {
+    public BeerController(BeerService service, DtoMapper mapper, UserService userService) {
         this.service = service;
         this.mapper = mapper;
+        this.userService = userService;
     }
 
     @GetMapping("/{id}")
@@ -52,7 +57,7 @@ public class BeerController {
             result = service.getBeersByTagName(tag);
         }
         if ((name == null || name.isEmpty()) && (style == null || style.isEmpty())
-        && (tag == null || tag.isEmpty())) {
+                && (tag == null || tag.isEmpty())) {
             result = service.getBeersList();
         }
         return BeerCollectionHelper.sortBeersList(result, sortType);
@@ -69,19 +74,26 @@ public class BeerController {
     }
 
     @PutMapping("/{id}")
-    public Beer update(@PathVariable int id, @RequestBody @Valid BeerDto beerDto) {
+    public Beer update(@PathVariable int id, @RequestBody @Valid BeerDto beerDto,
+                       @RequestHeader(name = "Authorization") String authorization) {
+        User requestUser = userService.getByUsername(authorization);
         try {
             Beer beerToBeUpdated = mapper.fromDto(beerDto);
-            return service.update(id, beerToBeUpdated);
+            return service.update(id, beerToBeUpdated, requestUser);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (InvalidPermission e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());
         }
     }
 
     @PostMapping
-    public Beer createBeer(@RequestBody @Valid BeerDto newBeerDto) {
+    public Beer createBeer(@RequestBody @Valid BeerDto newBeerDto,
+                           @RequestHeader(name = "Authorization") String authorization) {
         try {
+            User requestUser = userService.getByUsername(authorization);
             Beer newBeer = mapper.fromDto(newBeerDto);
+            newBeer.setCreateBy(requestUser);
             return service.createBeer(newBeer);
         } catch (DuplicateEntityException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());

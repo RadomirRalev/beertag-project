@@ -1,5 +1,7 @@
 package com.beertag.demo.models.beer;
 
+import com.beertag.demo.models.user.User;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -27,12 +29,16 @@ public class Beer {
     private double abvTag;
     @Column(name = "beer_picture")
     private String picture;
+    @ManyToOne
+    @JoinColumn(name = "created_by")
+    private User createBy;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "beertag",
             joinColumns = @JoinColumn(name = "beer_beer_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_tag_id")
     )
+
     private List<Tag> tags;
 
     public Beer() {
@@ -118,4 +124,11 @@ public class Beer {
         this.tags = tags;
     }
 
+    public User getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(User createBy) {
+        this.createBy = createBy;
+    }
 }

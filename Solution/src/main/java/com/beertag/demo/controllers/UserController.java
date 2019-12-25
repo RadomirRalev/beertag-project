@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -21,7 +20,6 @@ public class UserController {
     private UserService userService;
     private UserUpdateMapper updateMapper;
 
-
     @Autowired
     public UserController(UserService beerTagServices, UserUpdateMapper updateMapper) {
         this.userService = beerTagServices;
@@ -29,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping
-    public Collection<User> showUsers() {
+    public List<User> showUsers() {
         return userService.showUsers();
     }
 
@@ -46,25 +44,27 @@ public class UserController {
     public User updateUser(@PathVariable int id, @RequestBody @Valid UserUpdateDTO userUpdateDTO) {
         User user = getById(id);
         updateMapper.validationData(userUpdateDTO, user);
-        try {
-            return userService.updateUser(user);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+        return userService.updateUser(user);
     }
-
+//TODO
     @DeleteMapping
     public void delete(@RequestBody User user) {
-        try {
-            userService.deleteUser(user);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+//        try {
+//            userService.deleteUser(user);
+//        } catch (EntityNotFoundException e) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+//        }
     }
 
-    @GetMapping("/nickname/{Nickname}")
-    public List<User> getById(@PathVariable String Nickname) {
-        return userService.getByNickname(Nickname);
+    @GetMapping("/username/{username}")
+    public User getById(@PathVariable String username) {
+        try {
+            return userService.getByUsername(username);
+        }
+        catch (EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage());
+        }
+
     }
 
     @GetMapping("/id/{id}")

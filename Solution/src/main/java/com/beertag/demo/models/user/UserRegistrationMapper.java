@@ -15,7 +15,7 @@ public class UserRegistrationMapper {
             setOptionalFields(userRegistration);
 
             return new User(userRegistration.getFirstName(), userRegistration.getLastName(),
-                    userRegistration.getUserName(), userRegistration.getEmail());
+                    userRegistration.getUsername(), userRegistration.getEmail(), userRegistration.getPassword());
         }
 
         throw new InvalidAgeException(NOT_ADULT);

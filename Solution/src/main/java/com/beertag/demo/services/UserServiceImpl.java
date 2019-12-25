@@ -44,8 +44,8 @@ public class UserServiceImpl implements UserService {
     public User createUser(UserRegistration userRegistration) {
         User user = mapper.validationData(userRegistration);
 
-        if (userExist(user.getNickName())) {
-            throw new DuplicateEntityException(USER_NICKNAME_EXISTS, user.getNickName());
+        if (userExist(user.getUsername())) {
+            throw new DuplicateEntityException(USER_USERNAME_EXISTS, user.getUsername());
         }
 
         if (emailExist(user.getEmail())) {
@@ -56,8 +56,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getByNickname(String name) {
-        return userRepository.getByNickname(name);
+    public User getByUsername(String name) {
+        return userRepository.getByUsername(name);
     }
 
     @Override
@@ -73,7 +73,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(User user) {
         return userRepository.updateUser(user);
-
     }
 
     @Override
