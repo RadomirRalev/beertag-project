@@ -1,4 +1,4 @@
-﻿-- --------------------------------------------------------
+-- --------------------------------------------------------
 -- Host:                         127.0.0.1
 -- Server version:               10.4.10-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
@@ -45,7 +45,7 @@ INSERT INTO `beer` (`beer_id`, `beer_picture`, `description`, `name`, `abv`, `be
 	(1, 'Test', 'The design reveals it: This beer comes from Bavaria! The specialty from the house of Egerer is balanced and tasty, with a good and surprisingly high amount of aromatic and bitter hops that give the beer a bittersweet character. The color is golden yellow, with a fine white foam crown. To quote the Brewmaster: "It\'s like sunshine!"', 'Urtyp Hell Edel Bayer', 4.9, 3, 9, 3, 5, 2),
 	(2, 'Test', 'Blend of lambics aged 18 to 20 months and of Bergeron apricots.', 'Fou\' Foune', 5, 5, 1, 4, 6, 5),
 	(3, 'Test', 'The heaviest of the Westvleteren beers, the 12 is a quadrupel style beer, which can be recognized by its yellow cap. Like the other Westvleteren beers, the bottle does not have a label, and the cap therefore has all the required information.', 'Trappist Westvleteren 12', 10.2, 5, 8, 5, 6.5, 1),
-	(4, 'Test', 'Hazelnut Liquor Barrel Aged Imperial Stout - 2018 Edition\r\nCollaboration w. FrauGruber ', 'Black Rabbit', 12, 4, 7, 6, 0, 4),
+	(4, 'Test', 'Hazelnut Liquor Barrel Aged Imperial Stout - 2018 Edition\r\nCollaboration w. FrauGruber ', 'Black Rabbit', 12, 4, 7, 6, 4, 4),
 	(5, 'Test', 'This barley wine is a blend of multiple batches of beer which were aged in different spirits oak barrels. It\'s complex aroma and taste of oak, dark and sweet caramel, vanilla, coconut, cocoa, roast, dark fruits and berries is a product of a complex brewing combined with the long maturation time and in the end of time spent in oak barrels. It will cellar very well, but do not go in to decades of ageing. It is a sipper and perfect to share on a special occasion. ', 'Hagger Blend 1116', 12.1, 4, 5, 2, 0, 3),
 	(6, 'Test', 'Sweet Stout of Mine brings you back to the most blissful memories of your childhood with its taste of crème brûlée and vanilla and then kicks you back to reality with the punch it packs, reminding you that you’re all grown up now, enough that you can enjoy this kind of treat. With vegan lactose, so it can be enjoyed equally by everyone, this is our favourite kind of dessert nowadays. ', 'Sweet Stout of Mine', 10.5, 1, 3, 6, 0, 2),
 	(7, 'Test', 'We named our beer after the psychedelic Tropicalia Samba music from the 70s. We always wanted to include a tropical ingredient in our beer and Hibiscus flowers fit the bill!', 'Tropikalia IPA', 7, 1, 4, 7, 0, 1),
@@ -54,18 +54,6 @@ INSERT INTO `beer` (`beer_id`, `beer_picture`, `description`, `name`, `abv`, `be
 	(10, 'Test', 'Flying Dogma Galaxy IPA is the first collaboration between two breweries between Serbia and USA! Crispy, fruity and a little bit spicy American style IPA, ideal for this spring days!', 'Flying Dogma Galaxy IPA', 6.6, 2, 2, 9, 0, 5),
 	(11, 'Test', 'Test description.', 'TestBeer', 5, NULL, 2, 3, 0, 1),
 	(12, 'Test', 'Test description.', 'TestBeer', 5, NULL, 2, 3, 0, 1);
-
--- Scripts for calculation of average rating
-UPDATE `beer` B
-SET B.avg_rating =
-         (SELECT AVG(D.rating)
-         FROM `drank_beer` D
-         WHERE D.drank_beer_beer_id=B.beer_id);
-
-UPDATE `beer` B
-SET B.avg_rating = 0
-where B.avg_rating is null;
-
 /*!40000 ALTER TABLE `beer` ENABLE KEYS */;
 
 -- Dumping structure for table beer.beertag
@@ -140,27 +128,50 @@ CREATE TABLE IF NOT EXISTS `drank_beer` (
   `drank_beer_id` int(11) NOT NULL AUTO_INCREMENT,
   `drank_beer_user_id` int(11) DEFAULT NULL,
   `drank_beer_beer_id` int(11) DEFAULT NULL,
-  `rating` int(11) DEFAULT NULL,
   PRIMARY KEY (`drank_beer_id`),
   UNIQUE KEY `drank_beer_rating_unique` (`drank_beer_user_id`,`drank_beer_beer_id`),
   KEY `drank_beer_user_user_id_fk` (`drank_beer_user_id`),
   KEY `drank_beer_beer_beer_id_fk` (`drank_beer_beer_id`),
   CONSTRAINT `drank_beer_beer_beer_id_fk` FOREIGN KEY (`drank_beer_beer_id`) REFERENCES `beer` (`beer_id`),
   CONSTRAINT `drank_beer_user_user_id_fk` FOREIGN KEY (`drank_beer_user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
--- Dumping data for table beer.drank_beer: ~8 rows (approximately)
+-- Dumping data for table beer.drank_beer: ~9 rows (approximately)
 /*!40000 ALTER TABLE `drank_beer` DISABLE KEYS */;
-INSERT INTO `drank_beer` (`drank_beer_id`, `drank_beer_user_id`, `drank_beer_beer_id`, `rating`) VALUES
-	(1, 1, 1, 8),
-	(2, 2, 1, 5),
-	(3, 4, 1, 2),
-	(4, 5, 2, 1),
-	(5, 1, 2, 8),
-	(6, 3, 2, 9),
-	(7, 5, 3, 8),
-	(8, 4, 3, 5);
+INSERT INTO `drank_beer` (`drank_beer_id`, `drank_beer_user_id`, `drank_beer_beer_id`) VALUES
+	(1, 1, 1),
+	(5, 1, 2),
+	(2, 2, 1),
+	(29, 2, 7),
+	(6, 3, 2),
+	(3, 4, 1),
+	(8, 4, 3),
+	(4, 5, 2),
+	(7, 5, 3),
+	(31, 5, 5);
 /*!40000 ALTER TABLE `drank_beer` ENABLE KEYS */;
+
+-- Dumping structure for table beer.rating
+CREATE TABLE IF NOT EXISTS `rating` (
+  `rating_id` int(11) NOT NULL AUTO_INCREMENT,
+  `rating` int(11) NOT NULL,
+  `drank_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`rating_id`),
+  UNIQUE KEY `rating_drank_id_uindex` (`drank_id`),
+  CONSTRAINT `rating_drank_beer__fk` FOREIGN KEY (`drank_id`) REFERENCES `drank_beer` (`drank_beer_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table beer.rating: ~7 rows (approximately)
+/*!40000 ALTER TABLE `rating` DISABLE KEYS */;
+INSERT INTO `rating` (`rating_id`, `rating`, `drank_id`) VALUES
+	(4, 6, 7),
+	(5, 5, 6),
+	(6, 8, 2),
+	(7, 6, 1),
+	(8, 5, 3),
+	(9, 9, 4),
+	(10, 6, 5);
+/*!40000 ALTER TABLE `rating` ENABLE KEYS */;
 
 -- Dumping structure for table beer.role
 CREATE TABLE IF NOT EXISTS `role` (
@@ -245,8 +256,8 @@ INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `nickname`, `email`, `
 CREATE TABLE IF NOT EXISTS `user_role` (
   `user_id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL,
-  KEY `FK_user_roles_user` (`user_id`),
   KEY `FK_user_roles_roles` (`role_id`),
+  KEY `FK_user_roles_user` (`user_id`),
   CONSTRAINT `FK_user_roles_roles` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`),
   CONSTRAINT `FK_user_roles_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
