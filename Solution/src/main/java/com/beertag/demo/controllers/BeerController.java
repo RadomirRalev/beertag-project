@@ -93,7 +93,7 @@ public class BeerController {
         try {
             User requestUser = userService.getByUsername(authorization);
             Beer newBeer = mapper.fromDto(newBeerDto);
-            newBeer.setCreateBy(requestUser);
+            newBeer.setCreatedBy(requestUser);
             return service.createBeer(newBeer);
         } catch (DuplicateEntityException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());

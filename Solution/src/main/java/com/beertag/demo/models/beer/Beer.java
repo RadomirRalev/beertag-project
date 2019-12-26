@@ -33,7 +33,7 @@ public class Beer {
     private double avgRating;
     @ManyToOne
     @JoinColumn(name = "created_by")
-    private User createBy;
+    private User createdBy;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "beertag",
@@ -126,11 +126,19 @@ public class Beer {
         this.tags = tags;
     }
 
-    public User getCreateBy() {
-        return createBy;
+    public User getCreatedBy() {
+        return createdBy;
     }
 
-    public void setCreateBy(User createBy) {
-        this.createBy = createBy;
+    public void setCreatedBy(User createBy) {
+        this.createdBy = createBy;
+    }
+
+    public double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(double avgRating) {
+        this.avgRating = avgRating;
     }
 }

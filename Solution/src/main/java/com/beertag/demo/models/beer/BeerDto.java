@@ -13,6 +13,7 @@ public class BeerDto {
     private int styleId;
     private int tagId;
     private double abvTag;
+    private double avgRating;
     private String picture;
     private String tag;
 
@@ -86,5 +87,13 @@ public class BeerDto {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(double avgRating) {
+        this.avgRating = avgRating;
     }
 }
