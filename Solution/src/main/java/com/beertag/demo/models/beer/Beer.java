@@ -40,7 +40,6 @@ public class Beer {
             joinColumns = @JoinColumn(name = "beer_beer_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_tag_id")
     )
-
     private List<Tag> tags;
 
     public Beer() {
@@ -141,4 +140,5 @@ public class Beer {
     public void setAvgRating(double avgRating) {
         this.avgRating = avgRating;
     }
+
 }

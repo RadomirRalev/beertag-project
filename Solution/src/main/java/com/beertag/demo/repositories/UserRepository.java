@@ -12,7 +12,7 @@ public interface UserRepository {
 
     List<Beer> getWishList();
 
-    List<Beer> getDrankList();
+    List<Beer> getDrankList(int userId);
 
     User createUser(User user);
 
@@ -27,6 +27,5 @@ public interface UserRepository {
     boolean userExist(String name);
 
     boolean emailExist(String email);
-
 
 }

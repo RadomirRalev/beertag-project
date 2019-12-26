@@ -36,8 +36,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Beer> getDrankList() {
-        return userRepository.getDrankList();
+    public List<Beer> getDrankList(int userId) {
+        return userRepository.getDrankList(userId);
     }
 
     @Override

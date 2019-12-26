@@ -26,6 +26,5 @@ public class UserMapper {
         setOptionalFields(userUpdateDTO);
         user.setFirstName(userUpdateDTO.getFirstName());
         user.setLastName(userUpdateDTO.getLastName());
-
     }
 }

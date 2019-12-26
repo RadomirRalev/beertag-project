@@ -3,6 +3,7 @@ package com.beertag.demo.controllers;
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.exceptions.InvalidAgeException;
+import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.user.*;
 import com.beertag.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,11 @@ public class UserController {
         return userService.showUsers();
     }
 
+    @GetMapping("/dranklist/{userId}")
+    public List<Beer> showDrankList(@PathVariable int userId) {
+        return userService.getDrankList(userId);
+    }
+
     @GetMapping("/username/{username}")
     public User getByUsername(@PathVariable String username) {
         try {
@@ -38,7 +44,6 @@ public class UserController {
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
-
     } 
 
     @GetMapping("/id/{id}")

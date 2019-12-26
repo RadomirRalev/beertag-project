@@ -12,7 +12,7 @@ public interface UserService {
 
     List<Beer> getWishList();
 
-    List<Beer> getDrankList();
+    List<Beer> getDrankList(int userId);
 
     User createUser(UserRegistration userRegistration);
 

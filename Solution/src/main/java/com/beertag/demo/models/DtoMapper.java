@@ -30,11 +30,9 @@ public class DtoMapper {
         Style style = styleService.getStyleById(beerDto.getStyleId());
         Country country = countryService.getCountryById(beerDto.getOriginCountryId());
         Brewery brewery = breweryService.getBreweryById(beerDto.getBreweryId());
-        Tag tag = tagService.getTagById(beerDto.getTagId());
         beer.setStyle(style);
         beer.setOriginCountry(country);
         beer.setBrewery(brewery);
-        //beer.setTags(tag);
         return beer;
     }
 }

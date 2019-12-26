@@ -1,9 +1,11 @@
 package com.beertag.demo.models.user;
 
+import com.beertag.demo.models.beer.Beer;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.Set;
 
 @Component
 public class UserUpdateDTO {
@@ -16,7 +18,6 @@ public class UserUpdateDTO {
     @Size(min = 3)
     @Column(name = "last_name")
     private String lastName; // optional field
-
 
     public String getFirstName() {
         return firstName;
@@ -41,5 +42,4 @@ public class UserUpdateDTO {
             this.lastName = lastName;
         }
     }
-
 }

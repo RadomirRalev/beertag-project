@@ -36,8 +36,14 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<Beer> getDrankList() {
-        return null;
+    public List<Beer> getDrankList(int userId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Beer> query = session.createNativeQuery("select * from beer" +
+                    " inner join drank_beer on beer.beer_id = drank_beer.drank_beer_beer_id" +
+                    " where drank_beer_user_id = :userId", Beer.class);
+            query.setParameter("userId", userId);
+            return query.list();
+        }
     }
 
     @Override
