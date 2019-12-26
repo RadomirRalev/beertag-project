@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-import static com.beertag.demo.models.Constants.*;
+import static com.beertag.demo.exceptions.Constants.*;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -42,40 +42,31 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User createUser(User user) {
-//        try {
-//            usersList.put(user.getNickName(), user);
-//        } catch (Exception e) {
-//            throw new DuplicateEntityException(USER_NAME_EXISTS, user.getNickName());
-//        }
+        try (Session session = sessionFactory.openSession()) {
+            session.save(user);
+        }
         return user;
     }
 
-    //TODO
     @Override
-    public List<User> getByNickname(String name) {
+    public User getByUsername(String name) {
         try (Session session = sessionFactory.openSession()) {
-            Query<User> query = session.createQuery("from User where nickName like :name", User.class);
-            query.setParameter("name", "%" + name + "%");
-            return query.list();
+            Query<User> query = session.createQuery("from User" +
+                    " where username = :name and deleted = false ", User.class);
+            query.setParameter("name", name);
+            if (query.list().size() != 1) {
+                throw new EntityNotFoundException(USER_USERNAME_NOT_FOUND, name);
+            }
+            return query.list().get(0);
         }
     }
 
-    @Override
-    public User findUser(String name) {
-//        try {
-//            return usersList.get(name);
-//        } catch (Exception e) {
-//            throw new EntityNotFoundException(String.format(USER_NAME_NOT_FOUND, name));
-//        }
-        return null;
-
-    }
 
     @Override
     public User getById(int id) {
         try (Session session = sessionFactory.openSession()) {
             User user = session.get(User.class, id);
-            if (user == null) {
+            if (user == null || user.isDeleted()) {
                 throw new EntityNotFoundException(USER_ID_NOT_FOUND, id);
             }
             return user;
@@ -83,38 +74,43 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void deleteUser(User user) {
-//        try {
-//            findUser(user.getNickName());
-//            usersList.remove(user.getNickName());
-//        } catch (Exception e) {
-//            throw new EntityNotFoundException(USER_NAME_NOT_FOUND, user.getNickName());
-//        }
+    public User updateUser(User user) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.update(user);
+            session.getTransaction().commit();
+            return user;
+        }
     }
 
     @Override
-    public User updateUser(User user) {
-        try {
-            User userToUpdate = findUser(user.getNickName());
-            userToUpdate.setEmail(user.getEmail());
-            return userToUpdate;
-        } catch (Exception e) {
-            throw new EntityNotFoundException(USER_NAME_NOT_FOUND, user.getNickName());
+    public void softDeleteUser(User user) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("update User " +
+                    "set deleted = true " +
+                    "where id = :id ");
+            query.setParameter("id", user.getId());
+            query.executeUpdate();
+            session.getTransaction().commit();
         }
     }
 
     @Override
     public boolean userExist(String name) {
-//        return usersList.containsKey(name);
-        return false;
+        try (Session session = sessionFactory.openSession()) {
+            Query<User> query = session.createQuery("from User where username = :name", User.class);
+            query.setParameter("name", name);
+            return query.list().size() != 0;
+        }
     }
 
     @Override
     public boolean emailExist(String email) {
-//        return usersList.values().stream()
-//                .map(User::getEmail)
-//                .anyMatch(e -> e.equals(email));
-        return false;
-
+        try (Session session = sessionFactory.openSession()) {
+            Query<User> query = session.createQuery("from User where email = :name", User.class);
+            query.setParameter("name", email);
+            return query.list().size() != 0;
+        }
     }
 }

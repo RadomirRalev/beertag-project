@@ -16,13 +16,11 @@ public interface UserRepository {
 
     User createUser(User user);
 
-    User findUser(String name);
+    User getById(int id);
 
-    User getById (int id);
+    User getByUsername(String name);
 
-    List<User> getByNickname (String name);
-
-    void deleteUser(User user);
+    void softDeleteUser(User user);
 
     User updateUser(User user);
 

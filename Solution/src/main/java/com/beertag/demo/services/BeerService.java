@@ -1,6 +1,7 @@
 package com.beertag.demo.services;
 
 import com.beertag.demo.models.beer.Beer;
+import com.beertag.demo.models.user.User;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface BeerService {
 
     void deleteBeer(int id);
 
-    Beer update(int id, Beer beerToBeUpdated);
+    Beer update(int id, Beer beerToBeUpdated, User user);
 
     List<Beer> getBeersByStyleName(String styleName);
 

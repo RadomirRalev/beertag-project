@@ -1,14 +1,16 @@
 package com.beertag.demo.models.user;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.*;
 
-public class UserDto {
-    @Pattern(regexp = "^[a-zA-Z]+$",message = "First Name field contain may only contain letters.")
+public class UserRegistration {
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "First Name field contain may only contain letters.")
     @Size(min = 3)
+    @Nullable
     private String firstName; //optional field
-    @Pattern(regexp = "^[a-zA-Z]+$",message = "Last Name field may contain only contain letters.")
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "Last Name field may contain only contain letters.")
     @Size(min = 3)
     private String lastName; // optional field
 
@@ -28,19 +30,29 @@ public class UserDto {
     @Length(min = 4, max = 30)
     @Pattern(regexp = "^[\\w-]+$", //ограничава позволените символи до букви, цифри, _ и -
             message = "The User Name field may only contain alpha-numeric characters, underscores, and dashes.")
-    private String userName;
+    private String username;
 
     //https://emailregex.com/
     @Email(regexp = "(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)"
             , message = "Please provide a valid email address.")
     private String email;
 
+    private String password;
+
+    public UserRegistration() {
+    }
+
     public String getFirstName() {
         return firstName;
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        if (firstName.equals("")) {
+            this.firstName = "empty";
+        } else {
+            this.firstName = firstName;
+        }
+
     }
 
     public String getLastName() {
@@ -48,15 +60,19 @@ public class UserDto {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        if (lastName.equals("")) {
+            this.lastName = "empty";
+        } else {
+            this.lastName = lastName;
+        }
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -89,5 +105,13 @@ public class UserDto {
 
     public void setDay(int day) {
         this.day = day;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

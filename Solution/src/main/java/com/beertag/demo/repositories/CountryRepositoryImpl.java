@@ -8,7 +8,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
-import static com.beertag.demo.models.Constants.*;
+import static com.beertag.demo.exceptions.Constants.*;
 
 @Repository
 public class CountryRepositoryImpl implements CountryRepository {

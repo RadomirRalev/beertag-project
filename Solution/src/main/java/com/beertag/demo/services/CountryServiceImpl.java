@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.beertag.demo.models.Constants.*;
+import static com.beertag.demo.exceptions.Constants.*;
 
 @Service
 public class CountryServiceImpl implements CountryService {

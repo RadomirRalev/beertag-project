@@ -1,26 +1,28 @@
 package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
-import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.user.User;
+import com.beertag.demo.models.user.UserRegistration;
+import com.beertag.demo.models.user.UserMapper;
 import com.beertag.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 
-import static com.beertag.demo.models.Constants.*;
+import static com.beertag.demo.exceptions.Constants.*;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
+    private UserMapper mapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository beerTagRepository) {
-        this.userRepository = beerTagRepository;
+    public UserServiceImpl(UserRepository userRepository, UserMapper mapper) {
+        this.userRepository = userRepository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -39,21 +41,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(User user) {
-        if (userExist(user.getNickName())) {
-            throw new DuplicateEntityException(USER_ALREADY_EXISTS);
+    public User createUser(UserRegistration userRegistration) {
+        User user = mapper.validationData(userRegistration);
+
+        if (userExist(user.getUsername())) {
+            throw new DuplicateEntityException(USER_USERNAME_EXISTS, user.getUsername());
         }
 
         if (emailExist(user.getEmail())) {
-            throw new DuplicateEntityException(EMAIL_ALREADY_EXISTS);
+            throw new DuplicateEntityException(USER_EMAIL_EXISTS, user.getEmail());
         }
 
         return userRepository.createUser(user);
     }
 
     @Override
-    public List<User> getByNickname(String name) {
-        return userRepository.getByNickname(name);
+    public User getByUsername(String name) {
+        return userRepository.getByUsername(name);
     }
 
     @Override
@@ -62,20 +66,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(User user) {
-        if (!userExist(user.getNickName())) {
-            throw new EntityNotFoundException(USER_NAME_NOT_FOUND);
-        }
-        userRepository.deleteUser(user);
+    public void softDeleteUser(User user) {
+        userRepository.softDeleteUser(user);
     }
 
     @Override
     public User updateUser(User user) {
-        if (!userExist(user.getNickName())) {
-            throw new EntityNotFoundException(USER_NAME_NOT_FOUND);
-        }
         return userRepository.updateUser(user);
-
     }
 
     @Override
