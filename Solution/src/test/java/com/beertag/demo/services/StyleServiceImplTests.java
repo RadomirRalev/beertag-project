@@ -138,11 +138,11 @@ public class StyleServiceImplTests {
     @Test
     public void deleteStyleShould_ThrowException_WhenStyleDoesNotExist() {
 
-        doThrow(new RuntimeException()).when(StyleRepository).deleteStyle(anyString());
+        doThrow(new RuntimeException()).when(StyleRepository).deleteStyle(anyInt());
 
         //Act & Assert
         Assertions.assertThrows(RuntimeException.class,
-                () -> StyleRepository.deleteStyle(anyString()));
+                () -> StyleRepository.deleteStyle(anyInt()));
     }
 
     @Test

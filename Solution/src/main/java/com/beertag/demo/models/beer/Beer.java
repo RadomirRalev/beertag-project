@@ -27,6 +27,8 @@ public class Beer {
     private double abvTag;
     @Column(name = "beer_picture")
     private String picture;
+    @Column(name = "avg_rating")
+    private double avgRating;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "beertag",

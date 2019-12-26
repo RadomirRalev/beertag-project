@@ -38,11 +38,11 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public List<Beer> getBeersList() {
-        try {
+//        try {
             return repository.getBeerList();
-        } catch (Exception e) {
-            throw new EntityNotFoundException(LIST_EMPTY);
-        }
+//        } catch (Exception e) {
+//            throw new EntityNotFoundException(LIST_EMPTY);
+//        }
     }
 
     @Override

@@ -135,11 +135,11 @@ public class BeerServiceImplTests {
     @Test
     public void deleteBeerShould_ThrowException_WhenBeerDoesNotExist() {
 
-        doThrow(new RuntimeException()).when(repository).deleteBeer(anyString());
+        doThrow(new RuntimeException()).when(repository).deleteBeer(anyInt());
 
         //Act & Assert
         Assertions.assertThrows(RuntimeException.class,
-                () -> repository.deleteBeer(anyString()));
+                () -> repository.deleteBeer(anyInt()));
     }
 
     @Test

@@ -9,11 +9,11 @@ public class Factory {
     public static final String NAME = "X";
 
     public static Beer createBeer(){
-        return new Beer("Zagorka", "okok", "2.14", "pop");
+        return new Beer("Zagorka", "okok", 2.14, "pop");
     }
 
     public static Beer createBeer2(){
-        return new Beer("Shumensko", "okok", "2.14", "pop");
+        return new Beer("Shumensko", "okok", 2.14, "pop");
     }
 
     public static Brewery createBrewery(){
