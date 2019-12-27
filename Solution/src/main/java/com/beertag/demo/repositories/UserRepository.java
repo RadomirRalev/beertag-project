@@ -3,16 +3,17 @@ package com.beertag.demo.repositories;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.user.User;
 
-import java.util.Collection;
+
 import java.util.List;
+import java.util.Set;
 
 public interface UserRepository {
 
-    List<User> showUsers();
+    List<User> getUsers();
 
-    List<Beer> getWishList();
+    Set<Beer> getWishList(int userId);
 
-    List<Beer> getDrankList(int userId);
+    Set<Beer> getDrankList(int userId);
 
     User createUser(User user);
 
@@ -27,5 +28,6 @@ public interface UserRepository {
     boolean userExist(String name);
 
     boolean emailExist(String email);
+
 
 }

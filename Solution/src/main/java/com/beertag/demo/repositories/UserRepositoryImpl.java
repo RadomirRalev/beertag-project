@@ -23,7 +23,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> showUsers() {
+    public List<User> getUsers() {
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery("from User", User.class);
             return query.list();
@@ -31,19 +31,21 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<Beer> getWishList() {
-        return null;
+    public Set<Beer> getWishList(int userId) {
+        User user = getById(userId);
+        if (user.getWishList().isEmpty()) {
+            throw new EntityNotFoundException(USER_WISH_EMPTY, userId);
+        }
+        return user.getWishList();
     }
 
     @Override
-    public List<Beer> getDrankList(int userId) {
-        try (Session session = sessionFactory.openSession()) {
-            Query<Beer> query = session.createNativeQuery("select * from beer" +
-                    " inner join drank_beer on beer.beer_id = drank_beer.drank_beer_beer_id" +
-                    " where drank_beer_user_id = :userId", Beer.class);
-            query.setParameter("userId", userId);
-            return query.list();
+    public Set<Beer> getDrankList(int userId) {
+        User user = getById(userId);
+        if (user.getDrankList().isEmpty()) {
+            throw new EntityNotFoundException(USER_DRANK_EMPTY, userId);
         }
+        return user.getDrankList();
     }
 
     @Override

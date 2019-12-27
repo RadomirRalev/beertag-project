@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.beertag.demo.exceptions.Constants.*;
 
@@ -26,18 +27,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> showUsers() {
-        return userRepository.showUsers();
+    public List<User> getUsers() {
+        return userRepository.getUsers();
     }
 
     @Override
-    public List<Beer> getWishList() {
-        return userRepository.getWishList();
+    public Set<Beer> getWishList(int UserId) {
+        return userRepository.getWishList(UserId);
     }
 
     @Override
-    public List<Beer> getDrankList(int userId) {
-        return userRepository.getDrankList(userId);
+    public Set<Beer> getDrankList(int UserId) {
+        return userRepository.getDrankList(UserId);
     }
 
     @Override

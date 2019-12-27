@@ -5,14 +5,15 @@ import com.beertag.demo.models.user.User;
 import com.beertag.demo.models.user.UserRegistration;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserService {
 
-    List<User> showUsers();
+    List<User> getUsers();
 
-    List<Beer> getWishList();
+    Set<Beer> getWishList(int userId);
 
-    List<Beer> getDrankList(int userId);
+    Set<Beer> getDrankList(int userId);
 
     User createUser(UserRegistration userRegistration);
 

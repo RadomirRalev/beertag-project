@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/user")
@@ -27,14 +28,28 @@ public class UserController {
         this.mapper = mapper;
     }
 
-    @GetMapping
-    public List<User> showUsers() {
-        return userService.showUsers();
+    @GetMapping("/wishlist/{userId}")
+    public Set<Beer> getWishList(@PathVariable int userId) {
+        try {
+            return userService.getWishList(userId);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @GetMapping("/dranklist/{userId}")
-    public List<Beer> showDrankList(@PathVariable int userId) {
-        return userService.getDrankList(userId);
+    public Set<Beer> getDrankList(@PathVariable int userId) {
+        try {
+            return userService.getDrankList(userId);
+        }
+        catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @GetMapping
+    public List<User> getUsers() {
+        return userService.getUsers();
     }
 
     @GetMapping("/username/{username}")
@@ -44,7 +59,8 @@ public class UserController {
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
-    } 
+
+    }
 
     @GetMapping("/id/{id}")
     public User getById(@PathVariable int id) {

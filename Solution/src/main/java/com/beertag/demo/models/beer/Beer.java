@@ -1,6 +1,7 @@
 package com.beertag.demo.models.beer;
 
 import com.beertag.demo.models.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -31,6 +32,7 @@ public class Beer {
     private String picture;
     @Column(name = "avg_rating")
     private double avgRating;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "created_by")
     private User createdBy;

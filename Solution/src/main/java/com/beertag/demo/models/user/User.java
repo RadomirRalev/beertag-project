@@ -2,14 +2,11 @@ package com.beertag.demo.models.user;
 
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.user.role.Role;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -38,11 +35,12 @@ public class User {
             , message = "Please provide a valid email address.")
     @Column(name = "email")
     private String email;
-
+    @Column(name = "password")
     private String password;
 
     @Column(name = "deleted")
     private boolean deleted;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -50,14 +48,18 @@ public class User {
     )
     private Set<Role> roles;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "drank_beer",
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "wish_beer",
+            joinColumns = @JoinColumn(name = "user_user_id"),
+            inverseJoinColumns = @JoinColumn(name = "beer_beer_id"))
+    Set<Beer> wishList;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "drank_beer",
             joinColumns = @JoinColumn(name = "drank_beer_user_id"),
-            inverseJoinColumns = @JoinColumn(name = "drank_beer_beer_id")
-    )
-    private Set<Beer> drankBeers;
+            inverseJoinColumns = @JoinColumn(name = "drank_beer_beer_id"))
+    Set<Beer> drankList;
+
 
     public User() {
     }
@@ -68,7 +70,6 @@ public class User {
         this.username = userName;
         this.email = email;
         this.password = password;
-        this.drankBeers = new HashSet<>();
     }
 
     public int getId() {
@@ -135,11 +136,20 @@ public class User {
         this.deleted = deleted;
     }
 
-    public Set<Beer> getDrankBeers() {
-        return drankBeers;
+    public Set<Beer> getWishList() {
+        return new HashSet<>(wishList);
     }
 
-    public void setDrankBeers(Set<Beer> drankBeers) {
-        this.drankBeers = drankBeers;
+    public void setWishList(Set<Beer> wishList) {
+        this.wishList = wishList;
+    }
+
+    public Set<Beer> getDrankList() {
+        return new HashSet<>(drankList);
+    }
+
+    public void setDrankList(Set<Beer> drankList) {
+        this.drankList = drankList;
     }
 }
+
