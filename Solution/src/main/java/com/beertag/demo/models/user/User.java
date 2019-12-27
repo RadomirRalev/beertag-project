@@ -48,13 +48,13 @@ public class User {
     )
     private Set<Role> roles;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "wish_beer",
             joinColumns = @JoinColumn(name = "user_user_id"),
             inverseJoinColumns = @JoinColumn(name = "beer_beer_id"))
     Set<Beer> wishList;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "drank_beer",
             joinColumns = @JoinColumn(name = "drank_beer_user_id"),
             inverseJoinColumns = @JoinColumn(name = "drank_beer_beer_id"))

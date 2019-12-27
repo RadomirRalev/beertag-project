@@ -24,7 +24,7 @@ public class Constants {
     public static final String USER_USERNAME_EXISTS = "User with username %s already exists.";
     public static final String USER_EMAIL_EXISTS = "User with email %s already exists.";
     public static final String USER_CAN_NOT_MODIFY = "User with username %s can not modify beer with name %s.";
-    public static final String USER_WISH_EMPTY = "User with id %d haven`t beer in wish list.";
-    public static final String USER_DRANK_EMPTY = "User with id %d haven`t beer in drank list.";
+    public static final String USER_WISH_EMPTY = "User with id %d wish list is empty.";
+    public static final String USER_DRANK_EMPTY = "User with id %d drank list is empty.";
     public static final String NOT_ADULT = "User should have 18 years";
 }
