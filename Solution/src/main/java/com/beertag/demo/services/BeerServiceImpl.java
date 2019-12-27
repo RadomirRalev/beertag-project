@@ -4,15 +4,19 @@ import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.exceptions.InvalidPermission;
 import com.beertag.demo.models.beer.Beer;
+import com.beertag.demo.models.beer.Rating;
 import com.beertag.demo.models.beer.Tag;
 import com.beertag.demo.models.user.User;
 import com.beertag.demo.repositories.BeerRepository;
+import com.beertag.demo.repositories.RatingRepository;
 import com.beertag.demo.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.beertag.demo.exceptions.Constants.*;
 
@@ -20,12 +24,14 @@ import static com.beertag.demo.exceptions.Constants.*;
 public class BeerServiceImpl implements BeerService {
     private BeerRepository repository;
     private TagRepository tagRepository;
+    private RatingRepository ratingRepository;
 
 
     @Autowired
-    public BeerServiceImpl(BeerRepository repository, TagRepository tagRepository) {
+    public BeerServiceImpl(BeerRepository repository, TagRepository tagRepository, RatingRepository ratingRepository) {
         this.repository = repository;
         this.tagRepository = tagRepository;
+        this.ratingRepository = ratingRepository;
     }
 
     @Override
@@ -39,11 +45,7 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public List<Beer> getBeersList() {
-//        try {
             return repository.getBeerList();
-//        } catch (Exception e) {
-//            throw new EntityNotFoundException(LIST_EMPTY);
-//        }
     }
 
     @Override
@@ -95,5 +97,16 @@ public class BeerServiceImpl implements BeerService {
             throw new InvalidPermission(USER_CAN_NOT_MODIFY,requestUser.getUsername(),beerToBeUpdated.getName());
         }
             return repository.update(id, beerToBeUpdated);
+    }
+
+    @Override
+    public void updateAvgRatingOfBeer(int beerId) {
+        List<Rating> ratingList = ratingRepository.getRatingsOfSpecificBeer(beerId);
+        double avgRating = 0;
+        for (Rating rating : ratingList) {
+            avgRating += rating.getRating();
+        }
+        avgRating = avgRating/ratingList.size();
+        repository.updateAvgRating(beerId, avgRating);
     }
 }

@@ -26,4 +26,6 @@ public interface BeerRepository {
 
     List<Beer> getBeersByStyleName(String styleName);
 
+    void updateAvgRating(int beerId, double avgRating);
+
 }

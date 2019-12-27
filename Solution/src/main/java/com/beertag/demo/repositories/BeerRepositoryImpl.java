@@ -2,6 +2,7 @@ package com.beertag.demo.repositories;
 
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.beer.Beer;
+import com.beertag.demo.models.beer.Rating;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -116,6 +117,16 @@ public class BeerRepositoryImpl implements BeerRepository {
             session.update(beerToUpdate);
             session.getTransaction().commit();
             return beerToUpdate;
+        }
+    }
+
+    @Override
+    public void updateAvgRating(int beerId, double avgRating) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            Beer beerToBeUpdated = session.get(Beer.class, beerId);
+            beerToBeUpdated.setAvgRating(avgRating);
+            session.getTransaction().commit();
         }
     }
 }

@@ -15,15 +15,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 import static com.beertag.demo.exceptions.Constants.RATING_ID_NOT_FOUND;
 
 @Repository
 public class RatingRepositoryImpl implements RatingRepository {
     private SessionFactory sessionFactory;
+    private BeerRepository beerRepository;
 
     @Autowired
-    public RatingRepositoryImpl(SessionFactory sessionFactory) {
+    public RatingRepositoryImpl(SessionFactory sessionFactory, BeerRepository beerRepository) {
         this.sessionFactory = sessionFactory;
+        this.beerRepository = beerRepository;
     }
 
     @Override
@@ -51,6 +55,17 @@ public class RatingRepositoryImpl implements RatingRepository {
                         String.format(RATING_ID_NOT_FOUND, ratingId));
             }
             return rating;
+        }
+    }
+
+    @Override
+    public List<Rating> getRatingsOfSpecificBeer(int beerId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Rating> query = session.createNativeQuery("select * from rating" +
+                    " join drank_beer on rating.drank_id = drank_beer.drank_beer_id" +
+                    " where drank_beer_beer_id = :beerId", Rating.class);
+            query.setParameter("beerId", beerId);
+            return query.list();
         }
     }
 }

@@ -19,21 +19,29 @@ public class BeerCollectionHelper {
     private static List<Beer> sortBeers(List<Beer> beerList, String sortType) {
         if (sortType.equalsIgnoreCase("name")) {
             beerList = beerList.stream()
-                    .sorted(Comparator.comparing(sortByString()))
+                    .sorted(Comparator.comparing(sortByName()))
                     .collect(Collectors.toList());
         } else if (sortType.equalsIgnoreCase("abv")) {
             beerList = beerList.stream()
-                    .sorted(Comparator.comparing(sortByDouble()))
+                    .sorted(Comparator.comparing(sortByABV()))
+                    .collect(Collectors.toList());
+        } else if (sortType.equalsIgnoreCase("rating")) {
+            beerList = beerList.stream()
+                    .sorted(Comparator.comparing(sortByRating()))
                     .collect(Collectors.toList());
         }
         return beerList;
     }
 
-    private static Function<Beer, String> sortByString() {
+    private static Function<Beer, String> sortByName() {
             return Beer::getName;
     }
 
-    private static Function<Beer, Double> sortByDouble() {
+    private static Function<Beer, Double> sortByABV() {
+        return Beer::getAbvTag;
+    }
+
+    private static Function<Beer, Double> sortByRating() {
         return Beer::getAbvTag;
     }
 }
