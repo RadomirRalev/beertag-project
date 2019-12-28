@@ -172,4 +172,19 @@ public class BeerServiceImplTests {
 //        //Assert
 //        Assert.assertNotNull(returnedBeer);
 //    }
+
+//    @Test
+//    public void updateShould_ReturnBeer_WhenBeerExists() {
+//        //Arrange
+//        Beer returnedBeer = createBeer();
+//
+//        Mockito.when(repository.update(anyInt(), any()))
+//                .thenReturn(returnedBeer);
+//
+//        //Act
+//        mockService.update(anyInt(), any());
+//
+//        //Assert
+//        Assert.assertNotNull(returnedBeer);
+//    }
 }

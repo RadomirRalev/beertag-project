@@ -2,10 +2,7 @@ package com.beertag.demo.models.user;
 
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.user.role.Role;
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,23 +13,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private int id;
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "First Name field may only contain letters.")
-    @Size(min = 3)
     @Column(name = "first_name")
-    private String firstName; //optional field
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Last Name field may only contain letters.")
-    @Size(min = 3)
+    private String firstName;
     @Column(name = "last_name")
-    private String lastName; // optional field
-    @NotBlank
-    @Length(min = 5, max = 50)
-    @Pattern(regexp = "^[\\w-]+$", //ограничава позволените символи до букви, цифри, _ и -
-            message = "The User Name field may only contain alpha-numeric characters, underscores, and dashes.")
+    private String lastName;
     @Column(name = "nickname")
     private String username;
-    //https://emailregex.com/
-    @Email(regexp = "(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)"
-            , message = "Please provide a valid email address.")
     @Column(name = "email")
     private String email;
     @Column(name = "password")
@@ -48,13 +34,13 @@ public class User {
     )
     private Set<Role> roles;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "wish_beer",
             joinColumns = @JoinColumn(name = "user_user_id"),
             inverseJoinColumns = @JoinColumn(name = "beer_beer_id"))
     Set<Beer> wishList;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "drank_beer",
             joinColumns = @JoinColumn(name = "drank_beer_user_id"),
             inverseJoinColumns = @JoinColumn(name = "drank_beer_beer_id"))

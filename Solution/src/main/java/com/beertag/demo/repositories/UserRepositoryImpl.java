@@ -95,7 +95,7 @@ public class UserRepositoryImpl implements UserRepository {
     public void softDeleteUser(User user) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            Query query = session.createQuery("update User " +
+            Query<User> query = session.createQuery("update User " +
                     "set deleted = true " +
                     "where id = :id ");
             query.setParameter("id", user.getId());
