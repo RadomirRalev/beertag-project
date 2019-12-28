@@ -42,6 +42,19 @@ public class UserRegistration {
     public UserRegistration() {
     }
 
+    public UserRegistration(@Nullable @Pattern(regexp = "^[a-zA-Z]+$", message = "First Name field contain may only contain letters.") @Size(min = 3) String firstName, @Pattern(regexp = "^[a-zA-Z]+$", message = "Last Name field may contain only contain letters.") @Size(min = 3) String lastName, @Min(1920) @Max(2019) int birthYear, @Min(1) @Max(12) int month, @Min(1) @Max(31) int day, @NotBlank @Length(min = 4, max = 30) @Pattern(regexp = "^[\\w-]+$", //ограничава позволените символи до букви, цифри, _ и -
+            message = "The User Name field may only contain alpha-numeric characters, underscores, and dashes.") String username, @Email(regexp = "(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)"
+            , message = "Please provide a valid email address.") String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthYear = birthYear;
+        this.month = month;
+        this.day = day;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
     public String getFirstName() {
         return firstName;
     }

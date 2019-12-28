@@ -59,7 +59,7 @@ public class UserServiceImplTest {
 
         //Assert
         Assertions.assertThrows(DuplicateEntityException.class,
-                () -> mockService.createUser(createUser()));
+                () -> mockService.createUser(createUserRegistration()));
     }
 
     @Test
@@ -69,7 +69,7 @@ public class UserServiceImplTest {
 
         //Assert
         Assertions.assertThrows(DuplicateEntityException.class,
-                () -> mockService.createUser(createUser()));
+                () -> mockService.createUser(createUserRegistration()));
     }
     //TODO
 //    @Test
@@ -88,13 +88,13 @@ public class UserServiceImplTest {
         //Arrange
         List<User> userList = new ArrayList<>();
 
-        Mockito.when(repository.showUsers())
+        Mockito.when(repository.getUsers())
                 .thenReturn(userList);
         //Act
-        mockService.showUsers();
+        mockService.getUsers();
 
         //Assert
-        Assert.assertSame(mockService.showUsers(), userList);
+        Assert.assertSame(mockService.getUsers(), userList);
     }
 
     @Test
