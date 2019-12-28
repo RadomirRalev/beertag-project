@@ -156,35 +156,4 @@ public class BeerServiceImplTests {
         Assertions.assertThrows(RuntimeException.class,
                 () -> repository.update(anyInt(), any()));
     }
-
-//    @Test
-//    public void updateShould_ReturnBeer_WhenBeerExists() {
-//        //Arrange
-//        Beer returnedBeer = createBeer();
-//        User user = createUser();
-//
-//        Mockito.when(repository.update(anyInt(), any()))
-//                .thenReturn(returnedBeer);
-//
-//        //Act
-//        mockService.update(anyInt(), any(), user);
-//
-//        //Assert
-//        Assert.assertNotNull(returnedBeer);
-//    }
-
-//    @Test
-//    public void updateShould_ReturnBeer_WhenBeerExists() {
-//        //Arrange
-//        Beer returnedBeer = createBeer();
-//
-//        Mockito.when(repository.update(anyInt(), any()))
-//                .thenReturn(returnedBeer);
-//
-//        //Act
-//        mockService.update(anyInt(), any());
-//
-//        //Assert
-//        Assert.assertNotNull(returnedBeer);
-//    }
 }

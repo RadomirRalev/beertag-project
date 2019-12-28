@@ -20,7 +20,7 @@ public class Factory {
         return new Brewery("Zagorka");
     }
 
-    public static Tag creatTag(){
+    public static Tag createTag(){
         return new Tag("Tag");
     }
 

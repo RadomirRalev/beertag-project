@@ -30,7 +30,7 @@ public class TagServiceImplTests {
     @Test
     public void getBreweryByIdShould_ReturnBeer_WhenBeerExists() {
         //Arrange
-        Tag expectedTag = creatTag();
+        Tag expectedTag = createTag();
 
         Mockito.when(tagRepository.getTagById(anyInt()))
                 .thenReturn(expectedTag);
@@ -67,20 +67,22 @@ public class TagServiceImplTests {
         Assert.assertSame(mockService.getTagList(), TagList);
     }
 
-//    @Test
-//    public void getSpecificBreweryShould_ReturnBrewery_WhenBreweryExists() {
-//        //Arrange
-//        Tag expectedTag = creatTag();
-//
-//        Mockito.when(tagRepository.getTagByName(anyString()))
-//                .thenReturn(expectedTag);
-//
-//        //Act
-//        Tag returnedTag = mockService.getTagByName(anyString());
-//
-//        //Assert
-//        Assert.assertSame(expectedTag, returnedTag);
-//    }
+    @Test
+    public void getSpecificBreweryShould_ReturnBrewery_WhenBreweryExists() {
+        //Arrange
+        Tag expectedTag = createTag();
+        List<Tag> expectedList = new ArrayList<>();
+        expectedList.add(expectedTag);
+
+        Mockito.when(tagRepository.getTagByName(anyString()))
+                .thenReturn(expectedList);
+
+        //Act
+        List<Tag> returnedList = mockService.getTagByName(anyString());
+
+        //Assert
+        Assert.assertSame(returnedList, expectedList);
+    }
 
     @Test
     public void getSpecificBreweryShould_TrowException_WhenBreweryDoesNotExist() {
@@ -93,24 +95,26 @@ public class TagServiceImplTests {
                 () -> mockService.getTagByName("anyName"));
     }
 
-//    @Test
-//    public void getSpecificBreweryShould_CallRepository() {
-//        //Arrange
-//        Tag expectedTag = creatTag();
-//
-//        Mockito.when(tagRepository.getTagByName(NAME))
-//                .thenReturn(expectedTag);
-//        //Act
-//        mockService.getTagByName(NAME);
-//
-//        //Assert
-//        Assert.assertSame(mockService.getTagByName(NAME), expectedTag);
-//    }
+    @Test
+    public void getSpecificBreweryShould_CallRepository() {
+        //Arrange
+        Tag expectedTag = createTag();
+        List<Tag> expectedList = new ArrayList<>();
+        expectedList.add(expectedTag);
+
+        Mockito.when(tagRepository.getTagByName(anyString()))
+                .thenReturn(expectedList);
+        //Act
+        mockService.getTagByName(anyString());
+
+        //Assert
+        Assert.assertSame(mockService.getTagByName(anyString()), expectedList);
+    }
 
     @Test
     public void createBreweryShould_CallRepository() {
         //Arrange
-        Tag expectedTag = creatTag();
+        Tag expectedTag = createTag();
         mockService.createTag(expectedTag);
         List<Tag> tagList = new ArrayList<>();
         tagList.add(expectedTag);
@@ -132,15 +136,15 @@ public class TagServiceImplTests {
                 () -> tagRepository.createTag(isA(Tag.class)));
     }
 
-//    @Test
-//    public void deleteBreweryShould_ThrowException_WhenBreweryDoesNotExist() {
-//
-//        doThrow(new RuntimeException()).when(tagRepository).deleteTag(anyString());
-//
-//        //Act & Assert
-//        Assertions.assertThrows(RuntimeException.class,
-//                () -> tagRepository.deleteTag(anyString()));
-//    }
+    @Test
+    public void deleteBreweryShould_ThrowException_WhenBreweryDoesNotExist() {
+
+        doThrow(new RuntimeException()).when(tagRepository).deleteTag(anyInt());
+
+        //Act & Assert
+        Assertions.assertThrows(RuntimeException.class,
+                () -> tagRepository.deleteTag(anyInt()));
+    }
 
     @Test
     public void updateShould_ThrowException_WhenBreweryDoesNotExist() {
@@ -155,7 +159,7 @@ public class TagServiceImplTests {
     @Test
     public void updateShould_ReturnBrewery_WhenBreweryExists() {
         //Arrange
-        Tag returnedTag = creatTag();
+        Tag returnedTag = createTag();
 
         Mockito.when(tagRepository.update(anyInt(),any()))
                 .thenReturn(returnedTag);

@@ -70,45 +70,49 @@ public class StyleServiceImplTests {
         Assert.assertSame(mockService.getStylesList(), stylesList);
     }
 
-//    @Test
-//    public void getSpecificStyleShould_ReturnStyle_WhenStyleExists() {
-//        //Arrange
-//        Style expectedStyle = createStyle();
-//
-//        Mockito.when(StyleRepository.getStyleByName(anyString()))
-//                .thenReturn(expectedStyle);
-//
-//        //Act
-//        Style returnedStyle = mockService.getSpecificStyle(anyString());
-//
-//        //Assert
-//        Assert.assertSame(expectedStyle, returnedStyle);
-//    }
+    @Test
+    public void getSpecificStyleShould_ReturnStyle_WhenStyleExists() {
+        //Arrange
+        Style expectedStyle = createStyle();
+        List<Style> expectedList = new ArrayList<>();
+        expectedList.add(expectedStyle);
 
-//    @Test
-//    public void getSpecificStyleShould_TrowException_WhenStyleDoesNotExist() {
-//
-//        Mockito.when(StyleRepository.getStyleByName(anyString()))
-//                .thenThrow(new EntityNotFoundException("Style", anyString()));
-//
-//        //Act & Assert
-//        Assertions.assertThrows(EntityNotFoundException.class,
-//                () -> mockService.getSpecificStyle("anyName"));
-//    }
+        Mockito.when(StyleRepository.getStyleByName(anyString()))
+                .thenReturn(expectedList);
 
-//    @Test
-//    public void getSpecificStyleShould_CallRepository() {
-//        //Arrange
-//        Style expectedStyle = createStyle();
-//
-//        Mockito.when(StyleRepository.getStyleByName(NAME))
-//                .thenReturn(expectedStyle);
-//        //Act
-//        mockService.getSpecificStyle(NAME);
-//
-//        //Assert
-//        Assert.assertSame(mockService.getSpecificStyle(NAME), expectedStyle);
-//    }
+        //Act
+        List<Style> returnedList = mockService.getStyleByName(anyString());
+
+        //Assert
+        Assert.assertSame(expectedList, returnedList);
+    }
+
+    @Test
+    public void getSpecificStyleShould_TrowException_WhenStyleDoesNotExist() {
+
+        Mockito.when(StyleRepository.getStyleByName(anyString()))
+                .thenThrow(new EntityNotFoundException("Style", anyString()));
+
+        //Act & Assert
+        Assertions.assertThrows(EntityNotFoundException.class,
+                () -> mockService.getStyleByName("anyName"));
+    }
+
+    @Test
+    public void getSpecificStyleShould_CallRepository() {
+        //Arrange
+        Style expectedStyle = createStyle();
+        List<Style> expectedList = new ArrayList<>();
+        expectedList.add(expectedStyle);
+
+        Mockito.when(StyleRepository.getStyleByName(anyString()))
+                .thenReturn(expectedList);
+        //Act
+        mockService.getStyleByName(anyString());
+
+        //Assert
+        Assert.assertSame(mockService.getStyleByName(anyString()), expectedList);
+    }
 
     @Test
     public void createStyleShould_CallRepository() {

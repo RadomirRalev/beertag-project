@@ -68,20 +68,22 @@ public class CountryServiceImplTests {
         Assert.assertSame(mockService.getCountriesList(), countriesList);
     }
 
-//    @Test
-//    public void getSpecificCountryShould_ReturnCountry_WhenCountryExists() {
-//        //Arrange
-//        Country expectedCountry = createCountry();
-//
-//        Mockito.when(countryRepository.getCountryByName(anyString()))
-//                .thenReturn(expectedCountry);
-//
-//        //Act
-//        Country returnedCountry = mockService.getCountryByName(anyString());
-//
-//        //Assert
-//        Assert.assertSame(expectedCountry, returnedCountry);
-//    }
+    @Test
+    public void getSpecificCountryShould_ReturnCountry_WhenCountryExists() {
+        //Arrange
+        Country expectedCountry = createCountry();
+        List<Country> expectedList = new ArrayList<>();
+        expectedList.add(expectedCountry);
+
+        Mockito.when(countryRepository.getCountryByName(anyString()))
+                .thenReturn(expectedList);
+
+        //Act
+        List<Country> returnedList = mockService.getCountryByName(anyString());
+
+        //Assert
+        Assert.assertSame(returnedList, expectedList);
+    }
 
     @Test
     public void getSpecificCountryShould_TrowException_WhenCountryDoesNotExist() {
@@ -94,19 +96,21 @@ public class CountryServiceImplTests {
                 () -> mockService.getCountryByName("anyName"));
     }
 
-//    @Test
-//    public void getSpecificCountryShould_CallRepository() {
-//        //Arrange
-//        Country expectedCountry = createCountry();
-//
-//        Mockito.when(countryRepository.getCountryByName(NAME))
-//                .thenReturn(expectedCountry);
-//        //Act
-//        mockService.getCountryByName(NAME);
-//
-//        //Assert
-//        Assert.assertSame(mockService.getCountryByName(NAME), expectedCountry);
-//    }
+    @Test
+    public void getSpecificCountryShould_CallRepository() {
+        //Arrange
+        Country expectedCountry = createCountry();
+        List<Country> expectedList = new ArrayList<>();
+        expectedList.add(expectedCountry);
+
+        Mockito.when(countryRepository.getCountryByName(anyString()))
+                .thenReturn(expectedList);
+        //Act
+        mockService.getCountryByName(anyString());
+
+        //Assert
+        Assert.assertSame(mockService.getCountryByName(anyString()), expectedList);
+    }
 
     @Test
     public void createCountryShould_CallRepository() {
@@ -133,15 +137,15 @@ public class CountryServiceImplTests {
                 () -> countryRepository.createCountry(isA(Country.class)));
     }
 
-//    @Test
-//    public void deleteCountryShould_ThrowException_WhenCountryDoesNotExist() {
-//
-//        doThrow(new RuntimeException()).when(countryRepository).deleteCountry(anyString());
-//
-//        //Act & Assert
-//        Assertions.assertThrows(RuntimeException.class,
-//                () -> countryRepository.deleteCountry(anyString()));
-//    }
+    @Test
+    public void deleteCountryShould_ThrowException_WhenCountryDoesNotExist() {
+
+        doThrow(new RuntimeException()).when(countryRepository).deleteCountry(anyInt());
+
+        //Act & Assert
+        Assertions.assertThrows(RuntimeException.class,
+                () -> countryRepository.deleteCountry(anyInt()));
+    }
 
     @Test
     public void updateShould_ThrowException_WhenCountryDoesNotExist() {
