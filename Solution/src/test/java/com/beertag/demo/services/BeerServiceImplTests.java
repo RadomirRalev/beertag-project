@@ -2,6 +2,7 @@ package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.beer.Beer;
+import com.beertag.demo.models.user.User;
 import com.beertag.demo.repositories.BeerRepository;
 import org.junit.Test;
 import org.junit.Assert;
@@ -67,20 +68,22 @@ public class BeerServiceImplTests {
         Assert.assertSame(mockService.getBeersList(), beerList);
     }
 
-//    @Test
-//    public void getSpecificBeerShould_ReturnBeer_WhenBeerExists() {
-//        //Arrange
-//        Beer expectedBeer = createBeer();
-//
-//        Mockito.when(repository.getBeerByName(anyString()))
-//                .thenReturn(expectedBeer);
-//
-//        //Act
-//        Beer returnedBeer = mockService.getBeerByName(anyString());
-//
-//        //Assert
-//        Assert.assertSame(expectedBeer, returnedBeer);
-//    }
+    @Test
+    public void getSpecificBeerShould_ReturnBeer_WhenBeerExists() {
+        //Arrange
+        Beer expectedBeer = createBeer();
+        List<Beer> expectedList = new ArrayList<>();
+        expectedList.add(expectedBeer);
+
+        Mockito.when(repository.getBeerByName(anyString()))
+                .thenReturn(expectedList);
+
+        //Act
+        List<Beer> returnedList = mockService.getBeerByName(anyString());
+
+        //Assert
+        Assert.assertSame(expectedList, returnedList);
+    }
 
     @Test
     public void getSpecificBeerShould_TrowException_WhenBeerDoesNotExist() {
@@ -93,19 +96,21 @@ public class BeerServiceImplTests {
                 () -> mockService.getBeerByName("anyName"));
     }
 
-//    @Test
-//    public void getSpecificBeerShould_CallRepository() {
-//        //Arrange
-//        Beer expectedBeer = createBeer();
-//
-//        Mockito.when(repository.getBeerByName(NAME))
-//                .thenReturn(expectedBeer);
-//        //Act
-//        mockService.getBeerByName(NAME);
-//
-//        //Assert
-//        Assert.assertSame(mockService.getBeerByName(NAME), expectedBeer);
-//    }
+    @Test
+    public void getSpecificBeerShould_CallRepository() {
+        //Arrange
+        Beer expectedBeer = createBeer();
+        List<Beer> expectedList = new ArrayList<>();
+        expectedList.add(expectedBeer);
+
+        Mockito.when(repository.getBeerByName(NAME))
+                .thenReturn(expectedList);
+        //Act
+        mockService.getBeerByName(NAME);
+
+        //Assert
+        Assert.assertSame(mockService.getBeerByName(NAME), expectedList);
+    }
 
     @Test
     public void createBeerShould_CallRepository() {
@@ -152,18 +157,19 @@ public class BeerServiceImplTests {
                 () -> repository.update(anyInt(), any()));
     }
 
-    @Test
-    public void updateShould_ReturnBeer_WhenBeerExists() {
-        //Arrange
-        Beer returnedBeer = createBeer();
-
-        Mockito.when(repository.update(anyInt(), any()))
-                .thenReturn(returnedBeer);
-
-        //Act
-        mockService.update(anyInt(), any());
-
-        //Assert
-        Assert.assertNotNull(returnedBeer);
-    }
+//    @Test
+//    public void updateShould_ReturnBeer_WhenBeerExists() {
+//        //Arrange
+//        Beer returnedBeer = createBeer();
+//        User user = createUser();
+//
+//        Mockito.when(repository.update(anyInt(), any()))
+//                .thenReturn(returnedBeer);
+//
+//        //Act
+//        mockService.update(anyInt(), any(), user);
+//
+//        //Assert
+//        Assert.assertNotNull(returnedBeer);
+//    }
 }

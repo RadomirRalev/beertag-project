@@ -23,13 +23,13 @@ public class Factory {
         return new Tag("Tag");
     }
 
-    public static User createUser (){
-        return new User("","","abaaaabaaabab","gosho@gmail.com");
+    public static User createUser () {
+        return new User("","","abaaaabaaabab","gosho@gmail.com", "");
     }
-
-    public static User createUserWith3SymbolsForName (){
-        return new User("","","goo","gosho@gmail.com");
-    }
+//
+//    public static User createUserWith3SymbolsForName (){
+//        return new User("","","goo","gosho@gmail.com");
+//    }
 
     public static Country createCountry(){
         return new Country("Bulgaria");

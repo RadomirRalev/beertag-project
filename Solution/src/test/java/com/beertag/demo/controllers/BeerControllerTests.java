@@ -57,50 +57,50 @@ public class BeerControllerTests {
                 () -> beerController.getById(INDEX));
     }
 
-//    @Test
-//    public void getBeersListShould_CallService() {
-//        //Arrange
-//        List<Beer> beerList = new ArrayList<>();
-//
-//        Mockito.when(mockService.getBeersList())
-//                .thenReturn(beerList);
-//        //Act
-//        beerController.getBeersList(null, null, null);
-//
-//        //Assert
-//        Assert.assertSame(beerController.getBeersList(null, null, null), beerList);
-//    }
+    @Test
+    public void getBeersListShould_CallService() {
+        //Arrange
+        List<Beer> beerList = new ArrayList<>();
 
-//    @Test
-//    public void getSpecificBeerShould_ReturnBeer_WhenBeerExists() {
-//        //Arrange
-//        Beer expectedBeer = createBeer();
-//
-//        Mockito.when(mockService.getBeerByName(anyString()))
-//                .thenReturn(expectedBeer);
-//
-//        //Act
-//        Beer returnedBeer = beerController.getBeerByName(anyString());
-//
-//        //Assert
-//        Assert.assertSame(expectedBeer, returnedBeer);
-//    }
+        Mockito.when(mockService.getBeersList())
+                .thenReturn(beerList);
+        //Act
+        beerController.getBeersList(null, null, null, null);
 
-//    @Test
-//    public void getBeerList_should_filter_by_country() {
-//        //Arrange
-//        Beer expectedBeer1 = createBeer();
-//        Beer expectedBeer2 = createBeer2();
-//        List<Beer> beerList = new ArrayList<>();
-//        beerList.add(expectedBeer1);
-//        beerList.add(expectedBeer2);
-//        Mockito.when(beerController.getBeersList(expectedBeer1.getName(), null, null))
-//                .thenReturn(BeerCollectionHelper.filterByName(beerList, expectedBeer1.getName()));
-//
-//        //Act
-//        beerList = beerController.getBeersList(expectedBeer1.getName(), null, null);
-//        //Assert
-//        Assert.assertEquals(beerList.size(), 1);
-//        Assert.assertEquals(expectedBeer1.getName(), beerList.get(0).getName());
-//    }
+        //Assert
+        Assert.assertSame(beerController.getBeersList(null, null, null, null), beerList);
+    }
+
+    @Test
+    public void getSpecificBeerShould_ReturnBeer_WhenBeerExists() {
+        //Arrange
+        List<Beer> expectedList = new ArrayList<>();
+
+        Mockito.when(mockService.getBeerByName(anyString()))
+                .thenReturn(expectedList);
+
+        //Act
+        List<Beer> returnedBeer = beerController.getBeerByName(anyString());
+
+        //Assert
+        Assert.assertSame(expectedList, returnedBeer);
+    }
+
+    @Test
+    public void getBeerList_should_filter_by_country() {
+        //Arrange
+        Beer expectedBeer1 = createBeer();
+        Beer expectedBeer2 = createBeer2();
+        List<Beer> beerList = new ArrayList<>();
+        beerList.add(expectedBeer1);
+        beerList.add(expectedBeer2);
+        Mockito.when(beerController.getBeersList(expectedBeer1.getName(), null, null, null))
+                .thenReturn(beerList);
+
+        //Act
+        beerList = beerController.getBeersList(expectedBeer1.getName(), null, null, null);
+        //Assert
+        Assert.assertEquals(beerList.size(), 2);
+        Assert.assertEquals(expectedBeer1.getName(), beerList.get(0).getName());
+    }
 }
