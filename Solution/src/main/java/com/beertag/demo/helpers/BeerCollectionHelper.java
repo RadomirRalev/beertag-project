@@ -42,6 +42,6 @@ public class BeerCollectionHelper {
     }
 
     private static Function<Beer, Double> sortByRating() {
-        return Beer::getAbvTag;
+        return Beer::getAvgRating;
     }
 }

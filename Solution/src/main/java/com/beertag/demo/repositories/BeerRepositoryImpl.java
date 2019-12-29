@@ -114,6 +114,7 @@ public class BeerRepositoryImpl implements BeerRepository {
     public Beer update(int id, Beer beerToUpdate) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
+
             session.update(beerToUpdate);
             session.getTransaction().commit();
             return beerToUpdate;

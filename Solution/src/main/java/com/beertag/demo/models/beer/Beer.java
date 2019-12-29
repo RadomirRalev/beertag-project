@@ -30,8 +30,9 @@ public class Beer {
     private Style style;
     @Column(name = "abv")
     private double abvTag;
-    @Column(name = "beer_picture")
-    private String picture;
+    @Lob
+    @Column(name = "beer_picture", columnDefinition = "BLOB")
+    private byte[] picture;
     @Column(name = "avg_rating")
     private double avgRating;
     @JsonIgnore
@@ -50,7 +51,7 @@ public class Beer {
 
     }
 
-    public Beer(String name, String description, double abvTag, String picture) {
+    public Beer(String name, String description, double abvTag, byte[] picture) {
         this.name = name;
         this.description = description;
         this.abvTag = abvTag;
@@ -113,11 +114,11 @@ public class Beer {
         this.abvTag = abvTag;
     }
 
-    public String getPicture() {
+    public byte[] getPicture() {
         return picture;
     }
 
-    public void setPicture(String picture) {
+    public void setPicture(byte[] picture) {
         this.picture = picture;
     }
 

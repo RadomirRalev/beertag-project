@@ -14,7 +14,7 @@ public class BeerDto {
     private int tagId;
     private double abvTag;
     private double avgRating;
-    private String picture;
+    private byte[] picture;
     private String tag;
 
     public String getName() {
@@ -73,11 +73,11 @@ public class BeerDto {
         this.abvTag = abvTag;
     }
 
-    public String getPicture() {
+    public byte[] getPicture() {
         return picture;
     }
 
-    public void setPicture(String picture) {
+    public void setPicture(byte[] picture) {
         this.picture = picture;
     }
 

@@ -1,7 +1,7 @@
 package com.beertag.demo.controllers;
 
+import com.beertag.demo.controllers.restcontrollers.BeerController;
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.helpers.BeerCollectionHelper;
 import com.beertag.demo.models.DtoMapper;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.services.BeerService;
