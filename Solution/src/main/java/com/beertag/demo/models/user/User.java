@@ -37,14 +37,14 @@ public class User {
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "wish_beer",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "beer_id"))
+            joinColumns = @JoinColumn(name = "user_user_id"),
+            inverseJoinColumns = @JoinColumn(name = "beer_user_id"))
     Set<Beer> wishList;
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "drank_beer",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "beer_id"))
+            joinColumns = @JoinColumn(name = "drank_beer_user_id"),
+            inverseJoinColumns = @JoinColumn(name = "drank_beer_beer_id"))
     Set<Beer> drankList;
 
 

@@ -1,5 +1,6 @@
 package com.beertag.demo.helpers;
 
+import com.beertag.demo.models.user.User;
 import com.beertag.demo.models.user.UserRegistration;
 import com.beertag.demo.models.user.UserUpdateDTO;
 
@@ -29,21 +30,12 @@ public class UserRegistrationHelper {
         return currentYear - birthYear >= ADULT_YEAR;
     }
 
-    public static void setOptionalFields(UserRegistration userRegistration) {
-        if (isNull(userRegistration.getFirstName())) {
-            userRegistration.setFirstName("empty");
+    public static void setOptionalFields(User user) {
+        if (isNull(user.getFirstName()) || user.getFirstName().equals("empty")) {
+            user.setFirstName("");
         }
-        if (isNull(userRegistration.getLastName())) {
-            userRegistration.setLastName("empty");
-        }
-    }
-
-    public static void setOptionalFields(UserUpdateDTO userUpdateDTO) {
-        if (isNull(userUpdateDTO.getFirstName())) {
-            userUpdateDTO.setFirstName("empty");
-        }
-        if (isNull(userUpdateDTO.getLastName())) {
-            userUpdateDTO.setLastName("empty");
+        if (isNull(user.getLastName()) || user.getLastName().equals("empty")) {
+            user.setLastName("");
         }
     }
 

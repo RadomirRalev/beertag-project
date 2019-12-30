@@ -1,4 +1,4 @@
-package com.beertag.demo.controllers.REST;
+package com.beertag.demo.controllers.restcontrollers;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
@@ -41,7 +41,7 @@ public class UserController {
     public void addBeerToWishList(@PathVariable int userId, @PathVariable int beerId) {
         userService.addBeerToWishList(userId, beerId);
     }
- 
+
     @GetMapping("/dranklist/{userId}")
     public Set<Beer> getDrankList(@PathVariable int userId) {
         try {

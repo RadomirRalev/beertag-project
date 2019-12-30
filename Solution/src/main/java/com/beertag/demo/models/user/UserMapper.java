@@ -12,10 +12,11 @@ public class UserMapper {
     public User validationData(UserRegistration userRegistration) {
         if (isUserAdult(userRegistration.getDay(), userRegistration.getMonth(), userRegistration.getBirthYear())) {
 
-            setOptionalFields(userRegistration);
-
-            return new User(userRegistration.getFirstName(), userRegistration.getLastName(),
+            User user = new User(userRegistration.getFirstName(), userRegistration.getLastName(),
                     userRegistration.getUsername(), userRegistration.getEmail(), userRegistration.getPassword());
+
+            setOptionalFields(user);
+            return user;
         }
 
         throw new InvalidAgeException(NOT_ADULT);
@@ -23,8 +24,8 @@ public class UserMapper {
 
     public void validationData(UserUpdateDTO userUpdateDTO, User user) {
 
-        setOptionalFields(userUpdateDTO);
         user.setFirstName(userUpdateDTO.getFirstName());
         user.setLastName(userUpdateDTO.getLastName());
+        setOptionalFields(user);
     }
 }
