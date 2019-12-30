@@ -1,4 +1,4 @@
-package com.beertag.demo.models.user.role;
+package com.beertag.demo.models.user;
 
 import javax.persistence.*;
 

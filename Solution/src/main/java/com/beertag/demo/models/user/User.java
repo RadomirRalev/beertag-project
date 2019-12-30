@@ -1,7 +1,8 @@
 package com.beertag.demo.models.user;
 
 import com.beertag.demo.models.beer.Beer;
-import com.beertag.demo.models.user.role.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,17 +34,17 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
-
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "wish_beer",
-            joinColumns = @JoinColumn(name = "user_user_id"),
-            inverseJoinColumns = @JoinColumn(name = "beer_beer_id"))
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "beer_id"))
     Set<Beer> wishList;
-
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "drank_beer",
-            joinColumns = @JoinColumn(name = "drank_beer_user_id"),
-            inverseJoinColumns = @JoinColumn(name = "drank_beer_beer_id"))
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "beer_id"))
     Set<Beer> drankList;
 
 
@@ -137,5 +138,7 @@ public class User {
     public void setDrankList(Set<Beer> drankList) {
         this.drankList = drankList;
     }
+
+
 }
 

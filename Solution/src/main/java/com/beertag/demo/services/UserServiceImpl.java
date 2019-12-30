@@ -2,9 +2,7 @@ package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.models.beer.Beer;
-import com.beertag.demo.models.user.User;
-import com.beertag.demo.models.user.UserRegistration;
-import com.beertag.demo.models.user.UserMapper;
+import com.beertag.demo.models.user.*;
 import com.beertag.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,10 +17,12 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
     private UserMapper mapper;
+    private BeerService beerService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserMapper mapper) {
+    public UserServiceImpl(UserRepository userRepository, BeerService beerService, UserMapper mapper) {
         this.userRepository = userRepository;
+        this.beerService = beerService;
         this.mapper = mapper;
     }
 
@@ -37,15 +37,44 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void addBeerToWishList(int userId, int beerId) {
+        User user = getById(userId);
+        Beer beer = beerService.getById(beerId);
+
+        WishList wishList = new WishList();
+        wishList.setUser_id(user.getId());
+        wishList.setBeer_id(beer.getId());
+
+        userRepository.addBeerToWishList(wishList);
+
+    }
+    //TODO
+    @Override
+    public void softDeleteBeerToWishList(int userId, int beerId) {
+
+
+    }
+
+    @Override
     public Set<Beer> getDrankList(int UserId) {
         return userRepository.getDrankList(UserId);
+    }
+
+    @Override
+    public void addBeerToDrankList(int userId, int beerId, int rating) {
+        User user = getById(userId);
+        Beer beer = beerService.getById(beerId);
+        DrankList drankList = new DrankList();
+        drankList.setUserId(user.getId());
+        drankList.setBeerId(beer.getId());
+        userRepository.addBeerToDrankList(drankList);
     }
 
     @Override
     public User createUser(UserRegistration userRegistration) {
         User user = mapper.validationData(userRegistration);
 
-        if (userExist(user.getUsername())) {
+        if (usernameExist(user.getUsername())) {
             throw new DuplicateEntityException(USER_USERNAME_EXISTS, user.getUsername());
         }
 
@@ -77,8 +106,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean userExist(String name) {
-        return userRepository.userExist(name);
+    public boolean usernameExist(String name) {
+        return userRepository.usernameExist(name);
     }
 
     @Override

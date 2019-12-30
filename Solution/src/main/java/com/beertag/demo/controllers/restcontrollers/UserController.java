@@ -1,4 +1,4 @@
-package com.beertag.demo.controllers.restcontrollers;
+package com.beertag.demo.controllers.REST;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
@@ -37,14 +37,23 @@ public class UserController {
         }
     }
 
+    @PostMapping("/wishlist/{userId}/{beerId}")
+    public void addBeerToWishList(@PathVariable int userId, @PathVariable int beerId) {
+        userService.addBeerToWishList(userId, beerId);
+    }
+
     @GetMapping("/dranklist/{userId}")
     public Set<Beer> getDrankList(@PathVariable int userId) {
         try {
             return userService.getDrankList(userId);
-        }
-        catch (EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
+    }
+
+    @PostMapping("/dranklist/{userId}/{beerId}/{rating}")
+    public void addBeerToDrankList(@PathVariable int userId, @PathVariable int beerId, @PathVariable int rating) {
+        userService.addBeerToDrankList(userId, beerId, rating);
     }
 
     @GetMapping

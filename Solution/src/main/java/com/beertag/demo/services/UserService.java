@@ -13,6 +13,12 @@ public interface UserService {
 
     Set<Beer> getWishList(int userId);
 
+    void addBeerToWishList (int userId, int beerId);
+
+    void softDeleteBeerToWishList (int userId, int beerId);
+
+    void addBeerToDrankList (int userId, int beerId, int rating);
+
     Set<Beer> getDrankList(int userId);
 
     User createUser(UserRegistration userRegistration);
@@ -25,7 +31,7 @@ public interface UserService {
 
     User updateUser(User user);
 
-    boolean userExist(String name);
+    boolean usernameExist(String name);
 
     boolean emailExist(String email);
 
