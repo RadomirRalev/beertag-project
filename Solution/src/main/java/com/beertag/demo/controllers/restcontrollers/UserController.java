@@ -41,7 +41,7 @@ public class UserController {
     public void addBeerToWishList(@PathVariable int userId, @PathVariable int beerId) {
         userService.addBeerToWishList(userId, beerId);
     }
-
+ 
     @GetMapping("/dranklist/{userId}")
     public Set<Beer> getDrankList(@PathVariable int userId) {
         try {
