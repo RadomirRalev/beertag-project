@@ -14,7 +14,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@PropertySource(value = "classpath:db.properties")
+@PropertySource(value = "classpath:application.properties")
 public class HibernateConfig {
     private String dbUrl;
     private String dbUserName;

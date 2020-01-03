@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/main.css}" href="../static/css/main.css">
+    <title>All Beers</title>
+
+</head>
+<body>
+
+<div th:if="${beers.isEmpty()}">
+    <h2 th:text="#{beers.emptytitle}">No Beers</h2>
+</div>
+<div th:unless="${beers.isEmpty()}">
+    <h2 th:text="#{beers.title}">Beers</h2>
+
+    <div class="table">
+        <div class="header">
+            <div class="cell" th:text="#{beers.header.name}">Name</div>
+            <div class="cell" th:text="#{beers.header.abv}">ABV</div>
+            <div class="cell" th:text="#{beers.header.style}">Style</div>
+        </div>
+        <div class="row" th:each="beer : ${beers}">
+            <div class="cell" th:text="${beer.name}">Beer</div>
+            <div class="cell" th:text="${beer.abvTag}">4.5</div>
+            <div class="cell" th:text="${beer.style.name}">Style</div>
+        </div>
+    </div>
+</div>
+</body>
+
+</body>
+</html>
