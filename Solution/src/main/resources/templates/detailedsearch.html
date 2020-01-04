@@ -25,30 +25,30 @@
             <div class="row">
               <div class="input-field">
                 <div class="input-select">
-                  <select data-trigger="" name="choices-single-defaul">
+                  <select data-trigger="" name="style">
                     <option placeholder="" value="">Style</option>
                     <option th:each="style : ${styles}"
-                            th:value="${style.id}"
+                            th:value="${style.name}"
                             th:text="${style.getName()}">Subject b</option>
                   </select>
                 </div>
               </div>
               <div class="input-field">
                 <div class="input-select">
-                  <select data-trigger="" name="choices-single-defaul">
+                  <select data-trigger="" name="brewery">
                     <option placeholder="" value="">Brewery</option>
                     <option th:each="brewery : ${breweries}"
-                            th:value="${brewery.id}"
+                            th:value="${brewery.name}"
                             th:text="${brewery.getName()}">Subject b</option>
                   </select>
                 </div>
               </div>
               <div class="input-field">
                 <div class="input-select">
-                  <select data-trigger="" name="choices-single-defaul">
+                  <select data-trigger="" name="tag">
                     <option placeholder="" value="">Tag</option>
                     <option th:each="tags : ${tags}"
-                            th:value="${tags.id}"
+                            th:value="${tags.name}"
                             th:text="${tags.getName()}">Subject b</option>
                   </select>
                 </div>
@@ -57,10 +57,10 @@
             <div class="row second">
               <div class="input-field">
                 <div class="input-select">
-                  <select data-trigger="" name="choices-single-defaul">
+                  <select data-trigger="" name="country">
                     <option placeholder="" value="">Country</option>
                     <option th:each="country : ${countries}"
-                            th:value="${country.id}"
+                            th:value="${country.name}"
                             th:text="${country.getName()}">Subject b</option>
                   </select>
                 </div>
@@ -87,15 +87,15 @@
                 </div>
               </div>
             </div>
+            <form th:action="@{/detailedsearch/result}" method="get">
             <div class="row third">
               <div class="input-field">
                 <div class="group-btn">
-                  <button class="btn-delete" id="delete">RESET</button>
-                  <button class="btn-search">SEARCH</button>
-                  <input type="submit" value="Save"/>
+                  <button type="submit" th:name="action" class="btn-search">SEARCH</button>
                 </div>
               </div>
             </div>
+            </form>
           </div>
         </div>
       </form>

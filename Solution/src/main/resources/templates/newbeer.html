@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new beer</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,600,700" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../detailedsearch.css" th:src="@{detailedsearch.css}"/>
+</head>
+<body>
+<div class="s009">
+    <form action="#" th:action="@{/beers/new}" th:object="${newbeer}" method="post">
+        <div class="form-group">
+            <label for="beername">Beer name</label>
+            <input th:field="*{name}" class="form-control" id="beername" aria-describedby="emailHelp" placeholder="Enter beer name">
+            <small id="beerNameHelp" class="form-text text-muted">Please make sure that name is correctly typed.</small>
+        </div>
+        <div class="form-group">
+            <label for="abv">ABV</label>
+            <input th:field="*{abvTag}" class="form-control" id="abv" aria-describedby="emailHelp" placeholder="Enter beer name">
+            <small id="abvHelp" class="form-text text-muted">Unlike hard liquor, beers aren't measured by proof, but most commonly by alcohol by volume.</small>
+        </div>
+        <div class="form-group">
+            <label for="styleName">Style</label>
+            <select th:field="*{styleId}" class="form-control" id="styleName">
+                <option th:each="style : ${styles}"
+                        th:value="${style.id}"
+                        th:text="${style.getName()}">1</option>
+            </select>
+            <small id="styleHelp" class="form-text text-muted">Please select one of the listed styles or contact our administrator if you don't find it.</small>
+        </div>
+        <div class="form-group">
+            <label for="breweryName">Brewery</label>
+            <select th:field="*{breweryId}" class="form-control" id="breweryName">
+                <option th:each="brewery : ${breweries}"
+                        th:value="${brewery.id}"
+                        th:text="${brewery.getName()}">1</option>
+            </select>
+            <small id="breweryHelp" class="form-text text-muted">Brewing companies range widely in the volume and variety of beer produced, ranging from small breweries, such as Ringwood Brewery, to massive multinational conglomerates.</small>
+        </div>
+        <div class="form-group">
+            <label for="countryName">Country</label>
+            <select th:field="*{originCountryId}" class="form-control" id="countryName">
+                <option th:each="country : ${countries}"
+                        th:value="${country.id}"
+                        th:text="${country.getName()}">1</option>
+            </select>
+            <small id="countryHelp" class="form-text text-muted">Where was it made?</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Please describe the beer:</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <button type="submit" value="Save" class="btn btn-primary">Create</button>
+    </form>
+</div>
+</body>
+</html>

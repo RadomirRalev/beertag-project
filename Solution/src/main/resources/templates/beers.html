@@ -58,7 +58,7 @@
     <div class="row">
         <div class="col-lg-3">
             <div class="mb-4">
-                <div class="small mb-3">Search</div>
+                <div class="small mb-3">Search by name</div>
                 <form th:object="${beers}" th:action="@{/filterbyname}" method="get">
                 <div class="input-group">
                     <input placeholder="Find a beer..." type="text" name="name" id="name">
@@ -67,6 +67,28 @@
                     </div>
                 </div>
             </form>
+            </div>
+            <div class="mb-4">
+                <div class="small mb-3">Search by style</div>
+                <form th:object="${beers}" th:action="@{/filterbystyle}" method="get">
+                    <div class="input-group">
+                        <input placeholder="Find beers by style..." type="text" name="style" id="stylename">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="mb-4">
+                <div class="small mb-3">Search by tag</div>
+                <form th:object="${beers}" th:action="@{/filterbytag}" method="get">
+                    <div class="input-group">
+                        <input placeholder="Find beers by a tag..." type="text" name="tag" id="tagname">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
             </div>
 <!--            <div class="mb-4">-->
 <!--                <div class="small mb-3">Search</div>-->
