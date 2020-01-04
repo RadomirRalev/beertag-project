@@ -1,4 +1,64 @@
-h2 {
-    text-decoration: underline;
-    color: deeppink;
+/*h2 {*/
+/*    text-decoration: underline;*/
+/*    color: deeppink;*/
+/*}*/
+
+/*.table {*/
+/*    display:table;*/
+/*}*/
+/*.header {*/
+/*    display:table-header-group;*/
+/*    font-weight:bold;*/
+/*}*/
+/*.rowGroup {*/
+/*    display:table-row-group;*/
+/*}*/
+/*.row {*/
+/*    display:table-row;*/
+/*}*/
+/*.cell {*/
+/*    display:table-cell;*/
+/*    width:25%;*/
+/*}*/
+/*.error {*/
+/*    color: red;*/
+/*}*/
+
+/*New CSS*/
+
+body{
+    margin-top:20px;
+    background: #FFBF00;
 }
+.avatar--md .avatar__content img{
+    width:40px;
+    height:40px;
+}
+
+a {
+    color: #2E2216;
+    text-decoration: white;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+
+a:hover {
+    color: #2E2216;
+}
+
+.badge-success {
+    color: #fff;
+    background-color: #2E2216;
+}
+
+.fa-gear {
+    color: #2E2216;
+}
+
+.btn-group {
+    color: #2E2216;
+}
+
+
+
+

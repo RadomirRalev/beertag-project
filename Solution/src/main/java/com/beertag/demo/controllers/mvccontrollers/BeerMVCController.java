@@ -3,17 +3,14 @@ package com.beertag.demo.controllers.mvccontrollers;
 import com.beertag.demo.models.DtoMapper;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.BeerDto;
-import com.beertag.demo.services.BeerService;
-import com.beertag.demo.services.StyleService;
-import com.beertag.demo.services.UserService;
+import com.beertag.demo.models.beer.Country;
+import com.beertag.demo.models.beer.Parametres;
+import com.beertag.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -24,13 +21,21 @@ public class BeerMVCController {
     private UserService userService;
     private DtoMapper mapper;
     private StyleService styleService;
+    private BreweryService breweryService;
+    private TagService tagService;
+    private CountryService countryService;
 
     @Autowired
-    public BeerMVCController(BeerService service, DtoMapper mapper, UserService userService, StyleService styleService) {
+    public BeerMVCController(BeerService service, DtoMapper mapper, UserService userService,
+                             StyleService styleService, BreweryService breweryService, TagService tagService,
+                             CountryService countryService) {
         this.service = service;
         this.mapper = mapper;
         this.userService = userService;
         this.styleService = styleService;
+        this.breweryService = breweryService;
+        this.tagService = tagService;
+        this.countryService = countryService;
     }
 
     @GetMapping("/beers")
@@ -67,10 +72,44 @@ public class BeerMVCController {
         return "allbeers";
     }
 
-    @GetMapping("allbeers/{beerId}")
-    public String getBeerById(@PathVariable int beerId, Model model) {
-        Beer beer = service.getById(beerId);
-        model.addAttribute("beer", beer);
-        return "details";
+    @GetMapping("/filterbyname")
+    public String filterByName(@RequestParam(required = false) String name, Model model) {
+        List<Beer> filteredBeers = service.getBeerByName(name);
+        model.addAttribute("beers", filteredBeers);
+        return "beers";
     }
+
+    @GetMapping("/detailedsearch")
+    public String detailedSearchPage(Model model) {
+        model.addAttribute("countries", countryService.getCountriesList());
+        model.addAttribute("styles", styleService.getStylesList());
+        model.addAttribute("breweries", breweryService.getBreweriesList());
+        model.addAttribute("tags", tagService.getTagList());
+        return "detailedsearch";
+    }
+
+    @GetMapping("/detailedsearchresult")
+    public String detailedSearch(@ModelAttribute Parametres parametres,
+                                 @RequestParam(required = false) String style,
+                                 @RequestParam(required = false) String tag,
+                                 Model model) {
+        model.addAttribute("params", new Parametres());
+        List<Beer> filteredBeers = null;
+        if (style != null && !style.isEmpty()) {
+            filteredBeers = service.getBeersByStyleName(style);
+        }
+        if (tag != null && !tag.isEmpty()) {
+            filteredBeers = service.getBeersByTagName(tag);
+        }
+        model.addAttribute("beers", filteredBeers);
+        return "beers";
+    }
+
+
+//    @GetMapping("allbeers/{beerId}")
+//    public String getBeerById(@PathVariable int beerId, Model model) {
+//        Beer beer = service.getById(beerId);
+//        model.addAttribute("beer", beer);
+//        return "details";
+//    }
 }
