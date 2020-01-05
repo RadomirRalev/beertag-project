@@ -3,7 +3,7 @@ package com.beertag.demo.repositories;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.user.DrankList;
-import com.beertag.demo.models.user.User;
+import com.beertag.demo.models.user.UserDetail;
 import com.beertag.demo.models.user.WishList;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -27,20 +27,20 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<UserDetail> getUsers() {
         try (Session session = sessionFactory.openSession()) {
-            Query<User> query = session.createQuery("from User", User.class);
+            Query<UserDetail> query = session.createQuery("from User", UserDetail.class);
             return query.list();
         }
     }
 
     @Override
     public Set<Beer> getWishList(int userId) {
-        User user = getById(userId);
-        if (user.getWishList().isEmpty()) {
+        UserDetail userDetail = getById(userId);
+        if (userDetail.getWishList().isEmpty()) {
             throw new EntityNotFoundException(USER_WISH_EMPTY, userId);
         }
-        return user.getWishList();
+        return userDetail.getWishList();
     }
 
     @Override
@@ -59,11 +59,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Set<Beer> getDrankList(int userId) {
-        User user = getById(userId);
-        if (user.getDrankList().isEmpty()) {
+        UserDetail userDetail = getById(userId);
+        if (userDetail.getDrankList().isEmpty()) {
             throw new EntityNotFoundException(USER_DRANK_EMPTY, userId);
         }
-        return user.getDrankList();
+        return userDetail.getDrankList();
     }
 
     @Override
@@ -75,18 +75,18 @@ public class UserRepositoryImpl implements UserRepository {
 
 
     @Override
-    public User createUser(User user) {
+    public UserDetail createUser(UserDetail userDetail) {
         try (Session session = sessionFactory.openSession()) {
-            session.save(user);
+            session.save(userDetail);
         }
-        return user;
+        return userDetail;
     }
 
     @Override
-    public User getByUsername(String name) {
+    public UserDetail getByUsername(String name) {
         try (Session session = sessionFactory.openSession()) {
-            Query<User> query = session.createQuery("from User" +
-                    " where username = :name and deleted = false ", User.class);
+            Query<UserDetail> query = session.createQuery("from User" +
+                    " where username = :name and deleted = false ", UserDetail.class);
             query.setParameter("name", name);
             if (query.list().size() != 1) {
                 throw new EntityNotFoundException(USER_USERNAME_NOT_FOUND, name);
@@ -97,34 +97,34 @@ public class UserRepositoryImpl implements UserRepository {
 
 
     @Override
-    public User getById(int id) {
+    public UserDetail getById(int id) {
         try (Session session = sessionFactory.openSession()) {
-            User user = session.get(User.class, id);
-            if (user == null || user.isDeleted()) {
+            UserDetail userDetail = session.get(UserDetail.class, id);
+            if (userDetail == null || userDetail.isDeleted()) {
                 throw new EntityNotFoundException(USER_ID_NOT_FOUND, id);
             }
-            return user;
+            return userDetail;
         }
     }
 
     @Override
-    public User updateUser(User user) {
+    public UserDetail updateUser(UserDetail userDetail) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.update(user);
+            session.update(userDetail);
             session.getTransaction().commit();
-            return user;
+            return userDetail;
         }
     }
 
     @Override
-    public void softDeleteUser(User user) {
+    public void softDeleteUser(UserDetail userDetail) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.createQuery("update User " +
+            session.createQuery("update UserDetail " +
                     "set deleted = true " +
                     "where id = :id ")
-                    .setParameter("id", user.getId())
+                    .setParameter("id", userDetail.getId())
                     .executeUpdate();
 
             session.getTransaction()
@@ -135,7 +135,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean usernameExist(String name) {
         try (Session session = sessionFactory.openSession()) {
-            return !session.createQuery("from User where username = :name", User.class)
+            return !session.createQuery("from User where username = :name", UserDetail.class)
                     .setParameter("name", name)
                     .list().isEmpty();
         }
@@ -144,7 +144,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean emailExist(String email) {
         try (Session session = sessionFactory.openSession()) {
-            return !session.createQuery("from User where email = :email", User.class)
+            return !session.createQuery("from User where email = :email", UserDetail.class)
                     .setParameter("email", email)
                     .list().isEmpty();
         }

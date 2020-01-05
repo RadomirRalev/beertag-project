@@ -6,7 +6,7 @@ import com.beertag.demo.exceptions.InvalidPermission;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Rating;
 import com.beertag.demo.models.beer.Tag;
-import com.beertag.demo.models.user.User;
+import com.beertag.demo.models.user.UserDetail;
 import com.beertag.demo.repositories.BeerRepository;
 import com.beertag.demo.repositories.RatingRepository;
 import com.beertag.demo.repositories.TagRepository;
@@ -14,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static com.beertag.demo.exceptions.Constants.*;
 
@@ -109,10 +107,10 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public Beer update(int id, Beer beerToBeUpdated, User requestUser) {
-        if (beerToBeUpdated.getCreatedBy().getId() != requestUser.getId() &&
-                requestUser.getRoles().stream().noneMatch(role -> role.getName().equals("admin"))){
-            throw new InvalidPermission(USER_CAN_NOT_MODIFY,requestUser.getUsername(),beerToBeUpdated.getName());
+    public Beer update(int id, Beer beerToBeUpdated, UserDetail requestUserDetail) {
+        if (beerToBeUpdated.getCreatedBy().getId() != requestUserDetail.getId() &&
+                requestUserDetail.getRoles().stream().noneMatch(role -> role.getRole().equals("admin"))){
+            throw new InvalidPermission(USER_CAN_NOT_MODIFY, requestUserDetail.getUsername(),beerToBeUpdated.getName());
         }
             return repository.update(id, beerToBeUpdated);
     }

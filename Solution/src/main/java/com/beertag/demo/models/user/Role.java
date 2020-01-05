@@ -3,32 +3,34 @@ package com.beertag.demo.models.user;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "role")
+@Table(name = "authorities")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id")
-    private int id;
+    @Column(name = "username")
+   private String username;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "authority")
+    private String role;
 
     public Role() {
     }
 
-    public int getId() {
-        return id;
+    public String getUsername() {
+        return username;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getName() {
-        return name;
+    public String getRole() {
+        return role;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRole(String role) {
+        this.role = role;
     }
 }
+
+

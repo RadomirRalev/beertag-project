@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<UserDetail> getUsers() {
         return userRepository.getUsers();
     }
 
@@ -38,11 +38,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addBeerToWishList(int userId, int beerId) {
-        User user = getById(userId);
+        UserDetail userDetail = getById(userId);
         Beer beer = beerService.getById(beerId);
 
         WishList wishList = new WishList();
-        wishList.setUser_id(user.getId());
+        wishList.setUser_id(userDetail.getId());
         wishList.setBeer_id(beer.getId());
 
         userRepository.addBeerToWishList(wishList);
@@ -62,47 +62,47 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addBeerToDrankList(int userId, int beerId, int rating) {
-        User user = getById(userId);
+        UserDetail userDetail = getById(userId);
         Beer beer = beerService.getById(beerId);
         DrankList drankList = new DrankList();
-        drankList.setUserId(user.getId());
+        drankList.setUserId(userDetail.getId());
         drankList.setBeerId(beer.getId());
         userRepository.addBeerToDrankList(drankList);
     }
 
     @Override
-    public User createUser(UserRegistration userRegistration) {
-        User user = mapper.validationData(userRegistration);
+    public UserDetail createUser(UserRegistration userRegistration) {
+        UserDetail userDetail = mapper.validationData(userRegistration);
 
-        if (usernameExist(user.getUsername())) {
-            throw new DuplicateEntityException(USER_USERNAME_EXISTS, user.getUsername());
+        if (usernameExist(userDetail.getUsername())) {
+            throw new DuplicateEntityException(USER_USERNAME_EXISTS, userDetail.getUsername());
         }
 
-        if (emailExist(user.getEmail())) {
-            throw new DuplicateEntityException(USER_EMAIL_EXISTS, user.getEmail());
+        if (emailExist(userDetail.getEmail())) {
+            throw new DuplicateEntityException(USER_EMAIL_EXISTS, userDetail.getEmail());
         }
 
-        return userRepository.createUser(user);
+        return userRepository.createUser(userDetail);
     }
 
     @Override
-    public User getByUsername(String name) {
+    public UserDetail getByUsername(String name) {
         return userRepository.getByUsername(name);
     }
 
     @Override
-    public User getById(int id) {
+    public UserDetail getById(int id) {
         return userRepository.getById(id);
     }
 
     @Override
-    public void softDeleteUser(User user) {
-        userRepository.softDeleteUser(user);
+    public void softDeleteUser(UserDetail userDetail) {
+        userRepository.softDeleteUser(userDetail);
     }
 
     @Override
-    public User updateUser(User user) {
-        return userRepository.updateUser(user);
+    public UserDetail updateUser(UserDetail userDetail) {
+        return userRepository.updateUser(userDetail);
     }
 
     @Override

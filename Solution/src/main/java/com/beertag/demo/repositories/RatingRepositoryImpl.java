@@ -1,19 +1,12 @@
 package com.beertag.demo.repositories;
 
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.models.beer.Beer;
-import com.beertag.demo.models.beer.Country;
 import com.beertag.demo.models.beer.Rating;
-import com.beertag.demo.models.user.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
