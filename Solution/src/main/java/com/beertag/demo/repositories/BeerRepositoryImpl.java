@@ -70,6 +70,24 @@ public class BeerRepositoryImpl implements BeerRepository {
     }
 
     @Override
+    public List<Beer> getBeersByBreweryName(String breweryName) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Beer> query = session.createQuery("from Beer where brewery.name LIKE :breweryName", Beer.class);
+            query.setParameter("breweryName", "%" + breweryName + "%");
+            return query.list();
+        }
+    }
+
+    @Override
+    public List<Beer> getBeersByOriginCountry(String originCountry) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Beer> query = session.createQuery("from Beer where originCountry.name = :originCountry", Beer.class);
+            query.setParameter("originCountry", originCountry);
+            return query.list();
+        }
+    }
+
+    @Override
     public List<Beer> getBeersByCountryId(int countryId) {
         try (Session session = sessionFactory.openSession()) {
             Query<Beer> query = session.createQuery("from Beer where originCountry.id = :countryId", Beer.class);

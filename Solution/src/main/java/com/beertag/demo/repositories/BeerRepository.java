@@ -20,6 +20,10 @@ public interface BeerRepository {
 
     void deleteBeer(int id);
 
+    List<Beer> getBeersByBreweryName(String breweryName);
+
+    List<Beer> getBeersByOriginCountry(String originCountry);
+
     boolean checkBeerExists(String name);
 
     Beer update(int id, Beer beerToUpdate);

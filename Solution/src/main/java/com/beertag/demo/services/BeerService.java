@@ -23,5 +23,9 @@ public interface BeerService {
 
     List<Beer> getBeersByTagName(String tagName);
 
+    List<Beer> getBeersByBreweryName(String breweryName);
+
+    List<Beer> getBeersByOriginCountry(String originCountry);
+
     void updateAvgRatingOfBeer(int beerId);
 }

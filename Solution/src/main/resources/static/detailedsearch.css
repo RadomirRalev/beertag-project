@@ -591,6 +591,10 @@ legend {
   overflow: hidden;
 }
 
+.s009 {
+  overflow: auto;
+}
+
 .is-focused .choices__inner, .is-open .choices__inner .emptyboxtext {
   border-color: #b7b7b7;
 }

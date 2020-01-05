@@ -1,8 +1,8 @@
 package com.beertag.demo.controllers.mvccontrollers;
 
+import com.beertag.demo.helpers.BeerCollectionHelper;
 import com.beertag.demo.models.DtoMapper;
-import com.beertag.demo.models.beer.Beer;
-import com.beertag.demo.models.beer.BeerDto;
+import com.beertag.demo.models.beer.*;
 import com.beertag.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,15 +53,15 @@ public class BeerMVCController {
     }
 
     @PostMapping("beers/new")
-    public String createBeer(@Valid @ModelAttribute("beer") BeerDto beer, BindingResult errors) {
+    public String createBeer(@Valid @ModelAttribute("beer") BeerDto beer, BindingResult errors, Model model) {
         if (errors.hasErrors()) {
             return "beer";
         }
         Beer toCreate = new Beer();
         toCreate.setName(beer.getName());
         toCreate.setAbvTag(beer.getAbvTag());
-        toCreate.setStyle(styleService.getStyleById(beer.getStyleId()));
         toCreate.setOriginCountry(countryService.getCountryById(beer.getOriginCountryId()));
+        toCreate.setStyle(styleService.getStyleById(beer.getStyleId()));
         toCreate.setBrewery(breweryService.getBreweryById(beer.getBreweryId()));
         service.createBeer(toCreate);
         return "redirect:/beers";
@@ -96,37 +96,43 @@ public class BeerMVCController {
         return "beers";
     }
 
-    @GetMapping("/detailedsearch")
-    public String detailedSearchPage(Model model) {
-        model.addAttribute("countries", countryService.getCountriesList());
-        model.addAttribute("styles", styleService.getStylesList());
-        model.addAttribute("breweries", breweryService.getBreweriesList());
-        model.addAttribute("tags", tagService.getTagList());
-        return "detailedsearch";
-    }
-
-    @GetMapping("/detailedsearch/result")
-    public String detailedSearchResult(@RequestParam(required = false) String style,
-                                       @RequestParam(required = false) String tag,
-                                       Model model) {
-        List<Beer> result = null;
-        if (style != null && !style.isEmpty()) {
-            result = service.getBeerByName(style);
-        }
-        if (tag != null && !tag.isEmpty()) {
-            result = service.getBeersByTagName(tag);
-        }
-        model.addAttribute("beers", result);
-        return "beers";
-    }
-
-
-
-
 //    @GetMapping("allbeers/{beerId}")
 //    public String getBeerById(@PathVariable int beerId, Model model) {
 //        Beer beer = service.getById(beerId);
 //        model.addAttribute("beer", beer);
 //        return "details";
 //    }
+
+    @GetMapping("/beers/advancedsearch")
+    public String filterBeers(Model model){
+        List<Style> stylesList = styleService.getStylesList();
+        List<Tag> tagsList = tagService.getTagList();
+        List<Country> countriesList = countryService.getCountriesList();
+        List<Brewery> breweriesList = breweryService.getBreweriesList();
+        model.addAttribute("styles", stylesList);
+        model.addAttribute("tags", tagsList);
+        model.addAttribute("countries", countriesList);
+        model.addAttribute("breweries", breweriesList);
+        model.addAttribute("parametres", new Parametres());
+        return "detailedsearch";
+    }
+
+    @GetMapping("/beers/filter")
+    public String getFilterBeers(@ModelAttribute Parametres parametres,
+                                 @RequestParam(required = false) String style,
+                                 @RequestParam(required = false) String tag,
+                                 @RequestParam(required = false) String brewery,
+                                 @RequestParam(required = false) String country,
+                                 @RequestParam(required = false) String alcohol,
+                                 @RequestParam(required = false) String sortType,
+                                 Model model) {
+        style = parametres.getStyleSearch();
+        tag = parametres.getTagSearch();
+        brewery = parametres.getBrewerySearch();
+        country = parametres.getCountrySearch();
+        List<Beer> result = BeerCollectionHelper.filterBeersList(style, tag, brewery, country, alcohol, service);
+        result = BeerCollectionHelper.sortBeersList(result, sortType);
+        model.addAttribute("beers", result);
+        return "beers";
+    }
 }

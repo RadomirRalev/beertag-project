@@ -8,7 +8,7 @@
   </head>
   <body>
     <div class="s009">
-       <form>
+       <form  action="#" th:action="@{/beers/filter}" th:object="${parametres}" method="get">
         <div class="inner-form">
           <div class="basic-search">
             <div class="input-field">
@@ -25,8 +25,8 @@
             <div class="row">
               <div class="input-field">
                 <div class="input-select">
-                  <select data-trigger="" name="style">
-                    <option placeholder="" value="">Style</option>
+                  <select th:field="*{styleSearch}">
+                    <option name="style" value="">Style</option>
                     <option th:each="style : ${styles}"
                             th:value="${style.name}"
                             th:text="${style.getName()}">Subject b</option>
@@ -35,7 +35,7 @@
               </div>
               <div class="input-field">
                 <div class="input-select">
-                  <select data-trigger="" name="brewery">
+                  <select th:field="*{brewerySearch}">
                     <option placeholder="" value="">Brewery</option>
                     <option th:each="brewery : ${breweries}"
                             th:value="${brewery.name}"
@@ -45,7 +45,7 @@
               </div>
               <div class="input-field">
                 <div class="input-select">
-                  <select data-trigger="" name="tag">
+                  <select th:field="*{tagSearch}">
                     <option placeholder="" value="">Tag</option>
                     <option th:each="tags : ${tags}"
                             th:value="${tags.name}"
@@ -57,7 +57,7 @@
             <div class="row second">
               <div class="input-field">
                 <div class="input-select">
-                  <select data-trigger="" name="country">
+                  <select th:field="*{countrySearch}">
                     <option placeholder="" value="">Country</option>
                     <option th:each="country : ${countries}"
                             th:value="${country.name}"
@@ -67,22 +67,21 @@
               </div>
               <div class="input-field">
                 <div class="input-select">
-                  <select data-trigger="" name="choices-single-defaul">
-                    <option placeholder="" value="">Time</option>
-                    <option>Last time</option>
-                    <option>Today</option>
-                    <option>This week</option>
-                    <option>This month</option>
-                    <option>This year</option>
+                  <select data-trigger="" name="alcohol">
+                    <option placeholder="" value="">Alcohol</option>
+                    <option>Low</option>
+                    <option>Medium</option>
+                    <option>High</option>
                   </select>
                 </div>
               </div>
               <div class="input-field">
                 <div class="input-select">
-                  <select data-trigger="" name="choices-single-defaul">
-                    <option placeholder="" value="">Type</option>
-                    <option>Subject b</option>
-                    <option>Subject c</option>
+                  <select data-trigger="" name="sortType">
+                    <option placeholder="" value="">Sort by</option>
+                    <option>Name</option>
+                    <option>ABV</option>
+                    <option>Rating</option>
                   </select>
                 </div>
               </div>

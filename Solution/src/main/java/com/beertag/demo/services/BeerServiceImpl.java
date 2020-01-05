@@ -67,6 +67,24 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
+    public List<Beer> getBeersByBreweryName(String breweryName) {
+        try {
+            return repository.getBeersByBreweryName(breweryName);
+        } catch (EntityNotFoundException ex) {
+            throw new EntityNotFoundException(BREWERY_NAME_NOT_FOUND, breweryName);
+        }
+    }
+
+    @Override
+    public List<Beer> getBeersByOriginCountry(String originCountry) {
+        try {
+            return repository.getBeersByOriginCountry(originCountry);
+        } catch (EntityNotFoundException ex) {
+            throw new EntityNotFoundException(COUNTRY_NAME_NOT_FOUND, originCountry);
+        }
+    }
+
+    @Override
     public List<Beer> getBeersByTagName(String tagName) {
         List<Beer> listB = new ArrayList<>();
         List<Tag> tag = tagRepository.getTagByName(tagName);
