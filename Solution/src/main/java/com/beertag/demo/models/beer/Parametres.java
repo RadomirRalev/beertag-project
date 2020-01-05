@@ -1,21 +1,37 @@
 package com.beertag.demo.models.beer;
 
 public class Parametres {
-    public String styleSearch;
-    public String countrySearch;
-    public String tagSearch;
-    public String brewerySearch;
-    public String alcoholSearch;
+    private String nameParam;
+    private double abvParam;
+    private String descriptionParam;
+    private String styleSearch;
+    private String countrySearch;
+    private String tagSearch;
+    private String brewerySearch;
+    private String alcoholSearch;
+    private int styleParamId;
+    private int countryParamId;
+    private int breweryParamId;
+
 
     public Parametres() {
     }
 
-    public Parametres(String styleSearch, String countrySearch, String tagSearch, String brewerySearch, String alcoholSearch) {
+    public Parametres(String styleSearch, String countrySearch, String tagSearch,
+                      String brewerySearch, String alcoholSearch, String nameParam,
+                      double abvParam, String descriptionParam, int styleParamId,
+                      int countryParamId, int breweryParamId) {
         this.styleSearch = styleSearch;
         this.countrySearch = countrySearch;
         this.tagSearch = tagSearch;
         this.brewerySearch = brewerySearch;
         this.alcoholSearch = alcoholSearch;
+        this.nameParam = nameParam;
+        this.abvParam = abvParam;
+        this.descriptionParam = descriptionParam;
+        this.styleParamId = styleParamId;
+        this.countryParamId = countryParamId;
+        this.breweryParamId = breweryParamId;
     }
 
     public String getStyleSearch() {
@@ -56,5 +72,53 @@ public class Parametres {
 
     public void setAlcoholSearch(String alcoholSearch) {
         this.alcoholSearch = alcoholSearch;
+    }
+
+    public String getNameParam() {
+        return nameParam;
+    }
+
+    public void setNameParam(String name) {
+        this.nameParam = name;
+    }
+
+    public double getAbvParam() {
+        return abvParam;
+    }
+
+    public void setAbvParam(double abvParam) {
+        this.abvParam = abvParam;
+    }
+
+    public String getDescriptionParam() {
+        return descriptionParam;
+    }
+
+    public void setDescriptionParam(String descriptionParam) {
+        this.descriptionParam = descriptionParam;
+    }
+
+    public int getStyleParamId() {
+        return styleParamId;
+    }
+
+    public void setStyleParamId(int styleParamId) {
+        this.styleParamId = styleParamId;
+    }
+
+    public int getCountryParamId() {
+        return countryParamId;
+    }
+
+    public void setCountryParamId(int countryParamId) {
+        this.countryParamId = countryParamId;
+    }
+
+    public int getBreweryParamId() {
+        return breweryParamId;
+    }
+
+    public void setBreweryParamId(int breweryParamId) {
+        this.breweryParamId = breweryParamId;
     }
 }

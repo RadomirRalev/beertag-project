@@ -5,12 +5,11 @@ import com.beertag.demo.models.DtoMapper;
 import com.beertag.demo.models.beer.*;
 import com.beertag.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -44,28 +43,56 @@ public class BeerMVCController {
 
     @GetMapping("beers/new")
     public String showNewBeerForm(Model model) {
-        model.addAttribute("newbeer", new BeerDto());
-        model.addAttribute("countries", countryService.getCountriesList());
-        model.addAttribute("styles", styleService.getStylesList());
-        model.addAttribute("breweries", breweryService.getBreweriesList());
-        model.addAttribute("tags", tagService.getTagList());
+        List<Style> stylesList = styleService.getStylesList();
+        List<Tag> tagsList = tagService.getTagList();
+        List<Country> countriesList = countryService.getCountriesList();
+        List<Brewery> breweriesList = breweryService.getBreweriesList();
+        model.addAttribute("styles", stylesList);
+        model.addAttribute("tags", tagsList);
+        model.addAttribute("countries", countriesList);
+        model.addAttribute("breweries", breweriesList);
+        model.addAttribute("parametres", new Parametres());
         return "newbeer";
     }
 
-    @PostMapping("beers/new")
-    public String createBeer(@Valid @ModelAttribute("beer") BeerDto beer, BindingResult errors, Model model) {
-        if (errors.hasErrors()) {
-            return "beer";
-        }
-        Beer toCreate = new Beer();
-        toCreate.setName(beer.getName());
-        toCreate.setAbvTag(beer.getAbvTag());
-        toCreate.setOriginCountry(countryService.getCountryById(beer.getOriginCountryId()));
-        toCreate.setStyle(styleService.getStyleById(beer.getStyleId()));
-        toCreate.setBrewery(breweryService.getBreweryById(beer.getBreweryId()));
-        service.createBeer(toCreate);
+
+    @PostMapping("beers/create")
+    public String createBeer(@ModelAttribute Parametres parametres) {
+        Beer newBeer = new Beer();
+        newBeer.setName(parametres.getNameParam());
+        newBeer.setAbvTag(parametres.getAbvParam());
+        newBeer.setDescription(parametres.getDescriptionParam());
+        newBeer.setStyle(styleService.getStyleById(parametres.getStyleParamId()));
+        newBeer.setBrewery(breweryService.getBreweryById(parametres.getBreweryParamId()));
+        newBeer.setOriginCountry(countryService.getCountryById(parametres.getCountryParamId()));
+        service.createBeer(newBeer);
         return "redirect:/beers";
     }
+
+//    @GetMapping("beers/new")
+//    public String showNewBeerForm(Model model) {
+//        model.addAttribute("newbeer", new BeerDto());
+//        model.addAttribute("countries", countryService.getCountriesList());
+//        model.addAttribute("styles", styleService.getStylesList());
+//        model.addAttribute("breweries", breweryService.getBreweriesList());
+//        model.addAttribute("tags", tagService.getTagList());
+//        return "newbeer";
+//    }
+//
+//    @PostMapping("beers/new")
+//    public String createBeer(@Valid @ModelAttribute("beer") BeerDto beer, BindingResult errors, Model model) {
+//        if (errors.hasErrors()) {
+//            return "beer";
+//        }
+//        Beer toCreate = new Beer();
+//        toCreate.setName(beer.getName());
+//        toCreate.setAbvTag(beer.getAbvTag());
+//        toCreate.setOriginCountry(countryService.getCountryById(beer.getOriginCountryId()));
+//        toCreate.setStyle(styleService.getStyleById(beer.getStyleId()));
+//        toCreate.setBrewery(breweryService.getBreweryById(beer.getBreweryId()));
+//        service.createBeer(toCreate);
+//        return "redirect:/beers";
+//    }
 
     @GetMapping("/allbeers")
     public String getBeersList(Model model) {
