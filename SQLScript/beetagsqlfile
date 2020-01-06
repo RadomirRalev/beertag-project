@@ -24,8 +24,10 @@ CREATE TABLE IF NOT EXISTS `authorities` (
   CONSTRAINT `authorities_fk` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table beer.authorities: ~4 rows (approximately)
+-- Dumping data for table beer.authorities: ~1 rows (approximately)
 /*!40000 ALTER TABLE `authorities` DISABLE KEYS */;
+REPLACE INTO `authorities` (`username`, `authority`) VALUES
+	('atomik', 'ROLE_USER');
 /*!40000 ALTER TABLE `authorities` ENABLE KEYS */;
 
 -- Dumping structure for table beer.beer
@@ -48,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `beer` (
   CONSTRAINT `beer_brewery__fk` FOREIGN KEY (`beer_brewery_fk`) REFERENCES `brewery` (`brewery_id`),
   CONSTRAINT `beer_country__fk` FOREIGN KEY (`beer_country_fk`) REFERENCES `country` (`country_id`),
   CONSTRAINT `beer_style__fk` FOREIGN KEY (`beer_style_fk`) REFERENCES `style` (`style_id`),
-  CONSTRAINT `created_by` FOREIGN KEY (`created_by`) REFERENCES `user` (`user_id`)
+  CONSTRAINT `created_by` FOREIGN KEY (`created_by`) REFERENCES `user_details` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table beer.beer: ~10 rows (approximately)
@@ -143,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `drank_beer` (
   KEY `drank_beer_user_user_id_fk` (`drank_beer_user_id`),
   KEY `drank_beer_beer_beer_id_fk` (`drank_beer_beer_id`),
   CONSTRAINT `drank_beer_beer_beer_id_fk` FOREIGN KEY (`drank_beer_beer_id`) REFERENCES `beer` (`beer_id`),
-  CONSTRAINT `drank_beer_user_user_id_fk` FOREIGN KEY (`drank_beer_user_id`) REFERENCES `user` (`user_id`)
+  CONSTRAINT `drank_beer_user_user_id_fk` FOREIGN KEY (`drank_beer_user_id`) REFERENCES `user_details` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table beer.drank_beer: ~10 rows (approximately)
@@ -226,8 +228,22 @@ REPLACE INTO `tag` (`tag_id`, `name`) VALUES
 	(10, 'Brown');
 /*!40000 ALTER TABLE `tag` ENABLE KEYS */;
 
--- Dumping structure for table beer.user
-CREATE TABLE IF NOT EXISTS `user` (
+-- Dumping structure for table beer.users
+CREATE TABLE IF NOT EXISTS `users` (
+  `username` varchar(50) NOT NULL,
+  `password` varchar(68) NOT NULL,
+  `enabled` tinyint(4) NOT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table beer.users: ~1 rows (approximately)
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+REPLACE INTO `users` (`username`, `password`, `enabled`) VALUES
+	('atomik', '{noop}adidas', 1);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+
+-- Dumping structure for table beer.user_details
+CREATE TABLE IF NOT EXISTS `user_details` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `first_name` varchar(60) DEFAULT NULL,
   `last_name` varchar(60) DEFAULT NULL,
@@ -239,9 +255,9 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Dumping data for table beer.user: ~7 rows (approximately)
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-REPLACE INTO `user` (`user_id`, `first_name`, `last_name`, `nickname`, `email`, `picture`, `deleted`, `password`) VALUES
+-- Dumping data for table beer.user_details: ~7 rows (approximately)
+/*!40000 ALTER TABLE `user_details` DISABLE KEYS */;
+REPLACE INTO `user_details` (`user_id`, `first_name`, `last_name`, `nickname`, `email`, `picture`, `deleted`, `password`) VALUES
 	(1, 'Petar', 'Petrov', 'p3sho_93', 'pesho@gmail.com', NULL, 0, 'sdfgfdg'),
 	(2, 'Jonh', '', 'Jony_123', 'Jony@gmail.com', NULL, 0, 'dafgfdgdafg'),
 	(3, '', '', 'beer_master', 'master_beer@yahoo.com', NULL, 0, 'gaafgg'),
@@ -249,19 +265,7 @@ REPLACE INTO `user` (`user_id`, `first_name`, `last_name`, `nickname`, `email`, 
 	(5, '', 'Petrov', 'noFear', 'igracha@gmail.com', NULL, 0, 'afdhhtr'),
 	(6, 'Allah', 'Mehmedov', 'bai_mangal_jelezoto', 'ciganina_bate@gmail.com', NULL, 0, 'qrtrtreg'),
 	(7, 'Allaha', 'aaaaaaaaa', 'aaaaaaa', 'aaaaaaaa', NULL, 0, 'hgjhfjfh');
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-
--- Dumping structure for table beer.users
-CREATE TABLE IF NOT EXISTS `users` (
-  `username` varchar(50) NOT NULL,
-  `password` varchar(68) NOT NULL,
-  `enabled` tinyint(4) NOT NULL,
-  PRIMARY KEY (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- Dumping data for table beer.users: ~3 rows (approximately)
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+/*!40000 ALTER TABLE `user_details` ENABLE KEYS */;
 
 -- Dumping structure for table beer.user_role
 CREATE TABLE IF NOT EXISTS `user_role` (
@@ -270,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `user_role` (
   KEY `FK_user_roles_roles` (`role_id`),
   KEY `FK_user_roles_user` (`user_id`),
   CONSTRAINT `FK_user_roles_roles` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`),
-  CONSTRAINT `FK_user_roles_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+  CONSTRAINT `FK_user_roles_user` FOREIGN KEY (`user_id`) REFERENCES `user_details` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table beer.user_role: ~0 rows (approximately)
@@ -286,7 +290,7 @@ CREATE TABLE IF NOT EXISTS `wish_beer` (
   KEY `wish_beer_user_user_id_fk` (`user_user_id`),
   KEY `wish_beer_beer_beer_id_fk` (`beer_beer_id`),
   CONSTRAINT `wish_beer_beer_beer_id_fk` FOREIGN KEY (`beer_beer_id`) REFERENCES `beer` (`beer_id`),
-  CONSTRAINT `wish_beer_user_user_id_fk` FOREIGN KEY (`user_user_id`) REFERENCES `user` (`user_id`)
+  CONSTRAINT `wish_beer_user_user_id_fk` FOREIGN KEY (`user_user_id`) REFERENCES `user_details` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table beer.wish_beer: ~0 rows (approximately)
