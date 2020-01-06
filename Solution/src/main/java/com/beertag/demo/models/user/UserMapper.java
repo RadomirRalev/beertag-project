@@ -13,7 +13,7 @@ public class UserMapper {
         if (isUserAdult(userRegistration.getDay(), userRegistration.getMonth(), userRegistration.getBirthYear())) {
 
             UserDetail userDetail = new UserDetail(userRegistration.getFirstName(), userRegistration.getLastName(),
-                    userRegistration.getUsername(), userRegistration.getEmail(), userRegistration.getPassword());
+                    userRegistration.getUsername(), userRegistration.getEmail());
 
             setOptionalFields(userDetail);
             return userDetail;

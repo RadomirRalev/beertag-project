@@ -108,10 +108,10 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public Beer update(int id, Beer beerToBeUpdated, UserDetail requestUserDetail) {
-        if (beerToBeUpdated.getCreatedBy().getId() != requestUserDetail.getId() &&
-                requestUserDetail.getRoles().stream().noneMatch(role -> role.getRole().equals("admin"))){
-            throw new InvalidPermission(USER_CAN_NOT_MODIFY, requestUserDetail.getUsername(),beerToBeUpdated.getName());
-        }
+//        if (beerToBeUpdated.getCreatedBy().getId() != requestUserDetail.getId() &&
+//                requestUserDetail.getRoles().stream().noneMatch(role -> role.getRole().equals("admin"))){
+//            throw new InvalidPermission(USER_CAN_NOT_MODIFY, requestUserDetail.getUsername(),beerToBeUpdated.getName());
+//        }
             return repository.update(id, beerToBeUpdated);
     }
 
