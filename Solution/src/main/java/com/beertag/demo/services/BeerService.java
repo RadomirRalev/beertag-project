@@ -1,6 +1,7 @@
 package com.beertag.demo.services;
 
 import com.beertag.demo.models.beer.Beer;
+import com.beertag.demo.models.beer.Tag;
 import com.beertag.demo.models.user.UserDetail;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public interface BeerService {
 
     void deleteBeer(int id);
 
-    Beer update(int id, Beer beerToBeUpdated, UserDetail userDetail);
+    Beer update(int id, Beer beerToBeUpdated);
 
     List<Beer> getBeersByStyleName(String styleName);
 
@@ -28,4 +29,6 @@ public interface BeerService {
     List<Beer> getBeersByOriginCountry(String originCountry);
 
     void updateAvgRatingOfBeer(int beerId);
+
+    List<Tag> getTags(int id);
 }

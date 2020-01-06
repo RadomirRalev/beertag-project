@@ -9,10 +9,10 @@ public class Parametres {
     private String tagSearch;
     private String brewerySearch;
     private String alcoholSearch;
+    private int beerId;
     private int styleParamId;
     private int countryParamId;
     private int breweryParamId;
-
 
     public Parametres() {
     }
@@ -20,7 +20,7 @@ public class Parametres {
     public Parametres(String styleSearch, String countrySearch, String tagSearch,
                       String brewerySearch, String alcoholSearch, String nameParam,
                       double abvParam, String descriptionParam, int styleParamId,
-                      int countryParamId, int breweryParamId) {
+                      int countryParamId, int breweryParamId, int beerId) {
         this.styleSearch = styleSearch;
         this.countrySearch = countrySearch;
         this.tagSearch = tagSearch;
@@ -32,6 +32,7 @@ public class Parametres {
         this.styleParamId = styleParamId;
         this.countryParamId = countryParamId;
         this.breweryParamId = breweryParamId;
+        this.beerId = beerId;
     }
 
     public String getStyleSearch() {
@@ -120,5 +121,13 @@ public class Parametres {
 
     public void setBreweryParamId(int breweryParamId) {
         this.breweryParamId = breweryParamId;
+    }
+
+    public int getBeerId() {
+        return beerId;
+    }
+
+    public void setBeerId(int beerId) {
+        this.beerId = beerId;
     }
 }

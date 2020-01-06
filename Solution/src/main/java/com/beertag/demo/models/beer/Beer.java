@@ -4,7 +4,6 @@ import com.beertag.demo.models.user.UserDetail;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.sql.Blob;
 import java.util.Base64;
 import java.util.List;
 

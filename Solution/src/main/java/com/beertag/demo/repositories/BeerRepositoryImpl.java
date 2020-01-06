@@ -2,7 +2,7 @@ package com.beertag.demo.repositories;
 
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.beer.Beer;
-import com.beertag.demo.models.beer.Rating;
+import com.beertag.demo.models.beer.Tag;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -132,7 +132,6 @@ public class BeerRepositoryImpl implements BeerRepository {
     public Beer update(int id, Beer beerToUpdate) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-
             session.update(beerToUpdate);
             session.getTransaction().commit();
             return beerToUpdate;
@@ -146,6 +145,17 @@ public class BeerRepositoryImpl implements BeerRepository {
             Beer beerToBeUpdated = session.get(Beer.class, beerId);
             beerToBeUpdated.setAvgRating(avgRating);
             session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public List<Tag> getBeerTags(int beerId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Tag> query = session.createNativeQuery("select * from tag" +
+                    " join beertag on beertag.tag_tag_id = tag.tag_id" +
+                    " where beertag.beer_beer_id = :beerId", Tag.class);
+            query.setParameter("beerId", beerId);
+            return query.list();
         }
     }
 }

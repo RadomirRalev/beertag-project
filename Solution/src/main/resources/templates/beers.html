@@ -1,41 +1,8 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <link rel="stylesheet" th:href="@{/main.css}" href="../static/css/main.css">-->
-<!--    <title>All Beers</title>-->
-
-<!--</head>-->
-<!--<body>-->
-
-<!--<div th:if="${beers.isEmpty()}">-->
-<!--    <h2 th:text="#{beers.emptytitle}">No Beers</h2>-->
-<!--</div>-->
-<!--<div th:unless="${beers.isEmpty()}">-->
-<!--    <h2 th:text="#{beers.title}">Beers</h2>-->
-
-<!--    <div class="table">-->
-<!--        <div class="header">-->
-<!--            <div class="cell" th:text="#{beers.header.name}">Name</div>-->
-<!--            <div class="cell" th:text="#{beers.header.abv}">ABV</div>-->
-<!--            <div class="cell" th:text="#{beers.header.style}">Style</div>-->
-<!--        </div>-->
-<!--        <div class="row" th:each="beer : ${beers}">-->
-<!--            <div class="cell" th:text="${beer.name}">Beer</div>-->
-<!--            <div class="cell" th:text="${beer.abvTag}">4.5</div>-->
-<!--            <div class="cell" th:text="${beer.style.name}">Style</div>-->
-<!--        </div>-->
-<!--    </div>-->
-
-<!--&lt;!&ndash;    New HTML&ndash;&gt;-->
-
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <!--  This file has been downloaded from https://bootdey.com  -->
-    <!--  All snippets are MIT license https://bootdey.com/license -->
     <title>Beertag</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -68,15 +35,6 @@
                 </div>
             </form>
             </div>
-<!--            <div class="mb-4">-->
-<!--                <div class="small mb-3">Search</div>-->
-<!--                <div class="input-group">-->
-<!--                    <input type="text" name="name"/>-->
-<!--                    <div class="input-group-append">-->
-<!--                        <button class="btn btn-secondary"><i class="fa fa-search"></i></button>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
             <div class="mb-4">
                 <div class="small mb-3">Dig in deeper</div>
                 <ul class="nav flex-column nav-pills">
@@ -89,90 +47,31 @@
                     <li class="nav-item"><a th:href="@{/beers/new}" class="nav-link"><i class="fa fa-fw fa-plus mr-2"></i>Add New Beer</a></li>
                 </ul>
             </div>
-<!--            <div class="mb-4">-->
-<!--                <div class="small mb-3">People</div>-->
-<!--                <ul class="nav flex-column nav-pills">-->
-<!--                    <li class="nav-item">-->
-<!--                        <a href="#" class="d-flex nav-link">-->
-<!--                            <div class="media">-->
-<!--                                <div class="mr-3 align-self-center media-left media-middle">-->
-<!--                                    <div class="avatar-image avatar-image&#45;&#45;loaded">-->
-<!--                                        <div class="avatar avatar&#45;&#45;md avatar-image__image">-->
-<!--                                            <div class="avatar__content"><img src="https://bootdey.com/img/Content/avatar/avatar1.png"></div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="media-body">-->
-<!--                                    <div class="mt-0">Harvey Blick</div><span class="small">Pennsylvania, SD</span></div>-->
-<!--                            </div><i class="fa fa-fw fa-circle text-success ml-auto align-self-center ml-2"></i></a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a href="#" class="d-flex nav-link">-->
-<!--                            <div class="media">-->
-<!--                                <div class="mr-3 align-self-center media-left media-middle">-->
-<!--                                    <div class="avatar-image avatar-image&#45;&#45;loaded">-->
-<!--                                        <div class="avatar avatar&#45;&#45;md avatar-image__image">-->
-<!--                                            <div class="avatar__content"><img src="https://bootdey.com/img/Content/avatar/avatar2.png"></div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="media-body">-->
-<!--                                    <div class="mt-0">Hobart Hintz</div><span class="small">North Carolina, CT</span></div>-->
-<!--                            </div><i class="fa fa-fw fa-circle text-warning ml-auto align-self-center ml-2"></i></a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a href="#" class="d-flex nav-link">-->
-<!--                            <div class="media">-->
-<!--                                <div class="mr-3 align-self-center media-left media-middle">-->
-<!--                                    <div class="avatar-image avatar-image&#45;&#45;loaded">-->
-<!--                                        <div class="avatar avatar&#45;&#45;md avatar-image__image">-->
-<!--                                            <div class="avatar__content"><img src="https://bootdey.com/img/Content/avatar/avatar3.png"></div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="media-body">-->
-<!--                                    <div class="mt-0">Elmore Cummerata</div><span class="small">Michigan, NC</span></div>-->
-<!--                            </div><i class="fa fa-fw fa-circle text-danger ml-auto align-self-center ml-2"></i></a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item"><a href="#" class="nav-link"><i class="fa fa-fw fa-plus mr-2"></i>Add New Beer</a></li>-->
-<!--                </ul>-->
-<!--            </div>-->
+
         </div>
         <div class="col-lg-9">
-<!--            <div class="d-flex flex-column flex-md-row mb-3 mb-md-0">-->
-<!--                <nav class="mr-auto d-flex align-items-center" aria-label="breadcrumb">-->
-<!--                    <ol class="breadcrumb">-->
-<!--                        <li class="active breadcrumb-item" aria-current="page"><a href="/"><i class="fa fa-home"></i></a></li>-->
-<!--                        <li class="active breadcrumb-item" aria-current="page">Beers List</li>-->
-<!--                    </ol>-->
-<!--                </nav>-->
-<!--                <div role="toolbar" class="btn-toolbar">-->
-<!--                    <div role="group" class="mr-auto mr-md-2 btn-group"><a class="align-self-center btn btn-secondary active" aria-current="page" id="tooltipShowList" href="/apps/projects/list"><i class="fa-fw fa fa-bars"></i></a><a class="align-self-center btn btn-secondary" id="tooltipShowGrid" href="/apps/projects/grid"><i class="fa-fw fa fa-th-large"></i></a></div>-->
-<!--                </div>-->
-<!--            </div>-->
             <div class="mb-3 Card_custom-card--border_5wJKy card" >
                 <div class="table-responsive-xl">
                     <table class="mb-0 table table-hover">
                         <thead>
                         <tr>
-                            <th class="align-middle bt-0">Star</th>
+                            <th class="align-middle bt-0"></th>
                             <th class="align-middle bt-0">Beer</th>
                             <th class="align-middle bt-0">Style</th>
                             <th class="align-middle bt-0">Rating</th>
                             <th class="align-middle bt-0">Pic</th>
-                            <th class="align-middle bt-0 text-right">Actions</th>
+                            <th class="align-middle bt-0 text-right">ABV</th>
                         </tr>
                         </thead>
                         <tbody th:each="beer : ${beers}">
                         <tr>
                             <td class="align-middle">
-                                <div class="text-inverse"><a href="#"><i class="fa fa-fw fa-lg fa-star-o"></i></a></div>
+                                <div class="text-inverse"><a href="#"><i class="fa fa-fw fa-lg fa-beer"></i></a></div>
                             </td>
                             <td class="align-middle">
-                                <div th:text="${beer.name}">Beer name</div></td>
+                                <div><a th:text="${beer.name}" th:href="@{/beers/{id}(id=${beer.id})}"></a></div></td>
                             <td class="align-middle"><span class="badge badge-success badge-pill" th:text="${beer.style.name}">Style</span></td>
                             <td class="align-middle">
-<!--                                progress bar?-->
                                 <div th:text="${beer.getAvgRating()}">Average rating:<span class="text-inverse">88/94</span></div>
                             </td>
                             <td class="align-middle">
@@ -184,17 +83,8 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="align-middle text-right">
-                                <div class="btn-group">
-                                    <button type="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-link"><i class="fa fa-gear"></i></button>
-                                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                                        <button type="button" tabindex="0" class="dropdown-item"><i class="fa fa-fw fa-folder-open mr-2"></i>View</button>
-                                        <button type="button" tabindex="0" class="dropdown-item"><i class="fa fa-fw fa-ticket mr-2"></i>Add Task</button>
-                                        <button type="button" tabindex="0" class="dropdown-item"><i class="fa fa-fw fa-paperclip mr-2"></i>Add Files</button>
-                                        <div tabindex="-1" class="dropdown-divider"></div>
-                                        <button type="button" tabindex="0" class="dropdown-item"><i class="fa fa-fw fa-trash mr-2"></i>Delete</button>
-                                    </div>
-                                </div>
+                            <td class="align-middle">
+                                <div th:text="${beer.getAbvTag()}">ABV:<span class="text-inverse">88/94</span></div>
                             </td>
                         </tr>
                         </tbody>
@@ -222,9 +112,3 @@
 </script>
 </body>
 </html>
-
-<!--End of new HTML-->
-
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->

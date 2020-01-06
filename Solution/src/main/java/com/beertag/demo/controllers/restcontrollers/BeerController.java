@@ -79,7 +79,7 @@ public class BeerController {
         UserDetail requestUserDetail = userService.getByUsername(authorization);
         try {
             Beer beerToBeUpdated = mapper.fromDto(beerDto);
-            return service.update(id, beerToBeUpdated, requestUserDetail);
+            return service.update(id, beerToBeUpdated);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (InvalidPermission e) {

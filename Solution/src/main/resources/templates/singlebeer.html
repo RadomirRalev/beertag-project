@@ -1,51 +1,95 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Single beer</title>
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,600,700" rel="stylesheet" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="../detailedsearch.css" th:src="@{detailedsearch.css}"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" type="text/css" href="../singlebeer.css" th:src="@{singlebeer.css}"/>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <style>
-        body {
-            margin: 0;
-            font-family: 'Lato', sans-serif;
-            font-size: 1rem;
-            font-weight: 400;
-            line-height: 1.5;
-            color: #212529;
-            text-align: left;
-            background: #FFBF00;
-        }
 
-        .centered {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            margin-top: -50px;
-            margin-left: -100px;
-        }
     </style>
+
+
+    <!--    <link rel="stylesheet" type="text/css" href="../detailedsearch.css" th:src="@{detailedsearch.css}"/>-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: 'Lato', sans-serif;-->
+<!--            background: #FFBF00;-->
+<!--        }-->
+
+<!--        /*.centered {*/-->
+<!--        /*    position: fixed;*/-->
+<!--        /*    top: 50%;*/-->
+<!--        /*    left: 50%;*/-->
+<!--        /*    margin-top: -50px;*/-->
+<!--        /*    margin-left: -100px;*/-->
+<!--        /*}*/-->
+<!--    </style>-->
 </head>
 <body>
 <div class="centered">
-<div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="..." alt="Card image cap">
-    <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <div class="container">
+        <div class="card">
+            <div class="container-fliud">
+                <div class="wrapper row">
+                    <div class="preview col-md-6">
+
+                        <div class="preview-pic tab-content">
+                            <div class="tab-pane active" id="pic-1"><img src="https://untappd.akamaized.net/photos/2019_12_18/9c43039667692543043174e001bb46ac_640x640.jpg" /></div>
+                            <div class="tab-pane" id="pic-2"><img src="http://placekitten.com/400/252" /></div>
+                            <div class="tab-pane" id="pic-3"><img src="http://placekitten.com/400/252" /></div>
+                            <div class="tab-pane" id="pic-4"><img src="http://placekitten.com/400/252" /></div>
+                            <div class="tab-pane" id="pic-5"><img src="http://placekitten.com/400/252" /></div>
+                        </div>
+<!--                        <ul class="preview-thumbnail nav nav-tabs">-->
+<!--                            <li class="active"><a data-target="#pic-1" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>-->
+<!--                            <li><a data-target="#pic-2" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>-->
+<!--                            <li><a data-target="#pic-3" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>-->
+<!--                            <li><a data-target="#pic-4" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>-->
+<!--                            <li><a data-target="#pic-5" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>-->
+<!--                        </ul>-->
+
+                    </div>
+                    <div class="details col-md-6">
+                        <h3 class="product-title" th:text="${beer.name}">men's shoes fashion</h3>
+                        <div class="rating-score">Rating: <span th:text="${beer.avgRating}"></span></div>
+                            <div class="rating">
+                            <div class="stars">
+                                <span th:if="${beer.avgRating >= 1}"><span class="fa fa-star checked"></span></span>
+                                <span th:unless="${beer.avgRating >= 1}"><span class="fa fa-star"></span></span>
+                                <span th:if="${beer.avgRating >= 2}"><span class="fa fa-star checked"></span></span>
+                                <span th:unless="${beer.avgRating >= 2}"><span class="fa fa-star"></span></span>
+                                <span th:if="${beer.avgRating >= 4}"><span class="fa fa-star checked"></span></span>
+                                <span th:unless="${beer.avgRating >= 4}"><span class="fa fa-star"></span></span>
+                                <span th:if="${beer.avgRating >= 6}"><span class="fa fa-star checked"></span></span>
+                                <span th:unless="${beer.avgRating >= 6}"><span class="fa fa-star"></span></span>
+                                <span th:if="${beer.avgRating >= 8}"><span class="fa fa-star checked"></span></span>
+                                <span th:unless="${beer.avgRating >= 8}"><span class="fa fa-star"></span></span>
+                            </div>
+                            </div>
+                        <p class="product-description" th:text="${beer.description}">Suspendisse quos? Tempus cras iure temporibus? Eu laudantium cubilia sem sem! Repudiandae et! Massa senectus enim minim sociosqu delectus posuere.</p>
+                        <h4 class="price">ABV: <span th:text="${beer.abvTag}"></span></h4>
+                        <p class="vote"><strong>Produced by: </strong> <span th:text="${beer.getBrewery().getName()}"></span></p>
+                        <p class="vote"><strong>Country: </strong> <span th:text="${beer.getOriginCountry().getName()}"></span></p>
+                        <p class="vote"><strong>Tags:</strong>
+                            <span th:each="tag : ${tags}"><span th:text="${tag.name} + ' '"></span></span>
+                        </p>
+                        <p class="vote"><strong>Style: </strong> <span th:text="${beer.style.getName()}"></span></p>
+                        <div class="action">
+                            <button class="add-to-cart btn btn-default" type="button">add to wishlist</button>
+                            <button class="add-to-cart btn btn-default" type="button">add to dranklist</button>
+                            <button class="add-to-cart btn btn-default" type="button">update beer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item">Cras justo odio</li>
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Vestibulum at eros</li>
-    </ul>
-    <div class="card-body">
-        <a href="#" class="card-link">Card link</a>
-        <a href="#" class="card-link">Another link</a>
-    </div>
-</div>
 </div>
 </body>
 </html>

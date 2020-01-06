@@ -1,6 +1,8 @@
 package com.beertag.demo.repositories;
 
 import com.beertag.demo.models.beer.Beer;
+import com.beertag.demo.models.beer.Tag;
+
 import java.util.List;
 
 public interface BeerRepository {
@@ -32,4 +34,5 @@ public interface BeerRepository {
 
     void updateAvgRating(int beerId, double avgRating);
 
+    List<Tag> getBeerTags(int id);
 }

@@ -10,15 +10,22 @@
 </head>
 <body>
 <div class="s009">
-    <form  action="#" th:action="@{/beers/create}" th:object="${parametres}" method="post" enctype="multipart/form-data">
+    <form  action="#" th:action="@{/beers/update}" th:object="${parametres}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <select th:field="*{beerId}" class="form-control" id="beerid" style="display: none;">
+                <option th:value="${beer.getId()}"
+                        th:text="${beer.getId()}"></option>
+            </select>
+        </div>
+
         <div class="form-group">
             <label for="beername">Beer name</label>
-            <input th:field="*{nameParam}" class="form-control" id="beername" aria-describedby="emailHelp" placeholder="Enter beer name">
-            <small id="beerNameHelp" class="form-text text-muted">Please make sure that name is correctly typed.</small>
+            <input th:field="*{nameParam}" class="form-control" id="beername" aria-describedby="emailHelp" th:placeholder="${beer.name}">
+            <small id="beerNameHelp" class="form-text text-muted">Update beer name</small>
         </div>
         <div class="form-group">
             <label for="abv">ABV</label>
-            <input th:field="*{abvParam}" class="form-control" id="abv" aria-describedby="emailHelp" placeholder="Enter beer name">
+            <input th:field="*{abvParam}" class="form-control" id="abv" aria-describedby="emailHelp" th:placeholder="${beer.abvTag}">
             <small id="abvHelp" class="form-text text-muted">Unlike hard liquor, beers aren't measured by proof, but most commonly by alcohol by volume.</small>
         </div>
         <div class="form-group">
@@ -28,7 +35,7 @@
                         th:value="${style.id}"
                         th:text="${style.getName()}">1</option>
             </select>
-            <small id="styleHelp" class="form-text text-muted">Please select one of the listed styles or contact our administrator if you don't find it.</small>
+            <small id="styleHelp" class="form-text text-muted">Current style is <span th:text="${beer.getStyle().getName()}"></span></small>
         </div>
         <div class="form-group">
             <label for="breweryName">Brewery</label>
@@ -37,7 +44,7 @@
                         th:value="${brewery.id}"
                         th:text="${brewery.getName()}">1</option>
             </select>
-            <small id="breweryHelp" class="form-text text-muted">Brewing companies range widely in the volume and variety of beer produced, ranging from small breweries, such as Ringwood Brewery, to massive multinational conglomerates.</small>
+            <small id="breweryHelp" class="form-text text-muted">Current brewery is <span th:text="${beer.getBrewery().getName()}"></span></small>
         </div>
         <div class="form-group">
             <label for="countryName">Country</label>
@@ -46,23 +53,14 @@
                         th:value="${country.id}"
                         th:text="${country.getName()}">1</option>
             </select>
-            <small id="countryHelp" class="form-text text-muted">Where was it made?</small>
+            <small id="countryHelp" class="form-text text-muted">Current country of origin is <span th:text="${beer.getOriginCountry().getName()}"></span></small>
         </div>
-
-        <label>
-            <input type="file" name ="file" class="form-control-file" id="exampleFormControlFile1"/>
-            <input type="hidden" name ="MAX_FILE_SIZE" value="2000000"/>
-            <input type="submit" value="Save"/>
-            Add pic
-        </label>
-
         <label for="exampleFormControlTextarea1">Please describe the beer:</label>
-        <textarea th:field="*{descriptionParam}" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        <textarea th:field="*{descriptionParam}" class="form-control" id="exampleFormControlTextarea1" rows="3" th:placeholder="${beer.description}"></textarea>
 
         <button type="submit" value="Save" class="btn btn-primary">Create</button>
 
     </form>
-
 </div>
 </body>
 </html>

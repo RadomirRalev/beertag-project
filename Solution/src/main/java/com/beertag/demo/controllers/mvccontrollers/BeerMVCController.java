@@ -49,8 +49,34 @@ public class BeerMVCController {
 
     @GetMapping("/beers/{id}")
     public String showSingleBeer(@PathVariable("id") int id, Model model) {
+        Beer beer = service.getById(id);
+        List<Tag> tagsOfBeer = service.getTags(id);
         model.addAttribute("beers", service.getBeersList());
+        model.addAttribute("beer", beer);
+        model.addAttribute("tags", tagsOfBeer);
         return "singlebeer";
+    }
+
+    @GetMapping("beers/updatebeer/{id}")
+    public String showUpdateBeerForm(@PathVariable("id") int id, Model model) {
+        Beer beer = service.getById(id);
+        model.addAttribute("beer", beer);
+        createParametres(model);
+        return "updatebeer";
+    }
+
+    @PostMapping("beers/update")
+    public String updateBeer(@ModelAttribute Parametres parametres,
+                             Model model) {
+        Beer beerToUpdate = service.getById(parametres.getBeerId());
+        beerToUpdate.setName(parametres.getNameParam());
+        beerToUpdate.setAbvTag(parametres.getAbvParam());
+        beerToUpdate.setDescription(parametres.getDescriptionParam());
+        beerToUpdate.setStyle(styleService.getStyleById(parametres.getStyleParamId()));
+        beerToUpdate.setBrewery(breweryService.getBreweryById(parametres.getBreweryParamId()));
+        beerToUpdate.setOriginCountry(countryService.getCountryById(parametres.getCountryParamId()));
+        service.update(beerToUpdate.getId(), beerToUpdate);
+        return "redirect:/beers";
     }
 
     @GetMapping("beers/new")
@@ -58,7 +84,6 @@ public class BeerMVCController {
         createParametres(model);
         return "newbeer";
     }
-
 
     @PostMapping("beers/create")
     public String createBeer(@RequestParam("file") MultipartFile file,
