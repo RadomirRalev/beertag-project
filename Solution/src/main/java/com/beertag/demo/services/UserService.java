@@ -1,7 +1,7 @@
 package com.beertag.demo.services;
 
 import com.beertag.demo.models.beer.Beer;
-import com.beertag.demo.models.user.User;
+import com.beertag.demo.models.user.UserDetail;
 import com.beertag.demo.models.user.UserRegistration;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.Set;
 
 public interface UserService {
 
-    List<User> getUsers();
+    List<UserDetail> getUsers();
 
     Set<Beer> getWishList(int userId);
 
@@ -21,15 +21,15 @@ public interface UserService {
 
     Set<Beer> getDrankList(int userId);
 
-    User createUser(UserRegistration userRegistration);
+    UserDetail createUser(UserRegistration userRegistration);
 
-    User getByUsername(String name);
+    UserDetail getByUsername(String name);
 
-    User getById(int id);
+    UserDetail getById(int id);
 
-    void softDeleteUser(User user);
+    void softDeleteUser(UserDetail userDetail);
 
-    User updateUser(User user);
+    UserDetail updateUser(UserDetail userDetail);
 
     boolean usernameExist(String name);
 

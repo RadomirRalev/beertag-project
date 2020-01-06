@@ -2,7 +2,7 @@ package com.beertag.demo.repositories;
 
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.user.DrankList;
-import com.beertag.demo.models.user.User;
+import com.beertag.demo.models.user.UserDetail;
 import com.beertag.demo.models.user.WishList;
 
 
@@ -11,7 +11,7 @@ import java.util.Set;
 
 public interface UserRepository {
 
-    List<User> getUsers();
+    List<UserDetail> getUsers();
 
     Set<Beer> getWishList(int userId);
 
@@ -23,15 +23,15 @@ public interface UserRepository {
 
     Set<Beer> getDrankList(int userId);
 
-    User createUser(User user);
+    UserDetail createUser(UserDetail userDetail);
 
-    User getById(int id);
+    UserDetail getById(int id);
 
-    User getByUsername(String name);
+    UserDetail getByUsername(String name);
 
-    void softDeleteUser(User user);
+    void softDeleteUser(UserDetail userDetail);
 
-    User updateUser(User user);
+    UserDetail updateUser(UserDetail userDetail);
 
     boolean usernameExist(String name);
 

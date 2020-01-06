@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" th:href="@{/Main.css}" href="../static/Main.css"/>
+</head>
+<body>
+<h2>Register Page</h2>
+<p>
+    <i th:if="${error != null}" th:text="${error}" class="error"/>
+</p>
+<form action="#" th:action="@{/register}" th:object="${UserRegistration}" method="post">
+
+    <label> first name:</label>
+    <input type="text" th:field="*{firstName}"/>
+    <br/>
+    <label> last name:</label>
+    <input type="text" th:field="*{lastName}"/>
+    <br/>
+    <label> birth year:</label>
+    <input type="text" th:field="*{birthYear}"/>
+    <br/>
+    <label> birth month:</label>
+    <input type="text" th:field="*{month}"/>
+    <br/>
+    <label> birth day:</label>
+    <input type="text" th:field="*{day}"/>
+    <br/>
+    <label> username:</label>
+    <input type="text" th:field="*{username}"/>
+    <br/>
+    <label> email:</label>
+    <input type="text" th:field="*{email}"/>
+    <br/>
+    <label> password:</label>
+    <input type="password" th:field="*{password}"/>
+    <br/>
+    <input type="submit" value="Register"/>
+</form>
+<h3>
+    <a th:href="@{/login}">Login</a>
+</h3>
+</body>
+</html>

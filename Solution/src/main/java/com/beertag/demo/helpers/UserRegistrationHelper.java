@@ -1,8 +1,6 @@
 package com.beertag.demo.helpers;
 
-import com.beertag.demo.models.user.User;
-import com.beertag.demo.models.user.UserRegistration;
-import com.beertag.demo.models.user.UserUpdateDTO;
+import com.beertag.demo.models.user.UserDetail;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,12 +28,12 @@ public class UserRegistrationHelper {
         return currentYear - birthYear >= ADULT_YEAR;
     }
 
-    public static void setOptionalFields(User user) {
-        if (isNull(user.getFirstName()) || user.getFirstName().equals("empty")) {
-            user.setFirstName("");
+    public static void setOptionalFields(UserDetail userDetail) {
+        if (isNull(userDetail.getFirstName()) || userDetail.getFirstName().equals("empty")) {
+            userDetail.setFirstName("");
         }
-        if (isNull(user.getLastName()) || user.getLastName().equals("empty")) {
-            user.setLastName("");
+        if (isNull(userDetail.getLastName()) || userDetail.getLastName().equals("empty")) {
+            userDetail.setLastName("");
         }
     }
 

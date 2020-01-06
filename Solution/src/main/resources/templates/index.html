@@ -31,10 +31,14 @@
 <body>
 
 <!-- Side Menu -->
+
 <a id="menu-toggle" href="#" class="btn btn-primary btn-lg toggle"><i class="fa fa-bars"></i></a>
 <div id="sidebar-wrapper">
+
     <ul class="sidebar-nav">
+
         <a id="menu-close" href="#" class="btn btn-default btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
+
         <li class="sidebar-brand"><a href="http://startbootstrap.com">Start Bootstrap</a>
         </li>
         <li><a href="#top">Home</a>
@@ -54,21 +58,31 @@
 <!-- Full Page Image Header Area -->
 <div id="top" class="header">
 
-            <h5 style="color: navajowhite">Hello </h5>
-            <p style="color: navajowhite" sec:authentication="name">
+    <form class="btn btn-default btn-lg" th:action="@{/logout}" sec:authorize="isAuthenticated()" method="post">
+        <input type="submit" value="Logout"/>
+    </form>
 
 
-    <div class="vert-text">
-        <h1>BEERTAG</h1>
-        <h3>
-            Welcome to the World of Beer,
-            You Taste,
-            You Rate</h3>
-        <!--            <a href="#about" class="btn btn-default btn-lg">Jump in!</a>-->
-        <a th:href="@{/login}"  class="btn btn-default btn-lg" sec:authorize="!isAuthenticated()"
-            >Jump in!</a>
+    <h5 style="color: navajowhite">Hello </h5>
+    <p style="color: navajowhite" sec:authentication="name">
 
-    </div>
+
+        <div class="vert-text">
+            <h1>BEERTAG</h1>
+            <h3>
+                Welcome to the World of Beer,
+                You Taste,
+                You Rate</h3>
+            <!--            <a href="#about" class="btn btn-default btn-lg">Jump in!</a>-->
+    <p>
+        <i th:if="${param.logout}">You have been logged out.</i>
+    </p>
+    <a th:href="@{/login}" class="btn btn-default btn-lg" sec:authorize="!isAuthenticated()"
+    >Login</a>
+    <a th:href="@{/register}" class="btn btn-default btn-lg" sec:authorize="!isAuthenticated()"
+    >Register</a>
+
+</div>
 </div>
 <!-- /Full Page Image Header Area -->
 
