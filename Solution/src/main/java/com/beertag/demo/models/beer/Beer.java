@@ -4,9 +4,9 @@ import com.beertag.demo.models.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.sql.Blob;
+import java.util.Base64;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "beer")
@@ -114,8 +114,8 @@ public class Beer {
         this.abvTag = abvTag;
     }
 
-    public byte[] getPicture() {
-        return picture;
+    public String getPicture() {
+        return Base64.getEncoder().encodeToString(picture);
     }
 
     public void setPicture(byte[] picture) {

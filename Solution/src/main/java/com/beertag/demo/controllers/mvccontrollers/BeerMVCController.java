@@ -4,12 +4,18 @@ import com.beertag.demo.helpers.BeerCollectionHelper;
 import com.beertag.demo.models.DtoMapper;
 import com.beertag.demo.models.beer.*;
 import com.beertag.demo.services.*;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.util.List;
 
 @Controller
@@ -41,23 +47,23 @@ public class BeerMVCController {
         return "beers";
     }
 
+    @GetMapping("/beers/{id}")
+    public String showSingleBeer(@PathVariable("id") int id, Model model) {
+        model.addAttribute("beers", service.getBeersList());
+        return "singlebeer";
+    }
+
     @GetMapping("beers/new")
     public String showNewBeerForm(Model model) {
-        List<Style> stylesList = styleService.getStylesList();
-        List<Tag> tagsList = tagService.getTagList();
-        List<Country> countriesList = countryService.getCountriesList();
-        List<Brewery> breweriesList = breweryService.getBreweriesList();
-        model.addAttribute("styles", stylesList);
-        model.addAttribute("tags", tagsList);
-        model.addAttribute("countries", countriesList);
-        model.addAttribute("breweries", breweriesList);
-        model.addAttribute("parametres", new Parametres());
+        createParametres(model);
         return "newbeer";
     }
 
 
     @PostMapping("beers/create")
-    public String createBeer(@ModelAttribute Parametres parametres) {
+    public String createBeer(@RequestParam("file") MultipartFile file,
+                             @ModelAttribute Parametres parametres, Model model) throws IOException {
+        model.addAttribute("file", file);
         Beer newBeer = new Beer();
         newBeer.setName(parametres.getNameParam());
         newBeer.setAbvTag(parametres.getAbvParam());
@@ -65,34 +71,10 @@ public class BeerMVCController {
         newBeer.setStyle(styleService.getStyleById(parametres.getStyleParamId()));
         newBeer.setBrewery(breweryService.getBreweryById(parametres.getBreweryParamId()));
         newBeer.setOriginCountry(countryService.getCountryById(parametres.getCountryParamId()));
+        newBeer.setPicture(file.getBytes());
         service.createBeer(newBeer);
         return "redirect:/beers";
     }
-
-//    @GetMapping("beers/new")
-//    public String showNewBeerForm(Model model) {
-//        model.addAttribute("newbeer", new BeerDto());
-//        model.addAttribute("countries", countryService.getCountriesList());
-//        model.addAttribute("styles", styleService.getStylesList());
-//        model.addAttribute("breweries", breweryService.getBreweriesList());
-//        model.addAttribute("tags", tagService.getTagList());
-//        return "newbeer";
-//    }
-//
-//    @PostMapping("beers/new")
-//    public String createBeer(@Valid @ModelAttribute("beer") BeerDto beer, BindingResult errors, Model model) {
-//        if (errors.hasErrors()) {
-//            return "beer";
-//        }
-//        Beer toCreate = new Beer();
-//        toCreate.setName(beer.getName());
-//        toCreate.setAbvTag(beer.getAbvTag());
-//        toCreate.setOriginCountry(countryService.getCountryById(beer.getOriginCountryId()));
-//        toCreate.setStyle(styleService.getStyleById(beer.getStyleId()));
-//        toCreate.setBrewery(breweryService.getBreweryById(beer.getBreweryId()));
-//        service.createBeer(toCreate);
-//        return "redirect:/beers";
-//    }
 
     @GetMapping("/allbeers")
     public String getBeersList(Model model) {
@@ -123,24 +105,9 @@ public class BeerMVCController {
         return "beers";
     }
 
-//    @GetMapping("allbeers/{beerId}")
-//    public String getBeerById(@PathVariable int beerId, Model model) {
-//        Beer beer = service.getById(beerId);
-//        model.addAttribute("beer", beer);
-//        return "details";
-//    }
-
     @GetMapping("/beers/advancedsearch")
     public String filterBeers(Model model){
-        List<Style> stylesList = styleService.getStylesList();
-        List<Tag> tagsList = tagService.getTagList();
-        List<Country> countriesList = countryService.getCountriesList();
-        List<Brewery> breweriesList = breweryService.getBreweriesList();
-        model.addAttribute("styles", stylesList);
-        model.addAttribute("tags", tagsList);
-        model.addAttribute("countries", countriesList);
-        model.addAttribute("breweries", breweriesList);
-        model.addAttribute("parametres", new Parametres());
+        createParametres(model);
         return "detailedsearch";
     }
 
@@ -161,5 +128,17 @@ public class BeerMVCController {
         result = BeerCollectionHelper.sortBeersList(result, sortType);
         model.addAttribute("beers", result);
         return "beers";
+    }
+
+    private void createParametres(Model model) {
+        List<Style> stylesList = styleService.getStylesList();
+        List<Tag> tagsList = tagService.getTagList();
+        List<Country> countriesList = countryService.getCountriesList();
+        List<Brewery> breweriesList = breweryService.getBreweriesList();
+        model.addAttribute("styles", stylesList);
+        model.addAttribute("tags", tagsList);
+        model.addAttribute("countries", countriesList);
+        model.addAttribute("breweries", breweriesList);
+        model.addAttribute("parametres", new Parametres());
     }
 }
