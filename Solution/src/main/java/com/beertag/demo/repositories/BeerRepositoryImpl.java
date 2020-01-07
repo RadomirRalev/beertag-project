@@ -1,5 +1,6 @@
 package com.beertag.demo.repositories;
 
+import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Tag;
@@ -36,9 +37,13 @@ public class BeerRepositoryImpl implements BeerRepository {
 
     @Override
     public List<Beer> getBeerList() {
-        try(Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Query<Beer> query = session.createQuery("from Beer", Beer.class);
-            return query.list();
+            if (query.list().isEmpty()) {
+                throw new EntityNotFoundException("List is empty");
+            } else {
+                return query.list();
+            }
         }
     }
 
@@ -107,6 +112,9 @@ public class BeerRepositoryImpl implements BeerRepository {
 
     @Override
     public Beer createBeer(Beer newBeer) {
+        if (checkBeerExists(newBeer.getName())) {
+            throw new DuplicateEntityException(BEER_NAME_EXISTS, newBeer.getName());
+        }
         try (Session session = sessionFactory.openSession()) {
             session.save(newBeer);
         }
@@ -115,6 +123,9 @@ public class BeerRepositoryImpl implements BeerRepository {
 
     @Override
     public void deleteBeer(int id) {
+        if (!checkBeerExists(getById(id).getName())) {
+            throw new EntityNotFoundException(BEER_ID_NOT_FOUND, id);
+        }
         try(Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             Beer beerToBeDeleted = session.get(Beer.class, id);

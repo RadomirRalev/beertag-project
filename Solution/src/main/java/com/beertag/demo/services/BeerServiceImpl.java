@@ -94,11 +94,7 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public Beer createBeer(Beer newBeer) {
-        try {
             return repository.createBeer(newBeer);
-        } catch (Exception ex) {
-            throw new DuplicateEntityException(BEER_NAME_EXISTS, newBeer.getName());
-        }
     }
 
     @Override

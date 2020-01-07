@@ -1,11 +1,13 @@
 package com.beertag.demo.controllers.mvccontrollers;
 
+import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.helpers.BeerCollectionHelper;
 import com.beertag.demo.models.DtoMapper;
 import com.beertag.demo.models.beer.*;
 import com.beertag.demo.services.*;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 
 @Controller

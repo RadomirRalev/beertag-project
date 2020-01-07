@@ -169,4 +169,9 @@ img {
         -webkit-transform: scale(1);
         transform: scale(1); } }
 
+    .button {
+        float:left;
+        margin-right: 5px;
+    }
+
 /*# sourceMappingURL=style.css.map */
