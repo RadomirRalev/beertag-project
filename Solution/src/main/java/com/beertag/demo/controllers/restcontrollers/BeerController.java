@@ -7,7 +7,7 @@ import com.beertag.demo.helpers.BeerCollectionHelper;
 import com.beertag.demo.models.beer.BeerDto;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.DtoMapper;
-import com.beertag.demo.models.user.UserDetail;
+import com.beertag.demo.models.user.User;
 import com.beertag.demo.services.BeerService;
 import com.beertag.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +76,7 @@ public class BeerController {
     @PutMapping("/{id}")
     public Beer update(@PathVariable int id, @RequestBody @Valid BeerDto beerDto,
                        @RequestHeader(name = "Authorization") String authorization) {
-        UserDetail requestUserDetail = userService.getByUsername(authorization);
+        User requestUser = userService.getByUsername(authorization);
         try {
             Beer beerToBeUpdated = mapper.fromDto(beerDto);
             return service.update(id, beerToBeUpdated);
@@ -91,9 +91,9 @@ public class BeerController {
     public Beer createBeer(@RequestBody @Valid BeerDto newBeerDto,
                            @RequestHeader(name = "Authorization") String authorization) {
         try {
-            UserDetail requestUserDetail = userService.getByUsername(authorization);
+            User requestUser = userService.getByUsername(authorization);
             Beer newBeer = mapper.fromDto(newBeerDto);
-            newBeer.setCreatedBy(requestUserDetail);
+            newBeer.setCreatedBy(requestUser);
             return service.createBeer(newBeer);
         } catch (DuplicateEntityException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());

@@ -50,12 +50,12 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserDetail> getUsers() {
+    public List<User> getUsers() {
         return userService.getUsers();
     }
 
     @GetMapping("/username/{username}")
-    public UserDetail getByUsername(@PathVariable String username) {
+    public User getByUsername(@PathVariable String username) {
         try {
             return userService.getByUsername(username);
         } catch (EntityNotFoundException e) {
@@ -64,7 +64,7 @@ public class UserController {
     }
 
     @GetMapping("/id/{id}")
-    public UserDetail getById(@PathVariable int id) {
+    public User getById(@PathVariable int id) {
         try {
             return userService.getById(id);
         } catch (EntityNotFoundException e) {
@@ -73,7 +73,7 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDetail create(@RequestBody @Valid UserRegistration userRegistration) {
+    public User create(@RequestBody @Valid UserRegistration userRegistration) {
         try {
             return userService.createUser(userRegistration);
         } catch (DuplicateEntityException | InvalidAgeException e) {
@@ -82,16 +82,16 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-    public UserDetail updateUser(@PathVariable int id, @RequestBody @Valid UserUpdateDTO userUpdateDTO) {
-        UserDetail userDetailToUpdate = getById(id);
-        mapper.validationData(userUpdateDTO, userDetailToUpdate);
-        return userService.updateUser(userDetailToUpdate);
+    public User updateUser(@PathVariable int id, @RequestBody @Valid UserUpdateDTO userUpdateDTO) {
+        User userToUpdate = getById(id);
+        mapper.validationData(userUpdateDTO, userToUpdate);
+        return userService.updateUser(userToUpdate);
     }
 
 
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable int id) {
-        UserDetail userDetailToDelete = getById(id);
-        userService.softDeleteUser(userDetailToDelete);
+        User userToDelete = getById(id);
+        userService.softDeleteUser(userToDelete);
     }
 }

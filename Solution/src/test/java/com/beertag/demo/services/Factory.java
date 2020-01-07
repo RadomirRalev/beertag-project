@@ -1,7 +1,7 @@
 package com.beertag.demo.services;
 
 import com.beertag.demo.models.beer.*;
-import com.beertag.demo.models.user.UserDetail;
+import com.beertag.demo.models.user.User;
 import com.beertag.demo.models.user.UserRegistration;
 
 public class Factory {
@@ -24,8 +24,8 @@ public class Factory {
         return new Tag("Tag");
     }
 
-    public static UserDetail createUser (){
-        return new UserDetail("Petar","Petrov","pesh0","pesho@gmail.com","strong");
+    public static User createUser (){
+        return new User("Petar","Petrov","pesh0","pesho@gmail.com","strong");
     }
 
     public static UserRegistration createUserRegistration(){

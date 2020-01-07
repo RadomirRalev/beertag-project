@@ -4,7 +4,7 @@ import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.helpers.BeerCollectionHelper;
 import com.beertag.demo.models.DtoMapper;
 import com.beertag.demo.models.beer.*;
-import com.beertag.demo.models.user.User;
+
 import com.beertag.demo.services.*;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +68,7 @@ public class BeerMVCController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
+        System.out.println(currentPrincipalName);
         userService.addBeerToWishList(currentPrincipalName, beer.getId());
         return "index";
     }

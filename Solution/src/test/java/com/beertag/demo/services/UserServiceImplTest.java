@@ -2,7 +2,7 @@ package com.beertag.demo.services;
 
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.models.user.UserDetail;
+import com.beertag.demo.models.user.User;
 import com.beertag.demo.repositories.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UserDetailServiceImplTest {
+public class UserServiceImplTest {
     //TODO
 //    private static ValidatorFactory validatorFactory;
 //    private static Validator validator;
@@ -77,15 +77,15 @@ public class UserDetailServiceImplTest {
     @Test
     public void getUsersListShould_CallRepository() {
         //Arrange
-        List<UserDetail> userDetailList = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
 
         Mockito.when(repository.getUsers())
-                .thenReturn(userDetailList);
+                .thenReturn(userList);
         //Act
         mockService.getUsers();
 
         //Assert
-        Assert.assertSame(mockService.getUsers(), userDetailList);
+        Assert.assertSame(mockService.getUsers(), userList);
     }
 
     @Test

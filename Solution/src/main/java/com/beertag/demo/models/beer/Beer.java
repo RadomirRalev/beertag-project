@@ -1,6 +1,6 @@
 package com.beertag.demo.models.beer;
 
-import com.beertag.demo.models.user.UserDetail;
+import com.beertag.demo.models.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -41,7 +41,7 @@ public class Beer {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "created_by")
-    private UserDetail createdBy;
+    private User createdBy;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "beertag",
@@ -133,11 +133,11 @@ public class Beer {
         this.tags = tags;
     }
 
-    public UserDetail getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(UserDetail createBy) {
+    public void setCreatedBy(User createBy) {
         this.createdBy = createBy;
     }
 
