@@ -94,11 +94,7 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public Beer createBeer(Beer newBeer) {
-        try {
             return repository.createBeer(newBeer);
-        } catch (Exception ex) {
-            throw new DuplicateEntityException(BEER_NAME_EXISTS, newBeer.getName());
-        }
     }
 
     @Override
@@ -107,7 +103,7 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public Beer update(int id, Beer beerToBeUpdated, UserDetail requestUserDetail) {
+    public Beer update(int id, Beer beerToBeUpdated) {
 //        if (beerToBeUpdated.getCreatedBy().getId() != requestUserDetail.getId() &&
 //                requestUserDetail.getRoles().stream().noneMatch(role -> role.getRole().equals("admin"))){
 //            throw new InvalidPermission(USER_CAN_NOT_MODIFY, requestUserDetail.getUsername(),beerToBeUpdated.getName());
@@ -124,5 +120,10 @@ public class BeerServiceImpl implements BeerService {
         }
         avgRating = avgRating/ratingList.size();
         repository.updateAvgRating(beerId, avgRating);
+    }
+
+    @Override
+    public List<Tag> getTags(int id) {
+        return repository.getBeerTags(id);
     }
 }

@@ -4,6 +4,9 @@ import com.beertag.demo.models.user.UserDetail;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import java.util.Base64;
 import java.util.List;
 
 @Entity
@@ -14,6 +17,8 @@ public class Beer {
     @Column(name = "beer_id")
     private int id;
     @Column(name = "name")
+    @NotEmpty(message = "Name may not be empty")
+    @Size(min = 2, max = 62, message = "Name must be between 2 and 32 characters long")
     private String name;
     @Column(name = "description")
     private String description;
@@ -112,8 +117,8 @@ public class Beer {
         this.abvTag = abvTag;
     }
 
-    public byte[] getPicture() {
-        return picture;
+    public String getPicture() {
+        return Base64.getEncoder().encodeToString(picture);
     }
 
     public void setPicture(byte[] picture) {

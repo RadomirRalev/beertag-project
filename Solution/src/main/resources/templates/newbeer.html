@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="s009">
-    <form  action="#" th:action="@{/beers/create}" th:object="${parametres}" method="post">
+    <form  action="#" th:action="@{/beers/create}" th:object="${parametres}" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="beername">Beer name</label>
             <input th:field="*{nameParam}" class="form-control" id="beername" aria-describedby="emailHelp" placeholder="Enter beer name">
@@ -49,8 +49,12 @@
             <small id="countryHelp" class="form-text text-muted">Where was it made?</small>
         </div>
 
-        <label for="exampleFormControlFile1">Add pic</label>
-        <input type="file" class="form-control-file" id="exampleFormControlFile1">
+        <label>
+            <input type="file" name ="file" class="form-control-file" id="exampleFormControlFile1"/>
+            <input type="hidden" name ="MAX_FILE_SIZE" value="2000000"/>
+            <input type="submit" value="Save"/>
+            Add pic
+        </label>
 
         <label for="exampleFormControlTextarea1">Please describe the beer:</label>
         <textarea th:field="*{descriptionParam}" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>

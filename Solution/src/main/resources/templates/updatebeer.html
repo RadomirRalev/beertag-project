@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new beer</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,600,700" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../detailedsearch.css" th:src="@{detailedsearch.css}"/>
+</head>
+<body>
+<div class="s009">
+    <form  action="#" th:action="@{/beers/update}" th:object="${parametres}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <select th:field="*{beerId}" class="form-control" id="beerid" style="display: none;">
+                <option th:value="${beer.getId()}"
+                        th:text="${beer.getId()}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="beername">Beer name</label>
+            <input th:field="*{nameParam}" class="form-control" id="beername" aria-describedby="emailHelp" th:placeholder="${beer.name}">
+            <small id="beerNameHelp" class="form-text text-muted">Update beer name</small>
+        </div>
+        <div class="form-group">
+            <label for="abv">ABV</label>
+            <input th:field="*{abvParam}" class="form-control" id="abv" aria-describedby="emailHelp" th:placeholder="${beer.abvTag}">
+            <small id="abvHelp" class="form-text text-muted">Unlike hard liquor, beers aren't measured by proof, but most commonly by alcohol by volume.</small>
+        </div>
+        <div class="form-group">
+            <label for="styleName">Style</label>
+            <select th:field="*{styleParamId}" class="form-control" id="styleName">
+                <option th:each="style : ${styles}"
+                        th:value="${style.id}"
+                        th:text="${style.getName()}">1</option>
+            </select>
+            <small id="styleHelp" class="form-text text-muted">Current style is <span th:text="${beer.getStyle().getName()}"></span></small>
+        </div>
+        <div class="form-group">
+            <label for="breweryName">Brewery</label>
+            <select th:field="*{breweryParamId}" class="form-control" id="breweryName">
+                <option th:each="brewery : ${breweries}"
+                        th:value="${brewery.id}"
+                        th:text="${brewery.getName()}">1</option>
+            </select>
+            <small id="breweryHelp" class="form-text text-muted">Current brewery is <span th:text="${beer.getBrewery().getName()}"></span></small>
+        </div>
+        <div class="form-group">
+            <label for="countryName">Country</label>
+            <select th:field="*{countryParamId}" class="form-control" id="countryName">
+                <option th:each="country : ${countries}"
+                        th:value="${country.id}"
+                        th:text="${country.getName()}">1</option>
+            </select>
+            <small id="countryHelp" class="form-text text-muted">Current country of origin is <span th:text="${beer.getOriginCountry().getName()}"></span></small>
+        </div>
+        <label for="exampleFormControlTextarea1">Please describe the beer:</label>
+        <textarea th:field="*{descriptionParam}" class="form-control" id="exampleFormControlTextarea1" rows="3" th:placeholder="${beer.description}"></textarea>
+
+        <button type="submit" value="Save" class="btn btn-primary">Create</button>
+
+    </form>
+</div>
+</body>
+</html>
