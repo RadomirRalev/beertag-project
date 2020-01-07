@@ -1,9 +1,10 @@
 package com.beertag.demo.controllers.mvccontrollers;
 
+import com.beertag.demo.exceptions.InvalidAgeException;
+import com.beertag.demo.exceptions.InvalidOptionalFieldParameter;
 import com.beertag.demo.models.user.UserDetail;
 import com.beertag.demo.models.user.UserRegistration;
 import com.beertag.demo.repositories.UserRepository;
-import com.beertag.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -16,20 +17,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import static com.beertag.demo.models.user.UserMapper.validationData;
+import static com.beertag.demo.exceptions.Constants.*;
+
 import javax.validation.Valid;
 import java.util.List;
 
 @Controller
 public class RegistrationController {
 
+
     private UserDetailsManager userDetailsManager;
     private PasswordEncoder passwordEncoder;
-    private UserRepository userService;
+    private UserRepository userRepository;
 
     @Autowired
-    public RegistrationController(UserDetailsManager userDetailsManager, UserRepository userService) {
+    public RegistrationController(UserDetailsManager userDetailsManager,
+                                  PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.userDetailsManager = userDetailsManager;
-        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
 
     }
 
@@ -37,40 +44,44 @@ public class RegistrationController {
     public String showRegisterPage(Model model) {
         model.addAttribute("UserRegistration", new UserRegistration());
         return "users/register";
-
     }
 
     @PostMapping("/register")
-    public String registerUser(@Valid @ModelAttribute("UserRegistration") UserRegistration userRegistration, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
+    public String registerUser(@Valid @ModelAttribute("UserRegistration") UserRegistration userRegistration,
+                               BindingResult bindingResult, Model model) {
 
-            model.addAttribute("error", "Username/password can't be empty!");
+        if (bindingResult.hasErrors()) {
             return "users/register";
         }
 
         if (userDetailsManager.userExists(userRegistration.getUsername())) {
-            model.addAttribute("error", "User with the same username already exists!");
+            model.addAttribute("error", String.format(USER_USERNAME_EXISTS, userRegistration.getUsername()));
             return "users/register";
         }
 
-//        if (!user.getPassword().equals(use.getPasswordConfirmation())) {
-//            model.addAttribute("error", "Password does't match!");
-//            return "register";
-//        }
-        UserDetail user = new UserDetail();
-        user.setFirstName(userRegistration.getFirstName());
-        user.setLastName(userRegistration.getLastName());
-        user.setEmail(userRegistration.getEmail());
-        user.setUsername(userRegistration.getUsername());
+        if (!userRegistration.getPassword().equals(userRegistration.getPasswordConfirmation())) {
+            model.addAttribute("error", PASSWORD_DO_NOT_MATCH);
+            return "users/register";
+        }
 
+
+        UserDetail user = new UserDetail();
+
+        try {
+            user = validationData(userRegistration);
+        } catch (InvalidAgeException | InvalidOptionalFieldParameter e) {
+            model.addAttribute("error", e.getMessage());
+            return "users/register";
+        }
 
         List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_USER");
         org.springframework.security.core.userdetails.User newUser =
                 new org.springframework.security.core.userdetails.User(
-                        userRegistration.getUsername(), "{noop}" + userRegistration.getPassword(),
+                        userRegistration.getUsername(),
+                        passwordEncoder.encode(userRegistration.getPassword()),
                         authorities);
         userDetailsManager.createUser(newUser);
-        userService.createUser(user);
+        userRepository.createUser(user);
 
         return "users/register-confirmation";
     }

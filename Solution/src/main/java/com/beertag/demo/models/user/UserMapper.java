@@ -9,8 +9,8 @@ import static com.beertag.demo.helpers.UserRegistrationHelper.*;
 @Component
 public class UserMapper {
 
-    public UserDetail validationData(UserRegistration userRegistration) {
-        if (isUserAdult(userRegistration.getDay(), userRegistration.getMonth(), userRegistration.getBirthYear())) {
+ static public UserDetail validationData(UserRegistration userRegistration) {
+        if (isUserAdult(userRegistration.getBirthDay(), userRegistration.getBirthMonth(), userRegistration.getBirthYear())) {
 
             UserDetail userDetail = new UserDetail(userRegistration.getFirstName(), userRegistration.getLastName(),
                     userRegistration.getUsername(), userRegistration.getEmail());

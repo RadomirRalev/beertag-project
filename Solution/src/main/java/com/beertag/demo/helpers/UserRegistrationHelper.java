@@ -1,14 +1,19 @@
 package com.beertag.demo.helpers;
 
+import com.beertag.demo.exceptions.InvalidOptionalFieldParameter;
 import com.beertag.demo.models.user.UserDetail;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.beertag.demo.exceptions.Constants.*;
 import static java.lang.Integer.parseInt;
 
 public class UserRegistrationHelper {
     private static final int ADULT_YEAR = 18;
+    private static final int MIN_LENGTH = 3;
+    private static final String ONLY_LETTERS = "^[a-zA-Z]+$";
+
 
     public static boolean isUserAdult(int birthDay, int birthMonth, int birthYear) {
         Date date = new Date();
@@ -29,16 +34,25 @@ public class UserRegistrationHelper {
     }
 
     public static void setOptionalFields(UserDetail userDetail) {
-        if (isNull(userDetail.getFirstName()) || userDetail.getFirstName().equals("empty")) {
-            userDetail.setFirstName("");
+        if (!userDetail.getFirstName().equals("")) {
+            if (userDetail.getFirstName().length() < MIN_LENGTH) {
+                throw new InvalidOptionalFieldParameter(FIRST_NAME_LENGTH_EXCEPTION);
+            }
+            if (!userDetail.getFirstName().matches(ONLY_LETTERS)) {
+                throw new InvalidOptionalFieldParameter(FIRST_NAME_REGEX_EXCEPTION);
+            }
         }
-        if (isNull(userDetail.getLastName()) || userDetail.getLastName().equals("empty")) {
-            userDetail.setLastName("");
+
+        if (!userDetail.getLastName().equals("")) {
+            if (userDetail.getLastName().length() < MIN_LENGTH) {
+                throw new InvalidOptionalFieldParameter(LAST_NAME_LENGTH_EXCEPTION);
+            }
+            if (!userDetail.getLastName().matches(ONLY_LETTERS)) {
+                throw new InvalidOptionalFieldParameter(LAST_NAME_REGEX_EXCEPTION);
+            }
         }
     }
-
-    public static boolean isNull(Object object) {
-        return object == null;
-    }
-
 }
+
+
+

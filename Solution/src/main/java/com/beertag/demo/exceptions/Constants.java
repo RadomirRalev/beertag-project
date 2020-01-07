@@ -27,4 +27,8 @@ public class Constants {
     public static final String USER_WISH_EMPTY = "User with id %d wish list is empty.";
     public static final String USER_DRANK_EMPTY = "User with id %d drank list is empty.";
     public static final String NOT_ADULT = "User should have 18 years";
-}
+    public static final String FIRST_NAME_LENGTH_EXCEPTION = "first name length should be minimum 3 symbols.";
+    public static final String FIRST_NAME_REGEX_EXCEPTION = "first name field may contain only letters.";
+    public static final String LAST_NAME_LENGTH_EXCEPTION = "last name length should be minimum 3 symbols.";
+    public static final String LAST_NAME_REGEX_EXCEPTION = "last name field may contain only letters.";
+    public static final String PASSWORD_DO_NOT_MATCH = "Password does't match!";}

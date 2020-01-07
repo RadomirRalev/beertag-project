@@ -77,11 +77,8 @@
     <p>
         <i th:if="${param.logout}">You have been logged out.</i>
     </p>
-    <a th:href="@{/login}" class="btn btn-default btn-lg" sec:authorize="!isAuthenticated()"
-    >Login</a>
-    <a th:href="@{/register}" class="btn btn-default btn-lg" sec:authorize="!isAuthenticated()"
-    >Register</a>
-
+    <a th:href="@{/login}" class="btn btn-default btn-lg" sec:authorize="!isAuthenticated()">Log In</a>
+    <a th:href="@{/register}" class="btn btn-default btn-lg" sec:authorize="!isAuthenticated()">Sign Up</a>
 </div>
 </div>
 <!-- /Full Page Image Header Area -->

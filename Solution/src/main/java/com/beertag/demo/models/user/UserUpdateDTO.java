@@ -1,22 +1,18 @@
 package com.beertag.demo.models.user;
 
-import com.beertag.demo.models.beer.Beer;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.Set;
-
+//TODO
 @Component
 public class UserUpdateDTO {
 
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "First Name field may only contain letters.")
-    @Size(min = 3)
     @Column(name = "first_name")
+    @NotNull
     private String firstName; //optional field
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Last Name field may only contain letters.")
-    @Size(min = 3)
     @Column(name = "last_name")
+    @NotNull
     private String lastName; // optional field
 
     public String getFirstName() {
@@ -24,11 +20,7 @@ public class UserUpdateDTO {
     }
 
     public void setFirstName(String firstName) {
-        if (firstName.equals("")) {
-            this.firstName = "empty";
-        } else {
-            this.firstName = firstName;
-        }
+        this.firstName = firstName;
     }
 
     public String getLastName() {
@@ -36,10 +28,6 @@ public class UserUpdateDTO {
     }
 
     public void setLastName(String lastName) {
-        if (lastName.equals("")) {
-            this.lastName = "empty";
-        } else {
-            this.lastName = lastName;
-        }
+        this.lastName = lastName;
     }
 }

@@ -1,12 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Register Confirmation</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Stylish Portfolio Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <!--    <link href="css/bootstrap.css" rel="stylesheet">-->
+    <link rel="stylesheet" th:href="@{css/bootstrap.css}" href="../static/css/bootstrap.css">
+
+    <!-- Add custom CSS here -->
+    <!--    <link href="css/stylish-portfolio.css" rel="stylesheet">-->
+    <link rel="stylesheet" th:href="@{css/stylish-portfolio.css}" href="../static/css/stylish-portfolio.css">
+
+    <!--    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" th:href="@{font-awesome/css/font-awesome.min.css}"
+          href="../static/font-awesome/css/font-awesome.min.css">
+
+    <!--Mirenda font-->
+    <link href="https://fonts.googleapis.com/css?family=Merienda+One&display=swap" rel="stylesheet">
+
 </head>
+
 <body>
-<h2>Registration Confirmation Page</h2>
-<p>You have successfully registered.</p>
-<h3><a href="/">Home Page</a></h3>
+
+<div id="top" class="header">
+
+    <div class="vert-text">
+
+        <div class="container">
+
+            <div class="vert-text">
+                <h1>You have joined the world of beers! Cheers!</h1>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
+
+
 </html>
