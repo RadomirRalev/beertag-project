@@ -13,7 +13,7 @@ public interface UserRepository {
 
     List<UserDetail> getUsers();
 
-    Set<Beer> getWishList(int userId);
+    Set<Beer> getWishList(String username);
 
     void addBeerToWishList (WishList wishList);
 
@@ -21,7 +21,7 @@ public interface UserRepository {
 
     void addBeerToDrankList (DrankList drankList);
 
-    Set<Beer> getDrankList(int userId);
+    Set<Beer> getDrankList(String username);
 
     UserDetail createUser(UserDetail userDetail);
 

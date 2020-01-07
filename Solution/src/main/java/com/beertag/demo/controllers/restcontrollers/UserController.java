@@ -29,31 +29,24 @@ public class UserController {
     }
 
     @GetMapping("/wishlist/{userId}")
-    public Set<Beer> getWishList(@PathVariable int userId) {
-        try {
-            return userService.getWishList(userId);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+    public Set<Beer> getWishList(@PathVariable String username) {
+
+        return userService.getWishList(username);
     }
 
-    @PostMapping("/wishlist/{userId}/{beerId}")
-    public void addBeerToWishList(@PathVariable int userId, @PathVariable int beerId) {
-        userService.addBeerToWishList(userId, beerId);
+    @PostMapping("/wishlist/{username}/{beerId}")
+    public void addBeerToWishList(@PathVariable String username, @PathVariable int beerId) {
+        userService.addBeerToWishList(username, beerId);
     }
 
-    @GetMapping("/dranklist/{userId}")
-    public Set<Beer> getDrankList(@PathVariable int userId) {
-        try {
-            return userService.getDrankList(userId);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+    @GetMapping("/dranklist/{username}")
+    public Set<Beer> getDrankList(@PathVariable String username) {
+        return userService.getDrankList(username);
     }
 
-    @PostMapping("/dranklist/{userId}/{beerId}/{rating}")
-    public void addBeerToDrankList(@PathVariable int userId, @PathVariable int beerId, @PathVariable int rating) {
-        userService.addBeerToDrankList(userId, beerId, rating);
+    @PostMapping("/dranklist/{username}/{beerId}/{rating}")
+    public void addBeerToDrankList(@PathVariable String username, @PathVariable int beerId, @PathVariable int rating) {
+        userService.addBeerToDrankList(username, beerId, rating);
     }
 
     @GetMapping
@@ -68,7 +61,6 @@ public class UserController {
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
-
     }
 
     @GetMapping("/id/{id}")
@@ -101,7 +93,5 @@ public class UserController {
     public void delete(@PathVariable int id) {
         UserDetail userDetailToDelete = getById(id);
         userService.softDeleteUser(userDetailToDelete);
-
     }
-
 }

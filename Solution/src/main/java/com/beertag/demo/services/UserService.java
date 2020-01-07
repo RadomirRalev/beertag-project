@@ -11,15 +11,15 @@ public interface UserService {
 
     List<UserDetail> getUsers();
 
-    Set<Beer> getWishList(int userId);
+    Set<Beer> getWishList(String username);
 
-    void addBeerToWishList (int userId, int beerId);
+    void addBeerToWishList (String username, int beerId);
 
-    void softDeleteBeerToWishList (int userId, int beerId);
+    void softDeleteBeerToWishList (String username, int beerId);
 
-    void addBeerToDrankList (int userId, int beerId, int rating);
+    void addBeerToDrankList (String username, int beerId, int rating);
 
-    Set<Beer> getDrankList(int userId);
+    Set<Beer> getDrankList(String username);
 
     UserDetail createUser(UserRegistration userRegistration);
 

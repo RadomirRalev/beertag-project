@@ -35,11 +35,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Set<Beer> getWishList(int userId) {
-        UserDetail userDetail = getById(userId);
-        if (userDetail.getWishList().isEmpty()) {
-            throw new EntityNotFoundException(USER_WISH_EMPTY, userId);
-        }
+    public Set<Beer> getWishList(String username) {
+        UserDetail userDetail = getByUsername(username);
         return userDetail.getWishList();
     }
 
@@ -58,11 +55,8 @@ public class UserRepositoryImpl implements UserRepository {
 
 
     @Override
-    public Set<Beer> getDrankList(int userId) {
-        UserDetail userDetail = getById(userId);
-        if (userDetail.getDrankList().isEmpty()) {
-            throw new EntityNotFoundException(USER_DRANK_EMPTY, userId);
-        }
+    public Set<Beer> getDrankList(String username) {
+        UserDetail userDetail = getByUsername(username);
         return userDetail.getDrankList();
     }
 
@@ -81,7 +75,7 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return userDetail;
     }
-
+//TODO
     @Override
     public UserDetail getByUsername(String name) {
         try (Session session = sessionFactory.openSession()) {
@@ -140,7 +134,7 @@ public class UserRepositoryImpl implements UserRepository {
                     .list().isEmpty();
         }
     }
-
+//TODO
     @Override
     public boolean emailExist(String email) {
         try (Session session = sessionFactory.openSession()) {

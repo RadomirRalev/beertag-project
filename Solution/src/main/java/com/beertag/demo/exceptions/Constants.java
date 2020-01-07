@@ -24,8 +24,6 @@ public class Constants {
     public static final String USER_USERNAME_EXISTS = "User with username %s already exists.";
     public static final String USER_EMAIL_EXISTS = "User with email %s already exists.";
     public static final String USER_CAN_NOT_MODIFY = "User with username %s can not modify beer with name %s.";
-    public static final String USER_WISH_EMPTY = "User with id %d wish list is empty.";
-    public static final String USER_DRANK_EMPTY = "User with id %d drank list is empty.";
     public static final String NOT_ADULT = "User should have 18 years";
     public static final String FIRST_NAME_LENGTH_EXCEPTION = "first name length should be minimum 3 symbols.";
     public static final String FIRST_NAME_REGEX_EXCEPTION = "first name field may contain only letters.";

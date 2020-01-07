@@ -16,14 +16,12 @@ import static com.beertag.demo.exceptions.Constants.*;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
-    private UserMapper mapper;
     private BeerService beerService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BeerService beerService, UserMapper mapper) {
+    public UserServiceImpl(UserRepository userRepository, BeerService beerService) {
         this.userRepository = userRepository;
         this.beerService = beerService;
-        this.mapper = mapper;
     }
 
     @Override
@@ -32,13 +30,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<Beer> getWishList(int UserId) {
-        return userRepository.getWishList(UserId);
+    public Set<Beer> getWishList(String username) {
+        return userRepository.getWishList(username);
     }
 
     @Override
-    public void addBeerToWishList(int userId, int beerId) {
-        UserDetail userDetail = getById(userId);
+    public void addBeerToWishList(String username, int beerId) {
+        UserDetail userDetail = getByUsername(username);
         Beer beer = beerService.getById(beerId);
 
         WishList wishList = new WishList();
@@ -48,21 +46,22 @@ public class UserServiceImpl implements UserService {
         userRepository.addBeerToWishList(wishList);
 
     }
+
     //TODO
     @Override
-    public void softDeleteBeerToWishList(int userId, int beerId) {
+    public void softDeleteBeerToWishList(String username, int beerId) {
 
 
     }
 
     @Override
-    public Set<Beer> getDrankList(int UserId) {
-        return userRepository.getDrankList(UserId);
+    public Set<Beer> getDrankList(String username) {
+        return userRepository.getDrankList(username);
     }
 
     @Override
-    public void addBeerToDrankList(int userId, int beerId, int rating) {
-        UserDetail userDetail = getById(userId);
+    public void addBeerToDrankList(String username, int beerId, int rating) {
+        UserDetail userDetail = getByUsername(username);
         Beer beer = beerService.getById(beerId);
         DrankList drankList = new DrankList();
         drankList.setUserId(userDetail.getId());
@@ -72,7 +71,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetail createUser(UserRegistration userRegistration) {
-        UserDetail userDetail = mapper.validationData(userRegistration);
+        UserDetail userDetail = UserMapper.validationData(userRegistration);
 
         if (usernameExist(userDetail.getUsername())) {
             throw new DuplicateEntityException(USER_USERNAME_EXISTS, userDetail.getUsername());

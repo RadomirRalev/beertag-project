@@ -4,10 +4,13 @@ import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.helpers.BeerCollectionHelper;
 import com.beertag.demo.models.DtoMapper;
 import com.beertag.demo.models.beer.*;
+import com.beertag.demo.models.user.User;
 import com.beertag.demo.services.*;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,6 +61,15 @@ public class BeerMVCController {
         model.addAttribute("beer", beer);
         model.addAttribute("tags", tagsOfBeer);
         return "singlebeer";
+    }
+
+    @PostMapping("/wishlist")
+    public String addBeerToWishlist(@ModelAttribute Beer beer) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        userService.addBeerToWishList(currentPrincipalName, beer.getId());
+        return "index";
     }
 
     @GetMapping("beers/updatebeer/{id}")
@@ -134,7 +146,7 @@ public class BeerMVCController {
     }
 
     @GetMapping("/beers/advancedsearch")
-    public String filterBeers(Model model){
+    public String filterBeers(Model model) {
         createParametres(model);
         return "detailedsearch";
     }

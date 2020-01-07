@@ -86,9 +86,9 @@ public class RegistrationController {
         return "users/register-confirmation";
     }
 
-
+//TODO
     @GetMapping("/register-confirmation")
     public String showRegisterConfirmation() {
-        return "users/register-confirmation";
+        return "redirect:";
     }
 }
