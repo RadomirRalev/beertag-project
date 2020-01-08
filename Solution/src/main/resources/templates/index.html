@@ -35,18 +35,26 @@
 
 <!-- Side Menu -->
 
-<a id="menu-toggle"  href="#" class="btn btn-primary btn-lg toggle" ><i
+<a id="menu-toggle" href="#" class="btn btn-primary btn-lg toggle"><i
         class="fa fa-bars"></i></a>
 <div id="sidebar-wrapper">
 
     <a id="menu-close" href="#" class="btn btn-default btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
+    <h5 sec:authorize="isAuthenticated()">Hi,</h5>
+    <h5 sec:authentication="name" sec:authorize="isAuthenticated()"></h5>
     <div>
+        <form style="display: inline-block" th:action="@{/beers}">
+            <button class="size" type="submit">
+                <div class="left"></div>
+                Beers
+                <div class="right"></div>
+            </button>
+        </form>
         <button sec:authorize="isAuthenticated()" href="#">
             <div class="left"></div>
             Account Settings
             <div class="right"></div>
         </button>
-
         <button sec:authorize="isAuthenticated()" href="#">
             <div class="left"></div>
             Wish List
@@ -62,15 +70,6 @@
             My Beers
             <div class="right"></div>
         </button>
-        <form th:action="@{/beers}">
-            <button type="submit">
-                <div class="left"></div>
-                Beers
-                <div class="right"></div>
-            </button>
-        </form>
-
-
         <form th:action="@{/logout}" sec:authorize="isAuthenticated()" method="post">
             <button type="submit" value="logout">
                 <div class="left"></div>
@@ -78,21 +77,15 @@
                 <div class="right"></div>
             </button>
         </form>
-
     </div>
-
 </div>
 <!-- /Side Menu -->
 
 <!-- Full Page Image Header Area -->
 <div id="top" class="header">
-
-
     <div class="header">
     </div>
 
-    <!--        <h5 style="color: navajowhite">Hello </h5>-->
-    <!--        <p style="color: navajowhite" sec:authentication="name">-->
     <div class="vert-text1">
 
         <h1>BEERTAG</h1>
@@ -104,20 +97,20 @@
             <i th:if="${param.logout}">You have been logged out.</i>
         </p>
 
-            <form style="display: inline-block" th:action="@{/login}">
-                <button class="size" type="submit">
-                    <div class="left"></div>
-                    Log In
-                    <div class="right"></div>
-                </button>
-            </form>
-            <form style="display: inline-block" th:action="@{/register}">
-                <button class="size" type="submit">
-                    <div class="left"></div>
-                    Sing Up
-                    <div class="right"></div>
-                </button>
-            </form>
+        <form style="display: inline-block" sec:authorize="!isAuthenticated()" th:action="@{/login}">
+            <button class="size" type="submit">
+                <div class="left"></div>
+                Log In
+                <div class="right"></div>
+            </button>
+        </form>
+        <form style="display: inline-block" sec:authorize="!isAuthenticated()" th:action="@{/register}">
+            <button class="size" type="submit">
+                <div class="left"></div>
+                Sing Up
+                <div class="right"></div>
+            </button>
+        </form>
     </div>
 </div>
 <!-- /Full Page Image Header Area -->
