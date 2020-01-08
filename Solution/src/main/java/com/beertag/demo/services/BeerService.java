@@ -2,7 +2,6 @@ package com.beertag.demo.services;
 
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Tag;
-import com.beertag.demo.models.user.UserDetail;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
