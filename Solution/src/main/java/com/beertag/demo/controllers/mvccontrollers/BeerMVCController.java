@@ -1,26 +1,28 @@
 package com.beertag.demo.controllers.mvccontrollers;
 
-import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.helpers.BeerCollectionHelper;
 import com.beertag.demo.models.DtoMapper;
 import com.beertag.demo.models.beer.*;
 import com.beertag.demo.services.*;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.parameters.P;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.sql.rowset.serial.SerialBlob;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+@EnableJpaRepositories
 @Controller
 public class BeerMVCController {
     private BeerService service;
@@ -90,8 +92,13 @@ public class BeerMVCController {
 
     @PostMapping("beers/create")
     public String createBeer(@RequestParam("file") MultipartFile file,
-                             @ModelAttribute Parametres parametres, Model model) throws IOException {
+                             @Valid @ModelAttribute Parametres parametres,
+                             Model model,
+                             BindingResult bindingResult) throws IOException {
         model.addAttribute("file", file);
+        if (bindingResult.hasErrors()) {
+            return "newbeer";
+        }
         Beer newBeer = new Beer();
         newBeer.setName(parametres.getNameParam());
         newBeer.setAbvTag(parametres.getAbvParam());

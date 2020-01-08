@@ -7,26 +7,35 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:400,600,700" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../detailedsearch.css" th:src="@{detailedsearch.css}"/>
+    <style>input:valid {
+        background-color: powderblue;
+    }</style>
 </head>
 <body>
 <div class="s009">
-    <form  action="#" th:action="@{/beers/update}" th:object="${parametres}" method="post" enctype="multipart/form-data">
+    <form class="is-valid" action="#" th:action="@{/beers/update}" th:object="${parametres}" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <select th:field="*{beerId}" class="form-control" id="beerid" style="display: none;">
                 <option th:value="${beer.getId()}"
                         th:text="${beer.getId()}"></option>
             </select>
         </div>
-
+        <div class="col-md-4 mb-3">
+            <label for="validationServer01">First name</label>
+            <input type="text" th:pattern="${8}" class="form-control is-valid" id="validationServer01" th:value="${beer.name}" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+        </div>
         <div class="form-group">
             <label for="beername">Beer name</label>
-            <input th:field="*{nameParam}" class="form-control" id="beername" aria-describedby="emailHelp" th:placeholder="${beer.name}">
-            <small id="beerNameHelp" class="form-text text-muted">Update beer name</small>
+            <input th:field="*{nameParam}" type="" class="form-control" id="beername" aria-describedby="emailHelp" th:value="${beer.name}" required/>
+            <small id="beerNameHelp" class="form-text text-muted">Current beer name is <span th:text="${beer.name}"></span></small>
         </div>
         <div class="form-group">
             <label for="abv">ABV</label>
-            <input th:field="*{abvParam}" class="form-control" id="abv" aria-describedby="emailHelp" th:placeholder="${beer.abvTag}">
-            <small id="abvHelp" class="form-text text-muted">Unlike hard liquor, beers aren't measured by proof, but most commonly by alcohol by volume.</small>
+            <input th:field="*{abvParam}" type="" class="form-control" id="abv" aria-describedby="emailHelp" th:value="${beer.abvTag}">
+            <small id="abvHelp" class="form-text text-muted">Current ABV is <span th:text="${beer.abvTag}"></span></small>
         </div>
         <div class="form-group">
             <label for="styleName">Style</label>
@@ -56,8 +65,8 @@
             <small id="countryHelp" class="form-text text-muted">Current country of origin is <span th:text="${beer.getOriginCountry().getName()}"></span></small>
         </div>
         <label for="exampleFormControlTextarea1">Please describe the beer:</label>
-        <textarea th:field="*{descriptionParam}" class="form-control" id="exampleFormControlTextarea1" rows="3" th:placeholder="${beer.description}"></textarea>
-
+        <textarea th:field="*{descriptionParam}" type="text" class="form-control" id="exampleFormControlTextarea1" rows="3" th:value="${beer.description}"></textarea>
+        <small id="descrHelp" class="form-text text-muted">Current description is: <span th:text="${beer.description}"></span></small>
         <button type="submit" value="Save" class="btn btn-primary">Create</button>
 
     </form>

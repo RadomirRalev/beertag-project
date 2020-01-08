@@ -5,16 +5,83 @@
     <meta charset="UTF-8">
     <title>Add new beer</title>
     <link href="https://fonts.googleapis.com/css?family=Lato:400,600,700" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../detailedsearch.css" th:src="@{detailedsearch.css}"/>
 </head>
 <body>
+<script>
+    const createbutton = document.getElementById('example1');
+
+    function validateBeerName() {
+        var x = document.forms["form1"]["beername"].value;
+
+        if (x.length < 2) {
+            window.alert('Name should be between 2 and 62 characters long! Your input has only one character.');
+            return false;
+        }
+
+        if (x.length > 62) {
+            window.alert('Name should be between 2 and 62 characters long! Your input has ' + x.length + ' characters.');
+            return false;
+        }
+    }
+
+
+    /**
+     * @return {boolean}
+     */
+    function InvalidMsg(textbox) {
+
+        // var x = document.forms["form1"]["beername"].value;
+
+        if (textbox.length < 2) {
+            textbox.setCustomValidity('Name should be between 2 and 62 characters long! Your input has only one character.');
+            return false;
+        } else if (textbox.length > 62) {
+            textbox.setCustomValidity('Name should be between 2 and 62 characters long! Your input has ' + textbox.length + ' characters.');
+            return false;
+        } else {
+            textbox.setCustomValidity('');
+        }
+        return true;
+    }
+
+    $(createbutton).on('click', function () {
+        $.alert({
+            title: 'Alert!',
+            content: 'Simple alert!',
+        });
+    });
+
+    function myFunction() {
+        var x, text;
+
+        // Get the value of the input field with id="numb"
+        x = document.getElementsByName("beername").value;
+
+        // If x is Not a Number or less than one or greater than 10
+        if (x.length < 2 || x.length > 62) {
+            text = "Input not valid";
+        } else {
+            text = "Input OK";
+        }
+        document.getElementById("demo").innerHTML = text;
+    }
+
+</script>
 <div class="s009">
-    <form  action="#" th:action="@{/beers/create}" th:object="${parametres}" method="post" enctype="multipart/form-data">
+    <form name="form1" action="#" th:action="@{/beers/create}" th:object="${parametres}" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="beername">Beer name</label>
-            <input th:field="*{nameParam}" class="form-control" id="beername" aria-describedby="emailHelp" placeholder="Enter beer name">
-            <small id="beerNameHelp" class="form-text text-muted">Please make sure that name is correctly typed.</small>
+
+            <input name="beername" oninvalid="InvalidMsg(this);"
+                   oninput="InvalidMsg(this);" th:field="*{nameParam}" class="form-control" id="beername" aria-describedby="emailHelp" placeholder="Enter beer name" >
+            <label th:if="${#fields.hasErrors('nameParam')}" th:errors="*{nameParam}">Name Error</label>
+
+            <!--            <label style="color: red" th:errors="*{nameParam}" th:text="#{home.welcome}"></label>-->
+            <small id="beerNameHelp" class="form-text text-muted">Name should be between 2 and 62 characters long.</small>
         </div>
         <div class="form-group">
             <label for="abv">ABV</label>
@@ -52,14 +119,12 @@
         <label>
             <input type="file" name ="file" class="form-control-file" id="exampleFormControlFile1"/>
             <input type="hidden" name ="MAX_FILE_SIZE" value="2000000"/>
-            <input type="submit" value="Save"/>
-            Add pic
         </label>
 
         <label for="exampleFormControlTextarea1">Please describe the beer:</label>
-        <textarea th:field="*{descriptionParam}" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        <textarea th:field="*{descriptionParam}" class="form-control" id="exampleFormControlTextarea1" rows="3" required></textarea>
 
-        <button type="submit" value="Save" class="btn btn-primary">Create</button>
+        <button name="create-button" id="create-button" type="submit" value="Save" class="btn btn-primary" >Create</button>
 
     </form>
 

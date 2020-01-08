@@ -11,9 +11,14 @@ import com.beertag.demo.repositories.BeerRepository;
 import com.beertag.demo.repositories.RatingRepository;
 import com.beertag.demo.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.beertag.demo.exceptions.Constants.*;
@@ -125,5 +130,21 @@ public class BeerServiceImpl implements BeerService {
     @Override
     public List<Tag> getTags(int id) {
         return repository.getBeerTags(id);
+    }
+
+    public Page<Beer> findPaginated(Pageable pageable) {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<Beer> list = getBeersList();
+        if (list.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, list.size());
+            list = list.subList(startItem, toIndex);
+        }
+        Page<Beer> beerPage
+                = new PageImpl<Beer>(list, PageRequest.of(currentPage, pageSize), list.size());
+        return beerPage;
     }
 }

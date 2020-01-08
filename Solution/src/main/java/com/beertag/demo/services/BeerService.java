@@ -3,6 +3,8 @@ package com.beertag.demo.services;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Tag;
 import com.beertag.demo.models.user.UserDetail;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -31,4 +33,6 @@ public interface BeerService {
     void updateAvgRatingOfBeer(int beerId);
 
     List<Tag> getTags(int id);
+
+    Page<Beer> findPaginated(Pageable pageable);
 }
