@@ -62,6 +62,6 @@ public class RegistrationController {
     //TODO
     @GetMapping("/register-confirmation")
     public String showRegisterConfirmation() {
-        return "redirect:";
+        return "redirect:/login";
     }
 }

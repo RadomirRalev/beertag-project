@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BeerService beerService,UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository, BeerService beerService, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.beerService = beerService;
         this.userMapper = userMapper;
@@ -38,15 +38,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addBeerToWishList(String username, int beerId) {
-        User user = getByUsername(username);
         Beer beer = beerService.getById(beerId);
-
+        if (isUserHaveCurrentBeerInWishList(username, beerId)) {
+            throw new DuplicateEntityException(String.format(USER_ALREADY_HAVE_BEER_WISH_LIST, username, beer.getName()));
+        }
+        User user = getByUsername(username);
         WishList wishList = new WishList();
-        wishList.setUser_id(user.getId());
-        wishList.setBeer_id(beer.getId());
+        wishList.setUsername(user.getUsername());
+        wishList.setBeerId(beer.getId());
 
         userRepository.addBeerToWishList(wishList);
-
     }
 
     //TODO
@@ -57,18 +58,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean isUserHaveCurrentBeerInWishList(String username, int beerId) {
+        return userRepository.isUserHaveCurrentBeerInWishList(username, beerId);
+    }
+
+    @Override
     public Set<Beer> getDrankList(String username) {
         return userRepository.getDrankList(username);
     }
 
     @Override
     public void addBeerToDrankList(String username, int beerId, int rating) {
-        User user = getByUsername(username);
+
         Beer beer = beerService.getById(beerId);
+        if (isUserHaveCurrentBeerInDrankList(username, beerId)) {
+            throw new DuplicateEntityException(
+                    String.format(USER_ALREADY_HAVE_BEER_DRANK_LIST, username, beer.getName()));
+        }
+        User user = getByUsername(username);
         DrankList drankList = new DrankList();
-        drankList.setUserId(user.getId());
+        drankList.setUsername(user.getUsername());
         drankList.setBeerId(beer.getId());
         userRepository.addBeerToDrankList(drankList);
+    }
+
+    @Override
+    public boolean isUserHaveCurrentBeerInDrankList(String username, int beerId) {
+        return userRepository.isUserHaveCurrentBeerInDrankList(username, beerId);
     }
 
     @Override

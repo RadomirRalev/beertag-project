@@ -5,6 +5,7 @@ import com.beertag.demo.helpers.BeerCollectionHelper;
 import com.beertag.demo.models.DtoMapper;
 import com.beertag.demo.models.beer.*;
 
+import com.beertag.demo.models.user.WishList;
 import com.beertag.demo.services.*;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialBlob;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
@@ -63,14 +66,20 @@ public class BeerMVCController {
         return "singlebeer";
     }
 
-    @PostMapping("/wishlist")
-    public String addBeerToWishlist(@ModelAttribute Beer beer) {
+    @PostMapping("beers/{id}")
+    public String addBeerToWishlist(@Valid @ModelAttribute @PathVariable("id") int id, Model model) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        System.out.println(currentPrincipalName);
-        userService.addBeerToWishList(currentPrincipalName, beer.getId());
-        return "index";
+        String test = String.format("redirect:%s",id);
+
+        try {
+            userService.addBeerToWishList(currentPrincipalName, id);
+        } catch (DuplicateEntityException e) {
+            model.addAttribute("error", e.getMessage());
+            return test;
+        }
+        return "wishlist";
     }
 
     @GetMapping("beers/updatebeer/{id}")

@@ -37,5 +37,9 @@ public interface UserRepository {
 
     boolean emailExist(String email);
 
+    boolean isUserHaveCurrentBeerInWishList(String username, int beerId );
+
+    boolean isUserHaveCurrentBeerInDrankList(String username, int beerId );
+
 
 }

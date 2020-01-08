@@ -25,7 +25,7 @@ public class User {
     @Column(name = "password")
     private String password;
     @Column(name = "enabled")
-    private boolean deleted;
+    private int enabled;
 
 
 //    @ManyToMany(fetch = FetchType.EAGER)
@@ -37,26 +37,27 @@ public class User {
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "wish_beer",
-            joinColumns = @JoinColumn(name = "user_user_id"),
-            inverseJoinColumns = @JoinColumn(name = "beer_user_id"))
+            joinColumns = @JoinColumn(name = "username"),
+            inverseJoinColumns = @JoinColumn(name = "beer_id"))
     Set<Beer> wishList;
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "drank_beer",
-            joinColumns = @JoinColumn(name = "drank_beer_user_id"),
-            inverseJoinColumns = @JoinColumn(name = "drank_beer_beer_id"))
+            joinColumns = @JoinColumn(name = "username"),
+            inverseJoinColumns = @JoinColumn(name = "beer_id"))
     Set<Beer> drankList;
 
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String userName, String email, String password) {
+    public User(String firstName, String lastName, String userName, String email, String password, int enabled) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = userName;
         this.email = email;
         this.password = password;
+        this.enabled = enabled;
     }
 
     public int getId() {
@@ -107,12 +108,13 @@ public class User {
 //        this.roles = roles;
 //    }
 
-    public boolean isDeleted() {
-        return deleted;
+
+    public int getEnabled() {
+        return enabled;
     }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
+    public void setEnabled(int enabled) {
+        this.enabled = enabled;
     }
 
     public Set<Beer> getWishList() {

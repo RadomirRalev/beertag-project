@@ -11,6 +11,7 @@ import static com.beertag.demo.helpers.UserRegistrationHelper.*;
 @Component
 public class UserMapper {
 
+    private static final int ENABLED = 1;
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
@@ -25,7 +26,7 @@ public class UserMapper {
                     userRegistration.getLastName(),
                     userRegistration.getUsername(),
                     userRegistration.getEmail(),
-                    passwordEncoder.encode(userRegistration.getPassword()));
+                    passwordEncoder.encode(userRegistration.getPassword()), ENABLED);
 
             setOptionalFields(user);
             return user;
