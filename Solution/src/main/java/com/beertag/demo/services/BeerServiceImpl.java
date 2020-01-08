@@ -1,12 +1,9 @@
 package com.beertag.demo.services;
 
-import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
-import com.beertag.demo.exceptions.InvalidPermission;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Rating;
 import com.beertag.demo.models.beer.Tag;
-import com.beertag.demo.models.user.UserDetail;
 import com.beertag.demo.repositories.BeerRepository;
 import com.beertag.demo.repositories.RatingRepository;
 import com.beertag.demo.repositories.TagRepository;

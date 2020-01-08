@@ -29,50 +29,42 @@ public class UserController {
     }
 
     @GetMapping("/wishlist/{userId}")
-    public Set<Beer> getWishList(@PathVariable int userId) {
-        try {
-            return userService.getWishList(userId);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+    public Set<Beer> getWishList(@PathVariable String username) {
+
+        return userService.getWishList(username);
     }
 
-    @PostMapping("/wishlist/{userId}/{beerId}")
-    public void addBeerToWishList(@PathVariable int userId, @PathVariable int beerId) {
-        userService.addBeerToWishList(userId, beerId);
+    @PostMapping("/wishlist/{username}/{beerId}")
+    public void addBeerToWishList(@PathVariable String username, @PathVariable int beerId) {
+        userService.addBeerToWishList(username, beerId);
     }
 
-    @GetMapping("/dranklist/{userId}")
-    public Set<Beer> getDrankList(@PathVariable int userId) {
-        try {
-            return userService.getDrankList(userId);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+    @GetMapping("/dranklist/{username}")
+    public Set<Beer> getDrankList(@PathVariable String username) {
+        return userService.getDrankList(username);
     }
 
-    @PostMapping("/dranklist/{userId}/{beerId}/{rating}")
-    public void addBeerToDrankList(@PathVariable int userId, @PathVariable int beerId, @PathVariable int rating) {
-        userService.addBeerToDrankList(userId, beerId, rating);
+    @PostMapping("/dranklist/{username}/{beerId}/{rating}")
+    public void addBeerToDrankList(@PathVariable String username, @PathVariable int beerId, @PathVariable int rating) {
+        userService.addBeerToDrankList(username, beerId, rating);
     }
 
     @GetMapping
-    public List<UserDetail> getUsers() {
+    public List<User> getUsers() {
         return userService.getUsers();
     }
 
     @GetMapping("/username/{username}")
-    public UserDetail getByUsername(@PathVariable String username) {
+    public User getByUsername(@PathVariable String username) {
         try {
             return userService.getByUsername(username);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
-
     }
 
     @GetMapping("/id/{id}")
-    public UserDetail getById(@PathVariable int id) {
+    public User getById(@PathVariable int id) {
         try {
             return userService.getById(id);
         } catch (EntityNotFoundException e) {
@@ -81,7 +73,7 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDetail create(@RequestBody @Valid UserRegistration userRegistration) {
+    public User create(@RequestBody @Valid UserRegistration userRegistration) {
         try {
             return userService.createUser(userRegistration);
         } catch (DuplicateEntityException | InvalidAgeException e) {
@@ -90,18 +82,16 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-    public UserDetail updateUser(@PathVariable int id, @RequestBody @Valid UserUpdateDTO userUpdateDTO) {
-        UserDetail userDetailToUpdate = getById(id);
-        mapper.validationData(userUpdateDTO, userDetailToUpdate);
-        return userService.updateUser(userDetailToUpdate);
+    public User updateUser(@PathVariable int id, @RequestBody @Valid UserUpdateDTO userUpdateDTO) {
+        User userToUpdate = getById(id);
+        mapper.validationData(userUpdateDTO, userToUpdate);
+        return userService.updateUser(userToUpdate);
     }
 
 
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable int id) {
-        UserDetail userDetailToDelete = getById(id);
-        userService.softDeleteUser(userDetailToDelete);
-
+        User userToDelete = getById(id);
+        userService.softDeleteUser(userToDelete);
     }
-
 }

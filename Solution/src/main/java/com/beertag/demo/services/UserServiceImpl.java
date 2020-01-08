@@ -16,93 +16,54 @@ import static com.beertag.demo.exceptions.Constants.*;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
-    private UserMapper mapper;
     private BeerService beerService;
+    private UserMapper userMapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BeerService beerService, UserMapper mapper) {
+    public UserServiceImpl(UserRepository userRepository, BeerService beerService, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.beerService = beerService;
-        this.mapper = mapper;
+        this.userMapper = userMapper;
     }
 
     @Override
-    public List<UserDetail> getUsers() {
+    public List<User> getUsers() {
         return userRepository.getUsers();
     }
 
     @Override
-    public Set<Beer> getWishList(int UserId) {
-        return userRepository.getWishList(UserId);
-    }
+    public User createUser(UserRegistration userRegistration) {
+        User user = userMapper.validationData(userRegistration);
 
-    @Override
-    public void addBeerToWishList(int userId, int beerId) {
-        UserDetail userDetail = getById(userId);
-        Beer beer = beerService.getById(beerId);
-
-        WishList wishList = new WishList();
-        wishList.setUser_id(userDetail.getId());
-        wishList.setBeer_id(beer.getId());
-
-        userRepository.addBeerToWishList(wishList);
-
-    }
-    //TODO
-    @Override
-    public void softDeleteBeerToWishList(int userId, int beerId) {
-
-
-    }
-
-    @Override
-    public Set<Beer> getDrankList(int UserId) {
-        return userRepository.getDrankList(UserId);
-    }
-
-    @Override
-    public void addBeerToDrankList(int userId, int beerId, int rating) {
-        UserDetail userDetail = getById(userId);
-        Beer beer = beerService.getById(beerId);
-        DrankList drankList = new DrankList();
-        drankList.setUserId(userDetail.getId());
-        drankList.setBeerId(beer.getId());
-        userRepository.addBeerToDrankList(drankList);
-    }
-
-    @Override
-    public UserDetail createUser(UserRegistration userRegistration) {
-        UserDetail userDetail = mapper.validationData(userRegistration);
-
-        if (usernameExist(userDetail.getUsername())) {
-            throw new DuplicateEntityException(USER_USERNAME_EXISTS, userDetail.getUsername());
+        if (usernameExist(user.getUsername())) {
+            throw new DuplicateEntityException(USER_USERNAME_EXISTS, user.getUsername());
         }
 
-        if (emailExist(userDetail.getEmail())) {
-            throw new DuplicateEntityException(USER_EMAIL_EXISTS, userDetail.getEmail());
+        if (emailExist(user.getEmail())) {
+            throw new DuplicateEntityException(USER_EMAIL_EXISTS, user.getEmail());
         }
 
-        return userRepository.createUser(userDetail);
+        return userRepository.createUser(user);
     }
 
     @Override
-    public UserDetail getByUsername(String name) {
+    public User getByUsername(String name) {
         return userRepository.getByUsername(name);
     }
 
     @Override
-    public UserDetail getById(int id) {
+    public User getById(int id) {
         return userRepository.getById(id);
     }
 
     @Override
-    public void softDeleteUser(UserDetail userDetail) {
-        userRepository.softDeleteUser(userDetail);
+    public void softDeleteUser(User user) {
+        userRepository.softDeleteUser(user);
     }
 
     @Override
-    public UserDetail updateUser(UserDetail userDetail) {
-        return userRepository.updateUser(userDetail);
+    public User updateUser(User user) {
+        return userRepository.updateUser(user);
     }
 
     @Override
@@ -113,6 +74,63 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean emailExist(String name) {
         return userRepository.emailExist(name);
+    }
+
+    @Override
+    public Set<Beer> getWishList(String username) {
+        return userRepository.getWishList(username);
+    }
+
+    @Override
+    public void addBeerToWishList(String username, int beerId) {
+        Beer beer = beerService.getById(beerId);
+        if (isUserHaveCurrentBeerOnWishList(username, beerId)) {
+            throw new DuplicateEntityException(String.format(USER_ALREADY_HAVE_BEER_WISH_LIST, username, beer.getName()));
+        }
+        User user = getByUsername(username);
+        WishList wishList = new WishList();
+        wishList.setUsername(user.getUsername());
+        wishList.setBeerId(beer.getId());
+
+        userRepository.addBeerFromWishList(wishList);
+    }
+
+    //TODO
+    @Override
+    public void softDeleteBeerToWishList(String username, int beerId) {
+
+
+    }
+
+    @Override
+    public boolean isUserHaveCurrentBeerOnWishList(String username, int beerId) {
+        return userRepository.isUserHaveCurrentBeerOnWishList(username, beerId);
+    }
+
+    @Override
+    public Set<Beer> getDrankList(String username) {
+        return userRepository.getDrankList(username);
+    }
+
+    @Override
+    public void addBeerToDrankList(String username, int beerId, int rating) {
+
+        Beer beer = beerService.getById(beerId);
+        if (isUserHaveCurrentBeerOnDrankList(username, beerId)) {
+            throw new DuplicateEntityException(
+                    String.format(USER_ALREADY_HAVE_BEER_DRANK_LIST, username, beer.getName()));
+        }
+        User user = getByUsername(username);
+
+        DrankList drankList = new DrankList();
+        drankList.setUsername(user.getUsername());
+        drankList.setBeerId(beer.getId());
+        userRepository.addBeerToDrankList(drankList);
+    }
+
+    @Override
+    public boolean isUserHaveCurrentBeerOnDrankList(String username, int beerId) {
+        return userRepository.isUserHaveCurrentBeerOnDrankList(username, beerId);
     }
 
 }

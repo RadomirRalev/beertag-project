@@ -26,63 +26,99 @@
     <!--Mirenda font-->
     <link href="https://fonts.googleapis.com/css?family=Merienda+One&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" th:href="@{indexButons.css}"
+          href="../static/indexButons.css">
+
 </head>
 
 <body>
 
 <!-- Side Menu -->
 
-<a id="menu-toggle" href="#" class="btn btn-primary btn-lg toggle"><i class="fa fa-bars"></i></a>
+<a id="menu-toggle"  href="#" class="btn btn-primary btn-lg toggle" ><i
+        class="fa fa-bars"></i></a>
 <div id="sidebar-wrapper">
 
-    <ul class="sidebar-nav">
+    <a id="menu-close" href="#" class="btn btn-default btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
+    <div>
+        <button sec:authorize="isAuthenticated()" href="#">
+            <div class="left"></div>
+            Account Settings
+            <div class="right"></div>
+        </button>
 
-        <a id="menu-close" href="#" class="btn btn-default btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
+        <button sec:authorize="isAuthenticated()" href="#">
+            <div class="left"></div>
+            Wish List
+            <div class="right"></div>
+        </button>
+        <button sec:authorize="isAuthenticated()" href="#">
+            <div class="left"></div>
+            Drank List
+            <div class="right"></div>
+        </button>
+        <button sec:authorize="isAuthenticated()" href="#">
+            <div class="left"></div>
+            My Beers
+            <div class="right"></div>
+        </button>
+        <form th:action="@{/beers}">
+            <button type="submit">
+                <div class="left"></div>
+                Beers
+                <div class="right"></div>
+            </button>
+        </form>
 
-        <li class="sidebar-brand"><a href="http://startbootstrap.com">Start Bootstrap</a>
-        </li>
-        <li><a href="#top">Home</a>
-        </li>
-        <li><a href="#about">About</a>
-        </li>
-        <li><a href="#services">Services</a>
-        </li>
-        <li><a href="#portfolio">Portfolio</a>
-        </li>
-        <li><a href="#contact">Contact</a>
-        </li>
-    </ul>
+
+        <form th:action="@{/logout}" sec:authorize="isAuthenticated()" method="post">
+            <button type="submit" value="logout">
+                <div class="left"></div>
+                Log Out
+                <div class="right"></div>
+            </button>
+        </form>
+
+    </div>
+
 </div>
 <!-- /Side Menu -->
 
 <!-- Full Page Image Header Area -->
 <div id="top" class="header">
 
-    <form class="btn btn-default btn-lg" th:action="@{/logout}" sec:authorize="isAuthenticated()" method="post">
-        <input type="submit" value="Logout"/>
-    </form>
 
+    <div class="header">
+    </div>
 
-    <h5 style="color: navajowhite">Hello </h5>
-    <p style="color: navajowhite" sec:authentication="name">
+    <!--        <h5 style="color: navajowhite">Hello </h5>-->
+    <!--        <p style="color: navajowhite" sec:authentication="name">-->
+    <div class="vert-text1">
 
+        <h1>BEERTAG</h1>
+        <h3>
+            Welcome to the World of Beer,
+            You Taste,
+            You Rate</h3>
+        <p>
+            <i th:if="${param.logout}">You have been logged out.</i>
+        </p>
 
-        <div class="vert-text">
-            <h1>BEERTAG</h1>
-            <h3>
-                Welcome to the World of Beer,
-                You Taste,
-                You Rate</h3>
-            <!--            <a href="#about" class="btn btn-default btn-lg">Jump in!</a>-->
-    <p>
-        <i th:if="${param.logout}">You have been logged out.</i>
-    </p>
-    <a th:href="@{/login}" class="btn btn-default btn-lg" sec:authorize="!isAuthenticated()"
-    >Login</a>
-    <a th:href="@{/register}" class="btn btn-default btn-lg" sec:authorize="!isAuthenticated()"
-    >Register</a>
-
-</div>
+            <form style="display: inline-block" th:action="@{/login}">
+                <button class="size" type="submit">
+                    <div class="left"></div>
+                    Log In
+                    <div class="right"></div>
+                </button>
+            </form>
+            <form style="display: inline-block" th:action="@{/register}">
+                <button class="size" type="submit">
+                    <div class="left"></div>
+                    Sing Up
+                    <div class="right"></div>
+                </button>
+            </form>
+    </div>
 </div>
 <!-- /Full Page Image Header Area -->
 

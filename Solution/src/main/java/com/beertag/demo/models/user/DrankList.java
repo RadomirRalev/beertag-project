@@ -9,12 +9,10 @@ public class DrankList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "drank_beer_id")
     int drankId;
-    @Column(name = "drank_beer_user_id")
-    int userId;
-    @Column(name = "drank_beer_beer_id")
+    @Column(name = "username")
+    String username;
+    @Column(name = "beer_id")
     int beerId;
-    @Column(name = "deleted")
-    boolean deleted;
 
     public DrankList() {
     }
@@ -27,12 +25,12 @@ public class DrankList {
         this.drankId = drankId;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getBeerId() {
@@ -41,14 +39,5 @@ public class DrankList {
 
     public void setBeerId(int beerId) {
         this.beerId = beerId;
-    }
-
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
     }
 }

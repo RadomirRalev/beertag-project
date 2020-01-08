@@ -1,7 +1,7 @@
 package com.beertag.demo.services;
 
 import com.beertag.demo.models.beer.Beer;
-import com.beertag.demo.models.user.UserDetail;
+import com.beertag.demo.models.user.User;
 import com.beertag.demo.models.user.UserRegistration;
 
 import java.util.List;
@@ -9,30 +9,34 @@ import java.util.Set;
 
 public interface UserService {
 
-    List<UserDetail> getUsers();
+    List<User> getUsers();
 
-    Set<Beer> getWishList(int userId);
+    Set<Beer> getWishList(String username);
 
-    void addBeerToWishList (int userId, int beerId);
+    void addBeerToWishList (String username, int beerId);
 
-    void softDeleteBeerToWishList (int userId, int beerId);
+    void softDeleteBeerToWishList (String username, int beerId);
 
-    void addBeerToDrankList (int userId, int beerId, int rating);
+    void addBeerToDrankList (String username, int beerId, int rating);
 
-    Set<Beer> getDrankList(int userId);
+    Set<Beer> getDrankList(String username);
 
-    UserDetail createUser(UserRegistration userRegistration);
+    User createUser(UserRegistration userRegistration);
 
-    UserDetail getByUsername(String name);
+    User getByUsername(String name);
 
-    UserDetail getById(int id);
+    User getById(int id);
 
-    void softDeleteUser(UserDetail userDetail);
+    void softDeleteUser(User user);
 
-    UserDetail updateUser(UserDetail userDetail);
+    User updateUser(User user);
 
     boolean usernameExist(String name);
 
     boolean emailExist(String email);
+
+    boolean isUserHaveCurrentBeerOnWishList(String username, int beerId );
+
+    boolean isUserHaveCurrentBeerOnDrankList(String username, int beerId );
 
 }

@@ -3,11 +3,11 @@ package com.beertag.demo.controllers.mvccontrollers;
 import com.beertag.demo.helpers.BeerCollectionHelper;
 import com.beertag.demo.models.DtoMapper;
 import com.beertag.demo.models.beer.*;
+
 import com.beertag.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +22,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@EnableJpaRepositories
+import static com.beertag.demo.exceptions.Constants.USER_ALREADY_HAVE_BEER_WISH_LIST;
+
 @Controller
 public class BeerMVCController {
     private BeerService service;
@@ -60,6 +61,23 @@ public class BeerMVCController {
         model.addAttribute("beer", beer);
         model.addAttribute("tags", tagsOfBeer);
         return "singlebeer";
+    }
+
+    @PostMapping("beers/{id}")
+    public String addBeerToWishlist(@PathVariable("id") int id, Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        String test = String.format("redirect:%s",id);
+
+        if(userService.isUserHaveCurrentBeerOnWishList(currentPrincipalName,id)){
+            model.addAttribute("error",
+                    String.format(USER_ALREADY_HAVE_BEER_WISH_LIST,currentPrincipalName,id));
+            return "singlebeer";
+        }
+
+            userService.addBeerToWishList(currentPrincipalName, id);
+        return "wishlist";
     }
 
     @GetMapping("beers/updatebeer/{id}")
@@ -141,7 +159,7 @@ public class BeerMVCController {
     }
 
     @GetMapping("/beers/advancedsearch")
-    public String filterBeers(Model model){
+    public String filterBeers(Model model) {
         createParametres(model);
         return "detailedsearch";
     }
