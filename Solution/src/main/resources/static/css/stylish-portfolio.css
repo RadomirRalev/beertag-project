@@ -5,6 +5,30 @@ body {
   height: 100%;
   width: 100%;
 }
+.vert-text1 {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  padding-right: 30px;
+}
+
+.vert-text1 h1 {
+  padding-top: 180px;
+  margin: 1px;
+  font-size: 4.5em;
+  font-weight: 700;
+  font-family: 'Merienda One', cursive;
+  color: whitesmoke;
+}
+
+.vert-text1 h3 {
+  padding-bottom: 100px;
+  margin-bottom: 70px;
+  font-size: 2.5em;
+  font-weight: 700;
+  font-family: 'Merienda One', cursive;
+  color: whitesmoke;
+}
 
 .vert-text {
   display: table-cell;
@@ -13,8 +37,8 @@ body {
 }
 
 .vert-text h1 {
-  padding: 0;
-  margin: 0;
+  padding-top: 5px;
+  margin: 1px;
   font-size: 4.5em;
   font-weight: 700;
   font-family: 'Merienda One', cursive;
@@ -22,8 +46,8 @@ body {
 }
 
 .vert-text h3 {
-  padding: 20px;
-  margin: 0;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
   font-size: 2.5em;
   font-weight: 700;
   font-family: 'Merienda One', cursive;
@@ -36,7 +60,7 @@ body {
   margin-right: -250px;
   right: 0;
   width: 250px;
-  background: #000;
+  background: rgba(192,192,192,0.3);;
   position: fixed;
   height: 100%;
   overflow-y: auto;
@@ -95,15 +119,18 @@ body {
 }
 
 #menu-toggle {
-  top: 0;
-  right: 0;
+  top: 10px;
+  right: 20px;
+  width: 80px;
+  height: 47px;
   position: fixed;
   z-index: 1;
 }
 
 #sidebar-wrapper.active {
   right: 250px;
-  width: 250px;
+  width: 300px;
+  text-align: center;
   -webkit-transition: all 0.4s ease 0s;
   -moz-transition: all 0.4s ease 0s;
   -ms-transition: all 0.4s ease 0s;
@@ -155,7 +182,7 @@ i.service-icon {
   width: 140px;
   height: 140px;
   line-height: 136px;
-  vertical-align: middle; 
+  vertical-align: middle;
   text-align: center;
 }
 
@@ -225,7 +252,7 @@ i.scroll:hover {
 /* Responsive */
 
 @media (max-width: 768px) {
-	
+
   .header {
 	background: url(../img/closeup-fresh-beer-golden-background-footage-088434089_prevstill.jpeg) no-repeat center center scroll;
   }

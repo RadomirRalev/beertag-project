@@ -13,6 +13,7 @@ public class UserRegistrationHelper {
     private static final int ADULT_YEAR = 18;
     private static final int MIN_LENGTH = 3;
     private static final String ONLY_LETTERS = "^[a-zA-Z]+$";
+    private static final String EMPTY_STRING = "";
 
 
     public static boolean isUserAdult(int birthDay, int birthMonth, int birthYear) {
@@ -34,7 +35,7 @@ public class UserRegistrationHelper {
     }
 
     public static void setOptionalFields(User user) {
-        if (!user.getFirstName().equals("")) {
+        if (!user.getFirstName().equals(EMPTY_STRING)) {
             if (user.getFirstName().length() < MIN_LENGTH) {
                 throw new InvalidOptionalFieldParameter(FIRST_NAME_LENGTH_EXCEPTION);
             }
@@ -43,7 +44,7 @@ public class UserRegistrationHelper {
             }
         }
 
-        if (!user.getLastName().equals("")) {
+        if (!user.getLastName().equals(EMPTY_STRING)) {
             if (user.getLastName().length() < MIN_LENGTH) {
                 throw new InvalidOptionalFieldParameter(LAST_NAME_LENGTH_EXCEPTION);
             }
@@ -53,6 +54,3 @@ public class UserRegistrationHelper {
         }
     }
 }
-
-
-

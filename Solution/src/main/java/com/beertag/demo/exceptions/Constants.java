@@ -19,7 +19,7 @@ public class Constants {
     public static final String TAG_NAME_NOT_FOUND = "Tag %s not found in the database.";
     public static final String TAG_ID_NOT_FOUND = "Tag with %d not found in the database.";
     public static final String TAG_NAME_EXISTS = "Tag %s already exists.";
-    public static final String USER_ID_NOT_FOUND = "User with %d not found in the database.";
+    public static final String USER_WITH_ID_NOT_FOUND = "User with %d not found in the database.";
     public static final String USER_USERNAME_NOT_FOUND = "User with username %s not found in the database.";
     public static final String USER_USERNAME_EXISTS = "User with username %s already exists.";
     public static final String USER_EMAIL_EXISTS = "User with email %s already exists.";

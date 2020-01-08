@@ -25,7 +25,8 @@ public class Factory {
     }
 
     public static User createUser (){
-        return new User("Petar","Petrov","pesh0","pesho@gmail.com","strong");
+        return new User("Petar","Petrov",
+                "pesh0","pesho@gmail.com","strong",1);
     }
 
     public static UserRegistration createUserRegistration(){

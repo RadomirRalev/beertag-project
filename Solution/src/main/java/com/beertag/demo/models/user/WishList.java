@@ -17,7 +17,6 @@ public class WishList {
     public WishList() {
     }
 
-
     public String getUsername() {
         return username;
     }

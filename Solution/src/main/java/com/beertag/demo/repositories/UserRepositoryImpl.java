@@ -17,15 +17,17 @@ import static com.beertag.demo.exceptions.Constants.*;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
-    public static final int ENABLED = 1;
-    public static final int DISABLE = 0;
-    SessionFactory sessionFactory;
-    BeerRepository beerRepository;
+    private static final int ENABLED = 1;
+    private static final int DISABLE = 0;
+    private static final String GET_ENABLED_USER = "from User where username = :name and enabled = " + ENABLED + " ";
+    private static final String INSERT_USER_ROLE = "insert into authorities " +
+            "value ('%s','ROLE_USER')";
+
+    private SessionFactory sessionFactory;
 
     @Autowired
-    public UserRepositoryImpl(SessionFactory sessionFactory, BeerRepository beerRepository) {
+    public UserRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-        this.beerRepository = beerRepository;
     }
 
     @Override
@@ -43,19 +45,19 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void addBeerToWishList(WishList wishList) {
+    public void addBeerFromWishList(WishList wishList) {
         try (Session session = sessionFactory.openSession()) {
             session.save(wishList);
         }
     }
 
     @Override
-    public void softDeleteBeerToWishList(WishList wishList) {
+    public void softDeleteBeerFromWishList(WishList wishList) {
 
     }
 
     @Override
-    public boolean isUserHaveCurrentBeerInWishList(String username, int beerId) {
+    public boolean isUserHaveCurrentBeerOnWishList(String username, int beerId) {
         try (Session session = sessionFactory.openSession()) {
             return !session.createQuery("from WishList " +
                     "where username = :username and beerId = :beerId", WishList.class)
@@ -79,7 +81,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public boolean isUserHaveCurrentBeerInDrankList(String username, int beerId) {
+    public boolean isUserHaveCurrentBeerOnDrankList(String username, int beerId) {
         try (Session session = sessionFactory.openSession()) {
             return !session.createQuery("from DrankList " +
                     "where username = :username and beerId = :beerId", DrankList.class)
@@ -89,14 +91,12 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-
     @Override
     public User createUser(User user) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.save(user);
-            String sql = String.format("insert into authorities " +
-                    "value ('%s','ROLE_USER')", user.getUsername());
+            String sql = String.format(INSERT_USER_ROLE, user.getUsername());
             session.createSQLQuery(sql).executeUpdate();
             session.getTransaction().commit();
         }
@@ -104,10 +104,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+
     public User getByUsername(String name) {
         try (Session session = sessionFactory.openSession()) {
-            Query<User> query = session.createQuery("from User" +
-                    " where username = :name and enabled = " + ENABLED + " ", User.class);
+            Query<User> query = session.createQuery(GET_ENABLED_USER, User.class);
             query.setParameter("name", name);
             if (query.list().size() != 1) {
                 throw new EntityNotFoundException(USER_USERNAME_NOT_FOUND, name);
@@ -121,7 +121,7 @@ public class UserRepositoryImpl implements UserRepository {
         try (Session session = sessionFactory.openSession()) {
             User user = session.get(User.class, id);
             if (user == null || user.getEnabled() != ENABLED) {
-                throw new EntityNotFoundException(USER_ID_NOT_FOUND, id);
+                throw new EntityNotFoundException(USER_WITH_ID_NOT_FOUND, id);
             }
             return user;
         }
@@ -146,8 +146,8 @@ public class UserRepositoryImpl implements UserRepository {
                     "where id = :id ")
                     .setParameter("id", user.getId())
                     .executeUpdate();
-
-            session.getTransaction()
+            session.
+                    getTransaction()
                     .commit();
         }
     }
@@ -169,5 +169,4 @@ public class UserRepositoryImpl implements UserRepository {
                     .list().isEmpty();
         }
     }
-
 }

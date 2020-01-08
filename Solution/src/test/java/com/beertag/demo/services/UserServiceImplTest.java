@@ -46,7 +46,7 @@ public class UserServiceImplTest {
     @Test
     public void createUserShould_ThrowException_WhenUserExist() {
         //Arrange
-        Mockito.when(mockService.userExist(anyString())).thenReturn(true);
+        Mockito.when(mockService.usernameExist(anyString())).thenReturn(true);
 
         //Assert
         Assertions.assertThrows(DuplicateEntityException.class,
@@ -62,17 +62,7 @@ public class UserServiceImplTest {
         Assertions.assertThrows(DuplicateEntityException.class,
                 () -> mockService.createUser(createUserRegistration()));
     }
-    //TODO
-//    @Test
-//    public void createUserShould_ThrowException_WhenUserNameHaveInvalidSymbols() {
-//        //Arrange
-//
-//        User user = mockService.createUser(createUserWith3SymbolsForName());
-//
-//        Set<ConstraintViolation<User>> violations = validator.validate(user);
-//        Assertions.assertNotNull(violations);
-//
-//    }
+
 
     @Test
     public void getUsersListShould_CallRepository() {
@@ -91,7 +81,7 @@ public class UserServiceImplTest {
     @Test
     public void updateUserShould_ThrowException_whenNameNotExist() {
         //Arrange
-        Mockito.when(mockService.userExist(anyString())).thenReturn(false);
+        Mockito.when(mockService.usernameExist(anyString())).thenReturn(false);
 
         //Assert
         Assertions.assertThrows(EntityNotFoundException.class,
@@ -100,7 +90,7 @@ public class UserServiceImplTest {
     @Test
     public void deleteUserShould_ThrowException_whenNameNotExist() {
         //Arrange
-        Mockito.when(mockService.userExist(anyString())).thenReturn(false);
+        Mockito.when(mockService.usernameExist(anyString())).thenReturn(false);
 
         //Assert
         Assertions.assertThrows(EntityNotFoundException.class,

@@ -14,7 +14,6 @@ public class DrankList {
     @Column(name = "beer_id")
     int beerId;
 
-
     public DrankList() {
     }
 
@@ -41,5 +40,4 @@ public class DrankList {
     public void setBeerId(int beerId) {
         this.beerId = beerId;
     }
-
 }

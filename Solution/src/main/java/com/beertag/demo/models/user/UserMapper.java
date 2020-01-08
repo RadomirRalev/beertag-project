@@ -20,23 +20,21 @@ public class UserMapper {
     }
 
     public User validationData(UserRegistration userRegistration) {
-        if (isUserAdult(userRegistration.getBirthDay(), userRegistration.getBirthMonth(), userRegistration.getBirthYear())) {
-
+        if (isUserAdult
+                (userRegistration.getBirthDay(), userRegistration.getBirthMonth(), userRegistration.getBirthYear()))
+        {
             User user = new User(userRegistration.getFirstName(),
                     userRegistration.getLastName(),
                     userRegistration.getUsername(),
                     userRegistration.getEmail(),
                     passwordEncoder.encode(userRegistration.getPassword()), ENABLED);
-
             setOptionalFields(user);
             return user;
         }
-
         throw new InvalidAgeException(NOT_ADULT);
     }
 
     public void validationData(UserUpdateDTO userUpdateDTO, User user) {
-
         user.setFirstName(userUpdateDTO.getFirstName());
         user.setLastName(userUpdateDTO.getLastName());
         setOptionalFields(user);

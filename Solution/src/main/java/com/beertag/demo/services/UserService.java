@@ -35,8 +35,8 @@ public interface UserService {
 
     boolean emailExist(String email);
 
-    boolean isUserHaveCurrentBeerInWishList(String username, int beerId );
+    boolean isUserHaveCurrentBeerOnWishList(String username, int beerId );
 
-    boolean isUserHaveCurrentBeerInDrankList(String username, int beerId );
+    boolean isUserHaveCurrentBeerOnDrankList(String username, int beerId );
 
 }

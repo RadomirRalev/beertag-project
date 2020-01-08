@@ -7,44 +7,36 @@ import javax.validation.constraints.*;
 
 public class UserRegistration {
     @NotNull
-    private String firstName; //optional field
+    private String firstName;
     @NotNull
-    private String lastName; // optional field
-
+    private String lastName;
     @Min(value = 1920, message = "Birth day is required")
     @Max(2019)
     private int birthYear;
-
     @Min(value = 1, message = "Birth month is required")
     @Max(12)
     private int birthMonth;
-
     @Min(value = 1, message = "Birth day is required")
     @Max(31)
     private int birthDay;
-
     @Length(min = 4, max = 30)
     @Pattern(regexp = "^[\\w-]+$",
             message = "username may only contain alpha-numeric characters, underscores, and dashes.")
     private String username;
-
     //https://emailregex.com/
     @Email(regexp = "(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)"
             , message = "Please provide a valid email address.")
     private String email;
-
     @Size(min = 6, message = "Password is required")
     private String password;
-
     @Size(min = 6, message = "Password is required")
     private String passwordConfirmation;
 
     public UserRegistration() {
     }
 
-    public UserRegistration(@Nullable @Pattern(regexp = "^[a-zA-Z]+$", message = "First Name field contain may only contain letters.") @Size(min = 3) String firstName, @Pattern(regexp = "^[a-zA-Z]+$", message = "Last Name field may contain only contain letters.") @Size(min = 3) String lastName, @Min(1920) @Max(2019) int birthYear, @Min(1) @Max(12) int birthMonth, @Min(1) @Max(31) int birthDay, @NotBlank @Length(min = 4, max = 30) @Pattern(regexp = "^[\\w-]+$", //ограничава позволените символи до букви, цифри, _ и -
-            message = "The User Name field may only contain alpha-numeric characters, underscores, and dashes.") String username, @Email(regexp = "(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)"
-            , message = "Please provide a valid email address.") String email, String password) {
+    public UserRegistration(String firstName, String lastName, int birthYear, int birthMonth, int birthDay,
+                            String username, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthYear = birthYear;

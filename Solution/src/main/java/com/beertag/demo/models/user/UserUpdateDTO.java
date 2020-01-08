@@ -4,16 +4,19 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+
 //TODO
 @Component
 public class UserUpdateDTO {
-
     @Column(name = "first_name")
     @NotNull
-    private String firstName; //optional field
+    private String firstName;
     @Column(name = "last_name")
     @NotNull
-    private String lastName; // optional field
+    private String lastName;
+
+    public UserUpdateDTO() {
+    }
 
     public String getFirstName() {
         return firstName;

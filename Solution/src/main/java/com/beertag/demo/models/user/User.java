@@ -27,7 +27,7 @@ public class User {
     @Column(name = "enabled")
     private int enabled;
 
-
+    //TODO
 //    @ManyToMany(fetch = FetchType.EAGER)
 //    @JoinTable(name = "authorities",
 //            joinColumns = @JoinColumn(name = "username"),
@@ -46,7 +46,6 @@ public class User {
             joinColumns = @JoinColumn(name = "username"),
             inverseJoinColumns = @JoinColumn(name = "beer_id"))
     Set<Beer> drankList;
-
 
     public User() {
     }
@@ -107,7 +106,6 @@ public class User {
 //    public void setRoles(Set<Role> roles) {
 //        this.roles = roles;
 //    }
-
 
     public int getEnabled() {
         return enabled;

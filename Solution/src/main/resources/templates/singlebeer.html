@@ -90,7 +90,7 @@
                             <!--                            <button class="add-to-cart btn btn-default" type="button">add to wishlist</button>-->
                             <!--                            <button class="add-to-cart btn btn-default" type="button">add to dranklist</button>-->
                             <p>
-                                <i th:if="${error != null}" th:text="${error}" class="error"></i>
+                                <i th:if="${error != null}" th:text="${error}"  class="error1"></i>
                             </p>
                             <form class="button" sec:authorize="isAuthenticated()" th:action="@{__${beer.getId()}__}"
                                   method="post">
