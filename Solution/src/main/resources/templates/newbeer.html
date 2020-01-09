@@ -11,16 +11,14 @@
     <link rel="stylesheet" type="text/css" href="../detailedsearch.css" th:src="@{detailedsearch.css}"/>
 </head>
 <body>
+<script>
+</script>
 <div class="s009">
     <form name="form1" action="#" th:action="@{/beers/create}" th:object="${parametres}" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="beername">Beer name</label>
 
-            <input name="beername"  th:field="*{nameParam}" oninvalid="InvalidMsg(this);"
-                   oninput="InvalidMsg(this);" class="form-control" id="beername" aria-describedby="emailHelp" placeholder="Enter beer name" minlength=2 maxlength=62 required/>
-<!--            <label th:if="${#fields.hasErrors('nameParam')}" th:errors="*{nameParam}">Name Error</label>-->
-
-            <!--            <label style="color: red" th:errors="*{nameParam}" th:text="#{home.welcome}"></label>-->
+            <input name="beername" th:field="*{nameParam}" class="form-control" id="beername" aria-describedby="emailHelp" placeholder="Enter beer name" minlength=2 maxlength=62 required/>
             <small id="beerNameHelp" class="form-text text-muted">Name should be between 2 and 62 characters long.</small>
         </div>
         <div class="form-group">

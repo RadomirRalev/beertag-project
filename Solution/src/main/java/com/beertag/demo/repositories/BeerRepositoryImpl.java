@@ -126,12 +126,28 @@ public class BeerRepositoryImpl implements BeerRepository {
         if (!checkBeerExists(getById(id).getName())) {
             throw new EntityNotFoundException(BEER_ID_NOT_FOUND, id);
         }
-        try(Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             Beer beerToBeDeleted = session.get(Beer.class, id);
+            getWishListDeleteBeerQuery(id, session);
+            getDrankListDeleteBeerQuery(id, session);
             session.delete(beerToBeDeleted);
             session.getTransaction().commit();
         }
+    }
+
+    private void getWishListDeleteBeerQuery(int id, Session session) {
+        Query<Beer> query = session.createNativeQuery("delete from wish_beer" +
+                " where wish_beer.beer_id = :id", Beer.class);
+        query.setParameter("id", id);
+        query.executeUpdate();
+    }
+
+    private void getDrankListDeleteBeerQuery(int id, Session session) {
+        Query<Beer> query = session.createNativeQuery("delete from drank_beer" +
+                " where drank_beer.beer_id = :id", Beer.class);
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 
     @Override

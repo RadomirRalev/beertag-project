@@ -11,6 +11,11 @@
     <link rel="stylesheet" type="text/css" href="../singlebeer.css" th:src="@{singlebeer.css}"/>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script>
+        function myFunction() {
+            confirm("Are you sure you wish to delete this beer?");
+        }
+    </script>
     <style>
 
     </style>
@@ -87,8 +92,6 @@
                         </p>
                         <p class="vote"><strong>Style: </strong> <span th:text="${beer.style.getName()}"></span></p>
                         <div class="action">
-                            <!--                            <button class="add-to-cart btn btn-default" type="button">add to wishlist</button>-->
-                            <!--                            <button class="add-to-cart btn btn-default" type="button">add to dranklist</button>-->
                             <p>
                                 <i th:if="${error != null}" th:text="${error}"  class="error1"></i>
                             </p>
@@ -103,6 +106,12 @@
                             <form class="button" th:action="@{updatebeer/__${beer.getId()}__}" method="get">
                                 <input class="add-to-cart btn btn-default" type="submit" value="update"/>
                             </form>
+                            <form class="button" th:action="@{deletebeer/__${beer.getId()}__}" method="get">
+                                <input class="add-to-cart btn btn-default" type="submit" value="delete" onclick="myFunction()"/>
+                            </form>
+<!--                            <form class="button" th:action="@{delete/__${beer.getId()}__}" method="post">-->
+<!--                                <input class="add-to-cart btn btn-default" type="submit" value="delete"/>-->
+<!--                            </form>-->
                         </div>
                     </div>
                 </div>

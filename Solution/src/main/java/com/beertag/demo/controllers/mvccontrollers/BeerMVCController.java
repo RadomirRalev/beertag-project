@@ -80,6 +80,14 @@ public class BeerMVCController {
         return "wishlist";
     }
 
+    @GetMapping("beers/deletebeer/{id}")
+    public String showDeleteBeerForm(@PathVariable("id") int id, Model model) {
+        Beer beer = service.getById(id);
+        model.addAttribute("beer", beer);
+        service.deleteBeer(id);
+        return "redirect:/beers";
+    }
+
     @GetMapping("beers/updatebeer/{id}")
     public String showUpdateBeerForm(@PathVariable("id") int id, Model model) {
         Beer beer = service.getById(id);
