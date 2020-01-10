@@ -26,7 +26,7 @@ public class TagServiceImpl implements TagService {
         try {
             return tagRepository.getTagById(id);
         } catch (Exception e) {
-            throw new EntityNotFoundException(STYLE_ID_NOT_FOUND, id);
+            throw new EntityNotFoundException(TAG_ID_NOT_FOUND, id);
         }
     }
 
@@ -75,5 +75,10 @@ public class TagServiceImpl implements TagService {
     @Override
     public void addTagToBeer(int tagId, int beerId) {
         tagRepository.addTagToBeer(tagId, beerId);
+    }
+
+    @Override
+    public void removeTagFromBeer(int tagId, int beerId) {
+        tagRepository.removeTagFromBeer(tagId, beerId);
     }
 }

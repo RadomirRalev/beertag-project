@@ -99,4 +99,16 @@ public class TagRepositoryImpl implements TagRepository {
                 session.getTransaction().commit();
         }
     }
+
+    @Override
+    public void removeTagFromBeer(int tagId, int beerId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            Tag tag = session.get(Tag.class,tagId);
+            Beer beer = session.get(Beer.class,beerId);
+            beer.getTags().remove(tag);
+            session.update(beer);
+            session.getTransaction().commit();
+        }
+    }
 }

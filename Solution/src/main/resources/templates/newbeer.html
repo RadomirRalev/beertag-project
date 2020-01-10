@@ -5,16 +5,21 @@
     <meta charset="UTF-8">
     <title>Add new beer</title>
     <link href="https://fonts.googleapis.com/css?family=Lato:400,600,700" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../detailedsearch.css" th:src="@{detailedsearch.css}"/>
 </head>
 <body>
+<script>
+</script>
 <div class="s009">
-    <form  action="#" th:action="@{/beers/create}" th:object="${parametres}" method="post" enctype="multipart/form-data">
+    <form name="form1" action="#" th:action="@{/beers/create}" th:object="${parametres}" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="beername">Beer name</label>
-            <input th:field="*{nameParam}" class="form-control" id="beername" aria-describedby="emailHelp" placeholder="Enter beer name">
-            <small id="beerNameHelp" class="form-text text-muted">Please make sure that name is correctly typed.</small>
+
+            <input name="beername" th:field="*{nameParam}" class="form-control" id="beername" aria-describedby="emailHelp" placeholder="Enter beer name" minlength=2 maxlength=62 required/>
+            <small id="beerNameHelp" class="form-text text-muted">Name should be between 2 and 62 characters long.</small>
         </div>
         <div class="form-group">
             <label for="abv">ABV</label>
@@ -52,14 +57,15 @@
         <label>
             <input type="file" name ="file" class="form-control-file" id="exampleFormControlFile1"/>
             <input type="hidden" name ="MAX_FILE_SIZE" value="2000000"/>
-            <input type="submit" value="Save"/>
-            Add pic
         </label>
 
-        <label for="exampleFormControlTextarea1">Please describe the beer:</label>
-        <textarea th:field="*{descriptionParam}" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        <br>
 
-        <button type="submit" value="Save" class="btn btn-primary">Create</button>
+        <label for="exampleFormControlTextarea1">Please describe the beer:</label>
+        <textarea th:field="*{descriptionParam}" class="form-control" id="exampleFormControlTextarea1" rows="3" minlength="10" required></textarea>
+        <br>
+
+        <button name="create-button" id="create-button" type="submit" value="Save" class="size">Create</button>
 
     </form>
 

@@ -22,4 +22,6 @@ public interface TagRepository {
     List<Tag> getTagByName(String name);
 
     void addTagToBeer(int tagId, int beerId);
+
+    void removeTagFromBeer(int tagId, int beerId);
 }

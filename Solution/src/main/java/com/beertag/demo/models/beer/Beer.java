@@ -18,7 +18,7 @@ public class Beer {
     private int id;
     @Column(name = "name")
     @NotEmpty(message = "Name may not be empty")
-    @Size(min = 2, max = 62, message = "Name must be between 2 and 32 characters long")
+    @Size(min = 2, max = 62, message = "Name must be between 2 and 62 characters long")
     private String name;
     @Column(name = "description")
     private String description;
