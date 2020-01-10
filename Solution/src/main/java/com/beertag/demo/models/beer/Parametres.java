@@ -17,6 +17,8 @@ public class Parametres {
     private int styleParamId;
     private int countryParamId;
     private int breweryParamId;
+    private int tagParamId;
+    private int tagToDeleteParamId;
 
     public Parametres() {
     }
@@ -24,7 +26,8 @@ public class Parametres {
     public Parametres(String styleSearch, String countrySearch, String tagSearch,
                       String brewerySearch, String alcoholSearch, String nameParam,
                       double abvParam, String descriptionParam, int styleParamId,
-                      int countryParamId, int breweryParamId, int beerId) {
+                      int countryParamId, int breweryParamId, int beerId, int tagParamId,
+                      int tagToDeleteParamId) {
         this.styleSearch = styleSearch;
         this.countrySearch = countrySearch;
         this.tagSearch = tagSearch;
@@ -37,6 +40,8 @@ public class Parametres {
         this.countryParamId = countryParamId;
         this.breweryParamId = breweryParamId;
         this.beerId = beerId;
+        this.tagParamId = tagParamId;
+        this.tagToDeleteParamId = tagToDeleteParamId;
     }
 
     public String getStyleSearch() {
@@ -133,5 +138,21 @@ public class Parametres {
 
     public void setBeerId(int beerId) {
         this.beerId = beerId;
+    }
+
+    public int getTagId() {
+        return tagParamId;
+    }
+
+    public void setTagId(int tagParamId) {
+        this.tagParamId = tagParamId;
+    }
+
+    public int getTagToDeleteParamId() {
+        return tagToDeleteParamId;
+    }
+
+    public void setTagToDeleteParamId(int tagToDeleteParamId) {
+        this.tagToDeleteParamId = tagToDeleteParamId;
     }
 }

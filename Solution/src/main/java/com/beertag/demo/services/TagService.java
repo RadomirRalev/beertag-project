@@ -18,4 +18,6 @@ public interface TagService {
     void deleteTag(int id);
 
     void addTagToBeer(int tagId, int beerId);
+
+    void removeTagFromBeer(int tagId, int beerId);
 }

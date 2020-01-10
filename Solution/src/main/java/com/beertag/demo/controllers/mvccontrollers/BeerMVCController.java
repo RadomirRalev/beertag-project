@@ -106,6 +106,8 @@ public class BeerMVCController {
         beerToUpdate.setStyle(styleService.getStyleById(parametres.getStyleParamId()));
         beerToUpdate.setBrewery(breweryService.getBreweryById(parametres.getBreweryParamId()));
         beerToUpdate.setOriginCountry(countryService.getCountryById(parametres.getCountryParamId()));
+        List<Tag> tagList = beerToUpdate.getTags();
+        tagList.add(tagService.getTagById(parametres.getTagId()));
         service.update(beerToUpdate.getId(), beerToUpdate);
         return "redirect:/beers";
     }

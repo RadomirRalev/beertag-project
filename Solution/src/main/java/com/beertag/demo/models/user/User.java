@@ -4,6 +4,7 @@ import com.beertag.demo.models.beer.Beer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,6 +27,9 @@ public class User {
     private String password;
     @Column(name = "enabled")
     private int enabled;
+    @Lob
+    @Column(name = "picture", columnDefinition = "BLOB")
+    private byte[] picture;
 
     //TODO
 //    @ManyToMany(fetch = FetchType.EAGER)
@@ -137,6 +141,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPicture() {
+        return Base64.getEncoder().encodeToString(picture);
+    }
+
+    public void setPicture(byte[] picture) {
+        this.picture = picture;
     }
 }
 
