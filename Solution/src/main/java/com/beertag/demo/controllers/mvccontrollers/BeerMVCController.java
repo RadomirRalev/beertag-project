@@ -79,7 +79,7 @@ public class BeerMVCController {
         String currentPrincipalName = authentication.getName();
 
         userService.addBeerToWishList(currentPrincipalName, id);
-        return "redirect:/beers";
+        return "redirect:";
     }
 
     @PostMapping("beers/{id}/drank")
@@ -89,7 +89,7 @@ public class BeerMVCController {
 
         userService.addBeerToDrankList(currentPrincipalName, id);
 
-        return "redirect:/beers";
+        return "redirect:";
     }
 
     @PostMapping("beers/{id}/rating")
@@ -99,7 +99,7 @@ public class BeerMVCController {
 
         userService.rateBeer(currentPrincipalName, id, rating.getRating());
         service.updateAvgRatingOfBeer(id);
-        return "redirect:/beers";
+        return "redirect:";
     }
 
     @GetMapping("beers/deletebeer/{id}")
@@ -107,9 +107,8 @@ public class BeerMVCController {
         Beer beer = service.getById(id);
         model.addAttribute("beer", beer);
         service.deleteBeer(id);
-        return "redirect:/beers";
+        return "redirect:";
     }
-
 
 
     @GetMapping("beers/updatebeer/{id}")

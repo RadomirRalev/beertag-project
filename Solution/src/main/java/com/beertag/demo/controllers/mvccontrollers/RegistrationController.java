@@ -5,6 +5,7 @@ import com.beertag.demo.exceptions.InvalidAgeException;
 import com.beertag.demo.exceptions.InvalidOptionalFieldParameter;
 import com.beertag.demo.models.user.User;
 import com.beertag.demo.models.user.UserRegistration;
+import com.beertag.demo.models.user.UserUpdateDTO;
 import com.beertag.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -63,6 +64,26 @@ public class RegistrationController {
 
         return "users/register-confirmation";
     }
+
+    @GetMapping("user/update")
+    public String showUpdatePage(Model model) {
+        model.addAttribute("UserUpdateDTO", new UserUpdateDTO());
+        return "users/update";
+    }
+
+    @PostMapping("user/update")
+    public String updateUser(@Valid @ModelAttribute("UserUpdateDTO") UserUpdateDTO userUpdateDTO,
+                               @RequestParam("file") MultipartFile file,
+                               BindingResult bindingResult, Model model) {
+        model.addAttribute("file", file);
+        if (bindingResult.hasErrors()) {
+            return "users/update";
+        }
+
+
+        return "users/register-confirmation";
+    }
+
 
     //TODO
     @GetMapping("/register-confirmation")
