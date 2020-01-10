@@ -38,6 +38,8 @@ public class Beer {
     private byte[] picture;
     @Column(name = "avg_rating")
     private double avgRating;
+    @Column(name = "status")
+    int status;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "created_by")
@@ -149,4 +151,11 @@ public class Beer {
         this.avgRating = avgRating;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 }

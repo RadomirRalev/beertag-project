@@ -17,6 +17,8 @@ public class Brewery {
     @Pattern(regexp = "^[a-zA-Z .]+$",message = "Country field may contain only letters, space and coma.")
     @Column(name = "name")
     private String name;
+    @Column(name = "status")
+    int status;
 
     public Brewery() {
 
@@ -40,5 +42,13 @@ public class Brewery {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

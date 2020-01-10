@@ -89,17 +89,17 @@ public class UserServiceImpl implements UserService {
         }
         User user = getByUsername(username);
         WishList wishList = new WishList();
+        wishList.setStatus(ENABLED);
         wishList.setUsername(user.getUsername());
         wishList.setBeerId(beer.getId());
 
         userRepository.addBeerFromWishList(wishList);
     }
 
-    //TODO
+
     @Override
-    public void softDeleteBeerToWishList(String username, int beerId) {
-
-
+    public void softDeleteBeerFromWishList(String username, int beerId) {
+     userRepository.softDeleteBeerFromWishList(username,beerId);
     }
 
     @Override
@@ -123,9 +123,15 @@ public class UserServiceImpl implements UserService {
         User user = getByUsername(username);
 
         DrankList drankList = new DrankList();
+        drankList.setStatus(ENABLED);
         drankList.setUsername(user.getUsername());
         drankList.setBeerId(beer.getId());
         userRepository.addBeerToDrankList(drankList);
+    }
+
+    @Override
+    public void softDeleteBeerFromDrankList (String username, int beerId) {
+        userRepository.softDeleteBeerFromWishList(username, beerId);
     }
 
     @Override

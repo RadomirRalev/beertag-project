@@ -1,4 +1,5 @@
 package com.beertag.demo.repositories;
+
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.beer.Style;
 import org.hibernate.Session;
@@ -22,9 +23,9 @@ public class StyleRepositoryImpl implements StyleRepository {
 
     @Override
     public Style getStyleById(int id) {
-        try(Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Style style = session.get(Style.class, id);
-            if (style == null) {
+            if (style == null || style.getStatus() != ENABLED) {
                 throw new EntityNotFoundException(
                         String.format(STYLE_ID_NOT_FOUND, id));
             }
@@ -34,8 +35,9 @@ public class StyleRepositoryImpl implements StyleRepository {
 
     @Override
     public List<Style> getStylesList() {
-        try(Session session = sessionFactory.openSession()) {
-            Query<Style> query = session.createQuery("from Style", Style.class);
+        try (Session session = sessionFactory.openSession()) {
+            Query<Style> query = session.createQuery("from Style where status = :status", Style.class)
+                    .setParameter("status", ENABLED);
             return query.list();
         } catch (Exception e) {
             throw new EntityNotFoundException(LIST_EMPTY);
@@ -44,9 +46,11 @@ public class StyleRepositoryImpl implements StyleRepository {
 
     @Override
     public List<Style> getStyleByName(String name) {
-        try(Session session = sessionFactory.openSession()) {
-            Query<Style> query = session.createQuery("from Style where name LIKE :name", Style.class);
+        try (Session session = sessionFactory.openSession()) {
+            Query<Style> query = session.createQuery("from Style " +
+                    "where name LIKE :name and status = :status", Style.class);
             query.setParameter("name", "%" + name + "%");
+            query.setParameter("status", ENABLED);
             return query.list();
         } catch (Exception e) {
             throw new EntityNotFoundException(STYLE_NAME_NOT_FOUND, name);
@@ -81,9 +85,14 @@ public class StyleRepositoryImpl implements StyleRepository {
     public void deleteStyle(int id) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            Style styleToBeDeleted = session.get(Style.class, id);
-            session.delete(styleToBeDeleted);
-            session.getTransaction().commit();
+            session.createQuery("update Style " +
+                    "set status = :status where id = :id ")
+                    .setParameter("id", id)
+                    .setParameter("status", DISABLE)
+                    .executeUpdate();
+            session.
+                    getTransaction()
+                    .commit();
         }
     }
 }

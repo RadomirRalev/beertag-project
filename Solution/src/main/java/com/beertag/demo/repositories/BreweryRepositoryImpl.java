@@ -23,7 +23,7 @@ public class BreweryRepositoryImpl implements BreweryRepository {
     public Brewery getBreweryById(int id) {
         try(Session session = sessionFactory.openSession()) {
             Brewery brewery = session.get(Brewery.class, id);
-            if (brewery == null) {
+            if (brewery == null || brewery.getStatus() != ENABLED) {
                 throw new EntityNotFoundException(
                         String.format(BREWERY_ID_NOT_FOUND, id));
             }
@@ -34,7 +34,8 @@ public class BreweryRepositoryImpl implements BreweryRepository {
     @Override
     public List<Brewery> getBreweriesList() {
         try(Session session = sessionFactory.openSession()) {
-            Query<Brewery> query = session.createQuery("from Brewery", Brewery.class);
+            Query<Brewery> query = session.createQuery("from Brewery where status = :status", Brewery.class)
+                    .setParameter("status",ENABLED);
             return query.list();
         }
     }
@@ -42,8 +43,10 @@ public class BreweryRepositoryImpl implements BreweryRepository {
     @Override
     public List<Brewery> getBreweryByName(String name) {
         try(Session session = sessionFactory.openSession()) {
-            Query<Brewery> query = session.createQuery("from Brewery where name LIKE :name", Brewery.class);
+            Query<Brewery> query = session.createQuery("from Brewery " +
+                    "where name LIKE :name and status = :status", Brewery.class);
             query.setParameter("name", "%" + name + "%");
+            query.setParameter("status", ENABLED);
             return query.list();
         } catch (Exception e) {
             throw new EntityNotFoundException(BREWERY_NAME_NOT_FOUND, name);
@@ -77,9 +80,14 @@ public class BreweryRepositoryImpl implements BreweryRepository {
     public void deleteBrewery(int id) {
         try(Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            Brewery breweryToBeDeleted = session.get(Brewery.class, id);
-            session.delete(breweryToBeDeleted);
-            session.getTransaction().commit();
+            session.createQuery("update Brewery " +
+                    "set status = :status where id = :id ")
+                    .setParameter("id", id)
+                    .setParameter("status", DISABLE)
+                    .executeUpdate();
+            session.
+                    getTransaction()
+                    .commit();
         }
     }
 }

@@ -26,12 +26,13 @@ public class BeerServiceImpl implements BeerService {
     private TagRepository tagRepository;
     private RatingRepository ratingRepository;
 
-
     @Autowired
-    public BeerServiceImpl(BeerRepository repository, TagRepository tagRepository, RatingRepository ratingRepository) {
+    public BeerServiceImpl(BeerRepository repository, TagRepository tagRepository,
+                           RatingRepository ratingRepository) {
         this.repository = repository;
         this.tagRepository = tagRepository;
         this.ratingRepository = ratingRepository;
+
     }
 
     @Override
@@ -96,6 +97,7 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public Beer createBeer(Beer newBeer) {
+        newBeer.setStatus(ENABLED);
             return repository.createBeer(newBeer);
     }
 
@@ -110,6 +112,7 @@ public class BeerServiceImpl implements BeerService {
 //                requestUserDetail.getRoles().stream().noneMatch(role -> role.getRole().equals("admin"))){
 //            throw new InvalidPermission(USER_CAN_NOT_MODIFY, requestUserDetail.getUsername(),beerToBeUpdated.getName());
 //        }
+
             return repository.update(id, beerToBeUpdated);
     }
 

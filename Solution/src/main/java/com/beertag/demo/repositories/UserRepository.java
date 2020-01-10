@@ -17,9 +17,11 @@ public interface UserRepository {
 
     void addBeerFromWishList(WishList wishList);
 
-    void softDeleteBeerFromWishList(WishList wishListToDelete);
+    void softDeleteBeerFromWishList(String username, int beerId);
 
-    void addBeerToDrankList (DrankList drankList);
+    void addBeerToDrankList(DrankList drankList);
+
+    void softDeleteBeerFromDrankList(String username, int beerId);
 
     Set<Beer> getDrankList(String username);
 
@@ -37,10 +39,10 @@ public interface UserRepository {
 
     boolean emailExist(String email);
 
-    boolean isUserHaveCurrentBeerOnWishList(String username, int beerId );
+    boolean isUserHaveCurrentBeerOnWishList(String username, int beerId);
 
-    boolean isUserHaveCurrentBeerOnDrankList(String username, int beerId );
+    boolean isUserHaveCurrentBeerOnDrankList(String username, int beerId);
 
-    void rateBeer (String username, int beerId, int rating);
+    void rateBeer(String username, int beerId, int rating);
 
 }

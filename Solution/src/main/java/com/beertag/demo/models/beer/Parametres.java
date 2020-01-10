@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.validation.constraints.Size;
 
 public class Parametres {
-    @Size(min = 2, max = 62, message = "Name must be between 2 and 32 characters long")
+    @Size(min = 2, max = 62, message = "Name must be between 2 and 62 characters long")
     private String nameParam;
     private double abvParam;
     private String descriptionParam;

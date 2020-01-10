@@ -21,9 +21,7 @@ public class UserRepositoryImpl implements UserRepository {
             "select %d, drank_beer_id " +
             "from drank_beer " +
             "where username = '%s' and beer_id = '%d';";
-    private static final int ENABLED = 1;
-    private static final int DISABLE = 0;
-    private static final String GET_ENABLED_USER = "from User where username = :name and enabled = " + ENABLED + " ";
+    private static final String GET_ENABLED_USER = "from User where username = :name and enabled = :status ";
     private static final String INSERT_USER_ROLE_SQL = "insert into authorities " +
             "value ('%s','ROLE_USER')";
 
@@ -56,9 +54,21 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void softDeleteBeerFromWishList(WishList wishList) {
-
+    public void softDeleteBeerFromWishList(String username, int beerId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.createQuery("update WishList " +
+                    "set status = :status " +
+                    "where beerId = :beerId and username = :username ")
+                    .setParameter("beerId", beerId)
+                    .setParameter("username", username)
+                    .setParameter("status", DISABLE)
+                    .executeUpdate();
+            session.getTransaction()
+                    .commit();
+        }
     }
+
 
     @Override
     public boolean isUserHaveCurrentBeerOnWishList(String username, int beerId) {
@@ -85,6 +95,22 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public void softDeleteBeerFromDrankList(String username, int beerId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.createQuery("update DrankList " +
+                    "set status = :status " +
+                    "where beerId = :beerId and username = :username ")
+                    .setParameter("beerId", beerId)
+                    .setParameter("username", username)
+                    .setParameter("status", DISABLE)
+                    .executeUpdate();
+            session.getTransaction()
+                    .commit();
+        }
+    }
+
+    @Override
     public boolean isUserHaveCurrentBeerOnDrankList(String username, int beerId) {
         try (Session session = sessionFactory.openSession()) {
             return !session.createQuery("from DrankList " +
@@ -99,12 +125,11 @@ public class UserRepositoryImpl implements UserRepository {
     public void rateBeer(String username, int beerId, int rating) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            String sql = String.format(RATE_BEER_SQL, rating, username,beerId);
+            String sql = String.format(RATE_BEER_SQL, rating, username, beerId);
             session.createSQLQuery(sql).executeUpdate();
             session.getTransaction().commit();
         }
     }
-
 
     @Override
     public User createUser(User user) {
@@ -124,6 +149,7 @@ public class UserRepositoryImpl implements UserRepository {
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery(GET_ENABLED_USER, User.class);
             query.setParameter("name", name);
+            query.setParameter("status", ENABLED);
             if (query.list().size() != 1) {
                 throw new EntityNotFoundException(USER_USERNAME_NOT_FOUND, name);
             }
@@ -157,9 +183,9 @@ public class UserRepositoryImpl implements UserRepository {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.createQuery("update User " +
-                    "set enabled = " + DISABLE + " " +
-                    "where id = :id ")
+                    "set enabled = :status where id = :id ")
                     .setParameter("id", user.getId())
+                    .setParameter("status", DISABLE)
                     .executeUpdate();
             session.
                     getTransaction()
@@ -170,8 +196,10 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean usernameExist(String name) {
         try (Session session = sessionFactory.openSession()) {
-            return !session.createQuery("from User where username = :name", User.class)
+            return !session.createQuery("from User " +
+                    "where username = :name and enabled = :status", User.class)
                     .setParameter("name", name)
+                    .setParameter("status", ENABLED)
                     .list().isEmpty();
         }
     }
@@ -179,8 +207,10 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean emailExist(String email) {
         try (Session session = sessionFactory.openSession()) {
-            return !session.createQuery("from User where email = :email", User.class)
+            return !session.createQuery("from User " +
+                    "where email = :email and enabled = :status", User.class)
                     .setParameter("email", email)
+                    .setParameter("status", ENABLED)
                     .list().isEmpty();
         }
     }

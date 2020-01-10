@@ -18,6 +18,8 @@ public class Tag {
     @Pattern(regexp = "^[a-zA-Z]+$",message = "Tag field may contain only letters.")
     @Column(name = "name")
     private String name;
+    @Column(name = "status")
+    int status;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -57,5 +59,13 @@ public class Tag {
 
     public void setBeers(List<Beer> beers) {
         this.beers = beers;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

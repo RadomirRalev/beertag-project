@@ -26,7 +26,7 @@ public class TagRepositoryImpl implements TagRepository {
     public Tag getTagById(int id) {
         try(Session session = sessionFactory.openSession()) {
             Tag tag = session.get(Tag.class, id);
-            if (tag == null) {
+            if (tag == null || tag.getStatus() != ENABLED) {
                 throw new EntityNotFoundException(
                         String.format(TAG_ID_NOT_FOUND, id));
             }
@@ -37,7 +37,8 @@ public class TagRepositoryImpl implements TagRepository {
     @Override
     public List<Tag> getTagList() {
         try(Session session = sessionFactory.openSession()) {
-            Query<Tag> query = session.createQuery("from Tag", Tag.class);
+            Query<Tag> query = session.createQuery("from Tag where status = :status", Tag.class)
+                    .setParameter("status",ENABLED);
             return query.list();
         } catch (Exception e) {
             throw new EntityNotFoundException(LIST_EMPTY);
@@ -71,17 +72,24 @@ public class TagRepositoryImpl implements TagRepository {
     public void deleteTag(int id) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            Tag tagToBeDeleted = session.get(Tag.class, id);
-            session.delete(tagToBeDeleted);
-            session.getTransaction().commit();
+            session.createQuery("update Tag " +
+                    "set status = :status where id = :id ")
+                    .setParameter("id", id)
+                    .setParameter("status", DISABLE)
+                    .executeUpdate();
+            session.
+                    getTransaction()
+                    .commit();
         }
     }
 
     @Override
     public List<Tag> getTagByName(String name) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Tag> query = session.createQuery("from Tag where name LIKE :name", Tag.class);
+            Query<Tag> query = session.createQuery("from Tag " +
+                    "where name LIKE :name and status = :status", Tag.class);
             query.setParameter("name", "%" + name + "%");
+            query.setParameter("status", ENABLED);
             return query.list();
         } catch (Exception e) {
             throw new EntityNotFoundException(TAG_NAME_NOT_FOUND, name);

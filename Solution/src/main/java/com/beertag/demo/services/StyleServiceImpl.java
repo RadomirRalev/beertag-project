@@ -63,6 +63,7 @@ public class StyleServiceImpl implements StyleService {
 
     @Override
     public Style createStyle(Style newStyle) {
+        newStyle.setStatus(ENABLED);
         try {
             return styleRepository.createStyle(newStyle);
         } catch (Exception e) {

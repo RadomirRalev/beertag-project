@@ -60,6 +60,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag createTag(Tag newTag) {
+        newTag.setStatus(ENABLED);
         try {
             return tagRepository.createTag(newTag);
         } catch (Exception e) {

@@ -26,7 +26,7 @@ public class BeerRepositoryImpl implements BeerRepository {
     public Beer getById(int id) {
         try(Session session = sessionFactory.openSession()) {
             Beer beer = session.get(Beer.class, id);
-            if (beer == null) {
+            if (beer == null || beer.getStatus() != ENABLED) {
                 throw new EntityNotFoundException(
                         String.format(BEER_ID_NOT_FOUND, id));
             }
@@ -37,7 +37,8 @@ public class BeerRepositoryImpl implements BeerRepository {
     @Override
     public List<Beer> getBeerList() {
         try (Session session = sessionFactory.openSession()) {
-            Query<Beer> query = session.createQuery("from Beer", Beer.class);
+            Query<Beer> query = session.createQuery("from Beer where status = :status", Beer.class);
+            query.setParameter("status",ENABLED);
             if (query.list().isEmpty()) {
                 throw new EntityNotFoundException("List is empty");
             } else {
@@ -49,8 +50,10 @@ public class BeerRepositoryImpl implements BeerRepository {
     @Override
     public List<Beer> getBeerByName(String name) {
         try(Session session = sessionFactory.openSession()) {
-            Query<Beer> query = session.createQuery("from Beer where name LIKE :name", Beer.class);
+            Query<Beer> query = session.createQuery("from Beer " +
+                    "where name LIKE :name and status = :status", Beer.class);
             query.setParameter("name", "%" + name + "%");
+            query.setParameter("status",ENABLED);
             return query.list();
         }
     }
@@ -58,8 +61,10 @@ public class BeerRepositoryImpl implements BeerRepository {
     @Override
     public List<Beer> getBeersByStyleId(int styleId) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Beer> query = session.createQuery("from Beer where style.id = :styleId", Beer.class);
+            Query<Beer> query = session.createQuery("from Beer " +
+                    "where style.id = :styleId and status = :status", Beer.class);
             query.setParameter("styleId", styleId);
+            query.setParameter("status",ENABLED);
             return query.list();
         }
     }
@@ -67,8 +72,10 @@ public class BeerRepositoryImpl implements BeerRepository {
     @Override
     public List<Beer> getBeersByStyleName(String styleName) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Beer> query = session.createQuery("from Beer where style.name LIKE :styleName", Beer.class);
+            Query<Beer> query = session.createQuery("from Beer " +
+                    "where style.name LIKE :styleName and status = :status", Beer.class);
             query.setParameter("styleName", "%" + styleName + "%");
+            query.setParameter("status",ENABLED);
             return query.list();
         }
     }
@@ -76,8 +83,10 @@ public class BeerRepositoryImpl implements BeerRepository {
     @Override
     public List<Beer> getBeersByBreweryName(String breweryName) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Beer> query = session.createQuery("from Beer where brewery.name LIKE :breweryName", Beer.class);
+            Query<Beer> query = session.createQuery("from Beer " +
+                    "where brewery.name LIKE :breweryName and status = :status", Beer.class);
             query.setParameter("breweryName", "%" + breweryName + "%");
+            query.setParameter("status",ENABLED);
             return query.list();
         }
     }
@@ -85,8 +94,10 @@ public class BeerRepositoryImpl implements BeerRepository {
     @Override
     public List<Beer> getBeersByOriginCountry(String originCountry) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Beer> query = session.createQuery("from Beer where originCountry.name = :originCountry", Beer.class);
+            Query<Beer> query = session.createQuery("from Beer " +
+                    "where originCountry.name = :originCountry and status = :status", Beer.class);
             query.setParameter("originCountry", originCountry);
+            query.setParameter("status",ENABLED);
             return query.list();
         }
     }
@@ -94,8 +105,10 @@ public class BeerRepositoryImpl implements BeerRepository {
     @Override
     public List<Beer> getBeersByCountryId(int countryId) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Beer> query = session.createQuery("from Beer where originCountry.id = :countryId", Beer.class);
+            Query<Beer> query = session.createQuery("from Beer " +
+                    "where originCountry.id = :countryId and status = :status", Beer.class);
             query.setParameter("countryId", countryId);
+            query.setParameter("status",ENABLED);
             return query.list();
         }
     }
@@ -103,8 +116,10 @@ public class BeerRepositoryImpl implements BeerRepository {
     @Override
     public List<Beer> getBeersByBreweryId(int breweryId) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Beer> query = session.createQuery("from Beer where brewery.id = :breweryId", Beer.class);
+            Query<Beer> query = session.createQuery("from Beer " +
+                    "where brewery.id = :breweryId and status = :status", Beer.class);
             query.setParameter("breweryId", breweryId);
+            query.setParameter("status",ENABLED);
             return query.list();
         }
     }
@@ -116,6 +131,7 @@ public class BeerRepositoryImpl implements BeerRepository {
 //        }
         try (Session session = sessionFactory.openSession()) {
             session.save(newBeer);
+
         }
         return newBeer;
     }
@@ -127,26 +143,15 @@ public class BeerRepositoryImpl implements BeerRepository {
         }
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            Beer beerToBeDeleted = session.get(Beer.class, id);
+            session.createQuery("update Beer " +
+                    "set status = :status where id = :id ")
+                    .setParameter("id", id)
+                    .setParameter("status", DISABLE)
+                    .executeUpdate();
             getWishListDeleteBeerQuery(id, session);
             getDrankListDeleteBeerQuery(id, session);
-            session.delete(beerToBeDeleted);
             session.getTransaction().commit();
         }
-    }
-
-    private void getWishListDeleteBeerQuery(int id, Session session) {
-        Query<Beer> query = session.createNativeQuery("delete from wish_beer" +
-                " where wish_beer.beer_id = :id", Beer.class);
-        query.setParameter("id", id);
-        query.executeUpdate();
-    }
-
-    private void getDrankListDeleteBeerQuery(int id, Session session) {
-        Query<Beer> query = session.createNativeQuery("delete from drank_beer" +
-                " where drank_beer.beer_id = :id", Beer.class);
-        query.setParameter("id", id);
-        query.executeUpdate();
     }
 
     @Override
@@ -179,9 +184,30 @@ public class BeerRepositoryImpl implements BeerRepository {
         try (Session session = sessionFactory.openSession()) {
             Query<Tag> query = session.createNativeQuery("select * from tag" +
                     " join beertag on beertag.tag_tag_id = tag.tag_id" +
-                    " where beertag.beer_beer_id = :beerId", Tag.class);
+                    " where beertag.beer_beer_id = :beerId " +
+                    "and tag.status =:tagStatus " +
+                    "and beertag.status = :beerStatus", Tag.class);
             query.setParameter("beerId", beerId);
+            query.setParameter("tagStatus", ENABLED);
+            query.setParameter("beerStatus", ENABLED);
             return query.list();
         }
     }
+
+    private void getWishListDeleteBeerQuery(int beerId, Session session) {
+        session.createQuery("update WishList " +
+                "set status = " + DISABLE + " " +
+                "where beerId = :beerId ")
+                .setParameter("beerId", beerId)
+                .executeUpdate();
+    }
+
+    private void getDrankListDeleteBeerQuery(int beerId, Session session) {
+        session.createQuery("update DrankList " +
+                "set status = " + DISABLE + " " +
+                "where beerId = :beerId ")
+                .setParameter("beerId", beerId)
+                .executeUpdate();
+    }
+
 }

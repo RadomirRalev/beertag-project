@@ -13,6 +13,8 @@ public class DrankList {
     String username;
     @Column(name = "beer_id")
     int beerId;
+    @Column(name = "status")
+    int status;
 
     public DrankList() {
     }
@@ -39,5 +41,13 @@ public class DrankList {
 
     public void setBeerId(int beerId) {
         this.beerId = beerId;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

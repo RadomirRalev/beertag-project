@@ -15,9 +15,11 @@ public interface UserService {
 
     void addBeerToWishList (String username, int beerId);
 
-    void softDeleteBeerToWishList (String username, int beerId);
+    void softDeleteBeerFromWishList(String username, int beerId);
 
     void addBeerToDrankList (String username, int beerId);
+
+    void softDeleteBeerFromDrankList (String username, int beerId);
 
     Set<Beer> getDrankList(String username);
 

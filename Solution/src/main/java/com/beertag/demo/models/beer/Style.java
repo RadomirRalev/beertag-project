@@ -17,6 +17,8 @@ public class Style {
     @Size(min = 3, max = 20)
     @Pattern(regexp = "^[a-zA-Z]+$",message = "Style field may contain only letters.")
     private String name;
+    @Column(name = "status")
+    int status;
 
     public Style() {
 
@@ -40,5 +42,13 @@ public class Style {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

@@ -68,6 +68,7 @@ public class BreweryServiceImpl implements BreweryService {
 
     @Override
     public Brewery createBrewery(Brewery newBrewery) {
+        newBrewery.setStatus(ENABLED);
         try {
            return breweryRepository.createBrewery(newBrewery);
         } catch (Exception e) {
