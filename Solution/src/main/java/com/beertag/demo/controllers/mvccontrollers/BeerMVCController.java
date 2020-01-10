@@ -4,6 +4,7 @@ import com.beertag.demo.helpers.BeerCollectionHelper;
 import com.beertag.demo.models.DtoMapper;
 import com.beertag.demo.models.beer.*;
 
+import com.beertag.demo.models.user.User;
 import com.beertag.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-import static com.beertag.demo.exceptions.Constants.USER_ALREADY_HAVE_BEER_WISH_LIST;
 
 @Controller
 public class BeerMVCController {
@@ -27,11 +27,12 @@ public class BeerMVCController {
     private BreweryService breweryService;
     private TagService tagService;
     private CountryService countryService;
+    private RatingService ratingService;
 
     @Autowired
     public BeerMVCController(BeerService service, DtoMapper mapper, UserService userService,
                              StyleService styleService, BreweryService breweryService, TagService tagService,
-                             CountryService countryService) {
+                             CountryService countryService,RatingService ratingService) {
         this.service = service;
         this.mapper = mapper;
         this.userService = userService;
@@ -39,6 +40,7 @@ public class BeerMVCController {
         this.breweryService = breweryService;
         this.tagService = tagService;
         this.countryService = countryService;
+        this.ratingService =ratingService;
     }
 
     @GetMapping("/beers")
@@ -49,30 +51,57 @@ public class BeerMVCController {
 
     @GetMapping("/beers/{id}")
     public String showSingleBeer(@PathVariable("id") int id, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        if (!currentPrincipalName.equals("anonymousUser")) {
+            User user = userService.getByUsername(currentPrincipalName);
+            boolean wishlist = userService.isUserHaveCurrentBeerOnWishList(currentPrincipalName, id);
+            boolean dranklist = userService.isUserHaveCurrentBeerOnDrankList(currentPrincipalName, id);
+            boolean rated =  ratingService.isRated(currentPrincipalName,id);
+            model.addAttribute("user", user);
+            model.addAttribute("wishlist", wishlist);
+            model.addAttribute("dranklist", dranklist);
+            model.addAttribute("rated",rated);
+        }
+        Rating rating = new Rating();
         Beer beer = service.getById(id);
         List<Tag> tagsOfBeer = service.getTags(id);
         model.addAttribute("beers", service.getBeersList());
         model.addAttribute("beer", beer);
         model.addAttribute("tags", tagsOfBeer);
+        model.addAttribute("rating", rating);
         return "singlebeer";
     }
 
-    @PostMapping("beers/{id}")
-    public String addBeerToWishlist(@PathVariable("id") int id, Model model) {
-
+    @PostMapping("beers/{id}/wish")
+    public String addBeerToWishlist(@PathVariable("id") int id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        String test = String.format("redirect:%s",id);
 
-        if(userService.isUserHaveCurrentBeerOnWishList(currentPrincipalName,id)){
-            model.addAttribute("error",
-                    String.format(USER_ALREADY_HAVE_BEER_WISH_LIST,currentPrincipalName,id));
-            return "singlebeer";
-        }
-
-            userService.addBeerToWishList(currentPrincipalName, id);
-        return "wishlist";
+        userService.addBeerToWishList(currentPrincipalName, id);
+        return "redirect:/beers";
     }
+
+    @PostMapping("beers/{id}/drank")
+    public String addBeerToDranklist(@PathVariable("id") int id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        userService.addBeerToDrankList(currentPrincipalName, id);
+
+        return "redirect:/beers";
+    }
+
+    @PostMapping("beers/{id}/rating")
+    public String rateBeer(@PathVariable("id") int id, @ModelAttribute("rating") Rating rating) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        userService.rateBeer(currentPrincipalName, id, rating.getRating());
+        service.updateAvgRatingOfBeer(id);
+        return "redirect:/beers";
+    }
+
 
     @GetMapping("beers/updatebeer/{id}")
     public String showUpdateBeerForm(@PathVariable("id") int id, Model model) {
@@ -184,3 +213,4 @@ public class BeerMVCController {
         model.addAttribute("parametres", new Parametres());
     }
 }
+

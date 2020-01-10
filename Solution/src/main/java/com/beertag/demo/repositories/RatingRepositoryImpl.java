@@ -2,6 +2,7 @@ package com.beertag.demo.repositories;
 
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.beer.Rating;
+import com.beertag.demo.models.user.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -14,13 +15,16 @@ import static com.beertag.demo.exceptions.Constants.RATING_ID_NOT_FOUND;
 
 @Repository
 public class RatingRepositoryImpl implements RatingRepository {
+    private static final String IS_RATING_EXITS_SQL = "select * " +
+            "from rating " +
+            "where drank_id = (select (drank_beer_id) " +
+            "    from drank_beer " +
+            "    where username = :username and beer_id = :beerId and rating != 'null' );";
     private SessionFactory sessionFactory;
-    private BeerRepository beerRepository;
 
     @Autowired
-    public RatingRepositoryImpl(SessionFactory sessionFactory, BeerRepository beerRepository) {
+    public RatingRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-        this.beerRepository = beerRepository;
     }
 
     @Override
@@ -56,9 +60,20 @@ public class RatingRepositoryImpl implements RatingRepository {
         try (Session session = sessionFactory.openSession()) {
             Query<Rating> query = session.createNativeQuery("select * from rating" +
                     " join drank_beer on rating.drank_id = drank_beer.drank_beer_id" +
-                    " where drank_beer_beer_id = :beerId", Rating.class);
+                    " where beer_id = :beerId", Rating.class);
             query.setParameter("beerId", beerId);
             return query.list();
         }
     }
+
+    @Override
+    public boolean isRated(String username, int beerId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Rating> query = session.createNativeQuery(IS_RATING_EXITS_SQL, Rating.class);
+            query.setParameter("username", username);
+            query.setParameter("beerId", beerId);
+            return !query.list().isEmpty();
+        }
+    }
 }
+

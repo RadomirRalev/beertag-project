@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addBeerToDrankList(String username, int beerId, int rating) {
+    public void addBeerToDrankList(String username, int beerId) {
 
         Beer beer = beerService.getById(beerId);
         if (isUserHaveCurrentBeerOnDrankList(username, beerId)) {
@@ -131,6 +131,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isUserHaveCurrentBeerOnDrankList(String username, int beerId) {
         return userRepository.isUserHaveCurrentBeerOnDrankList(username, beerId);
+    }
+
+    @Override
+    public void rateBeer(String username, int beerId, int rating) {
+       userRepository.rateBeer(username,beerId,rating);
     }
 
 }

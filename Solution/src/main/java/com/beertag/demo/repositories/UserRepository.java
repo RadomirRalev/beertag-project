@@ -41,4 +41,6 @@ public interface UserRepository {
 
     boolean isUserHaveCurrentBeerOnDrankList(String username, int beerId );
 
+    void rateBeer (String username, int beerId, int rating);
+
 }

@@ -17,7 +17,7 @@ public interface UserService {
 
     void softDeleteBeerToWishList (String username, int beerId);
 
-    void addBeerToDrankList (String username, int beerId, int rating);
+    void addBeerToDrankList (String username, int beerId);
 
     Set<Beer> getDrankList(String username);
 
@@ -38,5 +38,7 @@ public interface UserService {
     boolean isUserHaveCurrentBeerOnWishList(String username, int beerId );
 
     boolean isUserHaveCurrentBeerOnDrankList(String username, int beerId );
+
+    void rateBeer (String username, int beerId, int rating);
 
 }

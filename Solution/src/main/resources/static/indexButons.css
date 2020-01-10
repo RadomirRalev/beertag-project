@@ -9,7 +9,34 @@
     box-sizing: border-box;
 }
 
-button {
+.fa1{
+
+    display: inline-block;
+    font-family: FontAwesome;
+    color: whitesmoke;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 40px;
+}
+
+.fa1:hover{
+
+    display: inline-block;
+    font-family: FontAwesome;
+    color: black;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 40px;
+}
+
+
+ button {
     position: relative;
     padding: 20px 20px;
     border: none;
@@ -17,6 +44,102 @@ button {
     cursor: pointer;
     font-family: 'Merienda One', cursive;
     color: whitesmoke;
+
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 30px;
+    text-align: center;
+
+    border-radius: 4px;
+    z-index: 0;
+    overflow: hidden;
+}
+
+button:hover {
+    position: relative;
+    padding: 20px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: 'Merienda One', cursive;
+    color: #dab016;
+
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 30px;
+    text-align: center;
+
+    border-radius: 4px;
+    z-index: 0;
+    overflow: hidden;
+}
+
+
+.login button:hover {
+    position: relative;
+    padding: 20px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: 'Merienda One', cursive;
+    color: black;
+
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 25px;
+    text-align: center;
+
+    border-radius: 4px;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.homepage button {
+    position: relative;
+    padding: 60px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: 'Merienda One', cursive;
+    color: whitesmoke;
+
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 55px;
+    text-align: center;
+
+    border-radius: 4px;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.homepage button:hover {
+    position: relative;
+    padding: 60px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: 'Merienda One', cursive;
+    color: black;
+
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 55px;
+    text-align: center;
+
+    border-radius: 4px;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.logout button:hover {
+    position: relative;
+    padding: 20px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: 'Merienda One', cursive;
+    color: red;
 
     font-weight: 900;
     text-transform: uppercase;

@@ -46,7 +46,7 @@ public class UserController {
 
     @PostMapping("/dranklist/{username}/{beerId}/{rating}")
     public void addBeerToDrankList(@PathVariable String username, @PathVariable int beerId, @PathVariable int rating) {
-        userService.addBeerToDrankList(username, beerId, rating);
+        userService.addBeerToDrankList(username, beerId);
     }
 
     @GetMapping

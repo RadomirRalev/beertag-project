@@ -14,4 +14,6 @@ public interface RatingRepository {
 
     List<Rating> getRatingsOfSpecificBeer(int beerId);
 
+     boolean isRated (String username, int beerId);
+
 }

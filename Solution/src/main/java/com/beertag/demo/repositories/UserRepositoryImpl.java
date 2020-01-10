@@ -17,10 +17,14 @@ import static com.beertag.demo.exceptions.Constants.*;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
+    private static final String RATE_BEER_SQL = "insert into rating (rating, drank_id) " +
+            "select %d, drank_beer_id " +
+            "from drank_beer " +
+            "where username = '%s' and beer_id = '%d';";
     private static final int ENABLED = 1;
     private static final int DISABLE = 0;
     private static final String GET_ENABLED_USER = "from User where username = :name and enabled = " + ENABLED + " ";
-    private static final String INSERT_USER_ROLE = "insert into authorities " +
+    private static final String INSERT_USER_ROLE_SQL = "insert into authorities " +
             "value ('%s','ROLE_USER')";
 
     private SessionFactory sessionFactory;
@@ -92,11 +96,22 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public void rateBeer(String username, int beerId, int rating) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            String sql = String.format(RATE_BEER_SQL, rating, username,beerId);
+            session.createSQLQuery(sql).executeUpdate();
+            session.getTransaction().commit();
+        }
+    }
+
+
+    @Override
     public User createUser(User user) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.save(user);
-            String sql = String.format(INSERT_USER_ROLE, user.getUsername());
+            String sql = String.format(INSERT_USER_ROLE_SQL, user.getUsername());
             session.createSQLQuery(sql).executeUpdate();
             session.getTransaction().commit();
         }

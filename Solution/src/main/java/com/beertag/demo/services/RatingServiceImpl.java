@@ -44,4 +44,9 @@ public class RatingServiceImpl implements RatingService {
             throw new EntityNotFoundException (RATING_ID_NOT_FOUND, ratingId);
         }
     }
+
+    @Override
+    public boolean isRated(String username, int beerId) {
+        return ratingRepository.isRated(username,beerId);
+    }
 }

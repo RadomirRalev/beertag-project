@@ -38,7 +38,7 @@
     <div class="vert-text">
 
         <div class="container">
-                <form action="#" th:action="@{/register}" th:object="${UserRegistration}" method="post">
+            <form action="#" th:action="@{/register}" th:object="${UserRegistration}" method="post">
                 <p>
                     <i th:if="${error != null}" th:text="${error}"  class="error1"></i>
                 </p>
@@ -80,8 +80,7 @@
                         <div class="input-group">
                             <div class="col-third">
                                 <label class="error" th:errors="*{birthDay}"></label>
-
-                                <select class='form-control2' th:field="*{birthDay}">
+                                <select class='form-control' th:field="*{birthDay}">
                                     <option value="0" >Day</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -115,11 +114,10 @@
                                     <option value="30">30</option>
                                     <option value="31">31</option>
                                 </select>
-
                             </div>
                             <div class="col-third">
                                 <label class="error" th:errors="*{birthMonth}"></label>
-                                <select class='form-control2' th:field="*{birthMonth}">
+                                <select class='form-control' th:field="*{birthMonth}">
                                     <option value="0" >Month</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -137,7 +135,7 @@
                             </div>
                             <div class="col-third">
                                 <label class="error" th:errors="*{birthYear}"></label>
-                                <select class='form-control2' th:field="*{birthYear}">
+                                <select class='form-control' th:field="*{birthYear}">
                                     <option value="1" >Year</option>
                                     <option value="1940">1940</option>
                                     <option value="1941">1941</option>

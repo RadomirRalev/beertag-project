@@ -9,4 +9,6 @@ public interface RatingService {
     void updateRating(int rating, Rating ratingToUpdate);
 
     Rating getRating(int ratingId);
+
+    boolean isRated (String username, int beerId);
 }

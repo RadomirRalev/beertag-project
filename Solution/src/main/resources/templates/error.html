@@ -28,6 +28,9 @@
     <link rel="stylesheet" th:href="@{Center.css}"
           href="../static/Center.css">
 
+    <link rel="stylesheet" th:href="@{indexButons.css}"
+          href="../static/indexButons.css">
+
 </head>
 
 <body>
@@ -37,7 +40,14 @@
             <div>
                 <h1>404</h1>
             </div>
-            <h1>Page not found !</h1>
+            <h1>Page not found :-/</h1>
+            <form class="homepage" style="display: inline-block" th:action="@{/}">
+                <button type="submit">
+                    <div class="left"></div>
+                    Homepage
+                    <div class="right"></div>
+                </button>
+            </form>
         </div>
     </div>
 </div>

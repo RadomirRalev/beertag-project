@@ -6,12 +6,16 @@
 body {
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 15px;
-
+    color: black;
 }
 h1{
     position: center;
 }
 h4 {
+    color: black;
+}
+
+::placeholder{
     color: black;
 }
 input,
@@ -22,8 +26,8 @@ select {
     width: 100%;
     padding: 1em;
     line-height: 1.4;
-    background-color: #f9f9f9;
-    border: 1px solid #e5e5e5;
+    background-color: rgba(192,192,192,0.3);
+    border: 1px solid black;
     border-radius: 3px;
     -webkit-transition: 0.35s ease-in-out;
     -moz-transition: 0.35s ease-in-out;
@@ -31,14 +35,19 @@ select {
     transition: 0.35s ease-in-out;
     transition: all 0.35s ease-in-out;
 }
+
+
 input:focus {
     outline: 0;
     border-color: darkorange;
+    background-color:rgba(192,192,192,0.3);
 }
 input:focus + .input-icon i {
+    background-color:rgba(192,192,192,0.3);
     color: darkorange;
 }
 input:focus + .input-icon:after {
+    background-color:rgba(192,192,192,0.3);
     border-right-color: darkorange;
 }
 input[type="radio"] {
@@ -46,6 +55,7 @@ input[type="radio"] {
 }
 input[type="radio"] + label,
 select {
+    background-color:rgba(192,192,192,0.3);
     display: inline-block;
     width: 50%;
     text-align: center;
@@ -68,7 +78,7 @@ input:checked + label:before,
 select:focus,
 select:active {
     background-color: darkorange;
-    color: #fff;
+    color: rgba(192,192,192,0.3);
     border-color: darkorange;
 }
 input[type="checkbox"] {
@@ -94,7 +104,8 @@ input[type="checkbox"] + label:after {
     top: 0.45em;
     left: 0.2em;
     font-size: 0.8em;
-    color: #fff;
+    color: black;
+    background-color:rgba(192,192,192,0.3);
     opacity: 0;
     font-family: FontAwesome;
     content: "\f00c";
@@ -103,24 +114,25 @@ input:checked + label:after {
     opacity: 1;
 }
 select {
+    background-color:rgba(192,192,192,0.3);
     height: 3.4em;
     line-height: 2;
 }
 select:first-of-type {
+    background-color:rgba(192,192,192,0.3);
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
 }
 select:last-of-type {
+    background-color:rgba(192,192,192,0.3);
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
 }
 select:focus,
 select:active {
+    background-color: rgba(192,192,192,0.3);
+    color: orange;
     outline: 0;
-}
-select option {
-    background-color: darkorange;
-    color: #fff;
 }
 .input-group {
     margin-bottom: 1em;
@@ -150,6 +162,7 @@ select option {
     line-height: 3.4em;
     text-align: center;
     pointer-events: none;
+    color: black;
 }
 .input-group-icon .input-icon:after {
     position: absolute;
@@ -157,7 +170,7 @@ select option {
     bottom: 0.6em;
     left: 3.4em;
     display: block;
-    border-right: 1px solid #e5e5e5;
+    border-right: 1px solid black;
     content: "";
     -webkit-transition: 0.35s ease-in-out;
     -moz-transition: 0.35s ease-in-out;
@@ -178,7 +191,7 @@ select option {
     margin: 0em auto;
     background-color: rgba(192,192,192,0.3);
     border-radius: 4.2px;
-    box-shadow: 0px 3px 10px -2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 3px 10px -2px black;
 }
 .row {
     zoom: 1;
@@ -205,6 +218,8 @@ select option {
     width: 33.33333333%;
 }
 .col-third:last-of-type {
+    background-color: rgba(192,192,192,0.3);
+    color: darkorange;
     padding-right: 0;
 }
 @media only screen and (max-width: 540px) {
@@ -221,3 +236,39 @@ select option {
     color: black;
     font-size: large;
 }
+
+.form-control2 {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: black;
+    background-color: rgba(192,192,192,0.3);
+    background-image: none;
+    border: 1px solid black;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+select option {
+     margin: 40px;
+     background: rgba(0, 0, 0, 0.3);
+     color: black;
+     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+ }
+
+select option:hover {
+    margin: 40px;
+    background: rgba(0, 0, 0, 0.3);
+    color: darkorange;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+
+
+

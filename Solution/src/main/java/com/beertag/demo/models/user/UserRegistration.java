@@ -1,7 +1,6 @@
 package com.beertag.demo.models.user;
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.*;
 
@@ -10,26 +9,26 @@ public class UserRegistration {
     private String firstName;
     @NotNull
     private String lastName;
-    @Min(value = 1920, message = "Birth day is required")
+    @Min(value = 1920, message = "Birth year is required.")
     @Max(2019)
     private int birthYear;
-    @Min(value = 1, message = "Birth month is required")
+    @Min(value = 1, message = "Birth month is required.")
     @Max(12)
     private int birthMonth;
-    @Min(value = 1, message = "Birth day is required")
+    @Min(value = 1, message = "Birth day is required.")
     @Max(31)
     private int birthDay;
     @Length(min = 4, max = 30)
     @Pattern(regexp = "^[\\w-]+$",
-            message = "username may only contain alpha-numeric characters, underscores, and dashes.")
+            message = "Username may only contain alpha-numeric characters, underscores, and dashes.")
     private String username;
     //https://emailregex.com/
     @Email(regexp = "(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)"
             , message = "Please provide a valid email address.")
     private String email;
-    @Size(min = 6, message = "Password is required")
+    @Size(min = 6, message = "Password is required. Minimum 6 symbols.")
     private String password;
-    @Size(min = 6, message = "Password is required")
+    @Size(min = 6, message = "Password is required.Minimum 6 symbols.")
     private String passwordConfirmation;
 
     public UserRegistration() {
