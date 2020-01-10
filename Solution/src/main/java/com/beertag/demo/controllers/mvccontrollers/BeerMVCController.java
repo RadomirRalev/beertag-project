@@ -107,7 +107,7 @@ public class BeerMVCController {
         Beer beer = service.getById(id);
         model.addAttribute("beer", beer);
         service.deleteBeer(id);
-        return "redirect:";
+        return "redirect:/beers";
     }
 
 

@@ -1,6 +1,5 @@
 package com.beertag.demo.repositories;
 
-import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.EntityNotFoundException;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Tag;
@@ -112,9 +111,9 @@ public class BeerRepositoryImpl implements BeerRepository {
 
     @Override
     public Beer createBeer(Beer newBeer) {
-        if (checkBeerExists(newBeer.getName())) {
-            throw new DuplicateEntityException(BEER_NAME_EXISTS, newBeer.getName());
-        }
+//        if (checkBeerExists(newBeer.getName())) {
+//            throw new DuplicateEntityException(BEER_NAME_EXISTS, newBeer.getName());
+//        }
         try (Session session = sessionFactory.openSession()) {
             session.save(newBeer);
         }
