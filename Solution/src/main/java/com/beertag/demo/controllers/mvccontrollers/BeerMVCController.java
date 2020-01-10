@@ -102,6 +102,15 @@ public class BeerMVCController {
         return "redirect:/beers";
     }
 
+    @GetMapping("beers/deletebeer/{id}")
+    public String showDeleteBeerForm(@PathVariable("id") int id, Model model) {
+        Beer beer = service.getById(id);
+        model.addAttribute("beer", beer);
+        service.deleteBeer(id);
+        return "redirect:/beers";
+    }
+
+
 
     @GetMapping("beers/updatebeer/{id}")
     public String showUpdateBeerForm(@PathVariable("id") int id, Model model) {
@@ -121,6 +130,8 @@ public class BeerMVCController {
         beerToUpdate.setStyle(styleService.getStyleById(parametres.getStyleParamId()));
         beerToUpdate.setBrewery(breweryService.getBreweryById(parametres.getBreweryParamId()));
         beerToUpdate.setOriginCountry(countryService.getCountryById(parametres.getCountryParamId()));
+        List<Tag> tagList = beerToUpdate.getTags();
+        tagList.add(tagService.getTagById(parametres.getTagId()));
         service.update(beerToUpdate.getId(), beerToUpdate);
         return "redirect:/beers";
     }

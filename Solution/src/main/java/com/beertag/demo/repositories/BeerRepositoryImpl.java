@@ -112,9 +112,9 @@ public class BeerRepositoryImpl implements BeerRepository {
 
     @Override
     public Beer createBeer(Beer newBeer) {
-//        if (checkBeerExists(newBeer.getName())) {
-//            throw new DuplicateEntityException(BEER_NAME_EXISTS, newBeer.getName());
-//        }
+        if (checkBeerExists(newBeer.getName())) {
+            throw new DuplicateEntityException(BEER_NAME_EXISTS, newBeer.getName());
+        }
         try (Session session = sessionFactory.openSession()) {
             session.save(newBeer);
         }
