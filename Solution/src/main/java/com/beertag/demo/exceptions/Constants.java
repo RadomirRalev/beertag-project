@@ -31,7 +31,7 @@ public class Constants {
     public static final String FIRST_NAME_REGEX_EXCEPTION = "first name field may contain only letters.";
     public static final String LAST_NAME_LENGTH_EXCEPTION = "last name length should be minimum 3 symbols.";
     public static final String LAST_NAME_REGEX_EXCEPTION = "last name field may contain only letters.";
-    public static final String PASSWORD_DO_NOT_MATCH = "Password does't match!";
+    public static final String PASSWORD_DO_NOT_MATCH = "Password doesn't match!";
     //Status
     public static final int ENABLED = 1;
     public static final int DISABLE = 0;

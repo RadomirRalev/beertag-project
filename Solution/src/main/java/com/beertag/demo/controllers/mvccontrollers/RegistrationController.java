@@ -3,11 +3,15 @@ package com.beertag.demo.controllers.mvccontrollers;
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.InvalidAgeException;
 import com.beertag.demo.exceptions.InvalidOptionalFieldParameter;
+import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.user.User;
 import com.beertag.demo.models.user.UserRegistration;
 import com.beertag.demo.models.user.UserUpdateDTO;
+import com.beertag.demo.services.BeerService;
 import com.beertag.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,9 +31,11 @@ import java.io.IOException;
 public class RegistrationController {
 
     private UserService userService;
+    private BeerService beerService;
 
     @Autowired
-    public RegistrationController(UserService userService) {
+    public RegistrationController(UserService userService, BeerService beerService) {
+        this.beerService = beerService;
         this.userService = userService;
 
     }
@@ -42,9 +48,9 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("UserRegistration") UserRegistration userRegistration,
-                               @RequestParam("file") MultipartFile file,
                                BindingResult bindingResult, Model model) {
-        model.addAttribute("file", file);
+
+//        model.addAttribute("file", file);
         if (bindingResult.hasErrors()) {
             return "users/register";
         }
@@ -55,9 +61,9 @@ public class RegistrationController {
         }
 
         try {
-            User user = userService.createUser(userRegistration);
-            user.setPicture(file.getBytes());
-        } catch (InvalidAgeException | InvalidOptionalFieldParameter | DuplicateEntityException | IOException e) {
+//            userRegistration.setPicture(file.getBytes());
+            userService.createUser(userRegistration);
+        } catch (InvalidAgeException | InvalidOptionalFieldParameter | DuplicateEntityException e) {
             model.addAttribute("error", e.getMessage());
             return "users/register";
         }
@@ -73,8 +79,8 @@ public class RegistrationController {
 
     @PostMapping("user/update")
     public String updateUser(@Valid @ModelAttribute("UserUpdateDTO") UserUpdateDTO userUpdateDTO,
-                               @RequestParam("file") MultipartFile file,
-                               BindingResult bindingResult, Model model) {
+                             @RequestParam("file") MultipartFile file,
+                             BindingResult bindingResult, Model model) {
         model.addAttribute("file", file);
         if (bindingResult.hasErrors()) {
             return "users/update";
@@ -90,4 +96,14 @@ public class RegistrationController {
     public String showRegisterConfirmation() {
         return "redirect:/login";
     }
+
+
+    @GetMapping("/profile")
+    public String profile(Model model) {
+        Beer beer = beerService.getById(26);
+        model.addAttribute("beer", beer);
+
+        return "profile";
+    }
+
 }

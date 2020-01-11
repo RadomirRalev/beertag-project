@@ -13,7 +13,7 @@
 
     <!-- Bootstrap core CSS -->
     <!--    <link href="css/bootstrap.css" rel="stylesheet">-->
-    <link rel="stylesheet" th:href="@{css/bootstrap.css}" href="../static/css/bootstrap.css">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css">
 
     <!-- Add custom CSS here -->
     <!--    <link href="css/stylish-portfolio.css" rel="stylesheet">-->
@@ -38,9 +38,9 @@
     <div class="vert-text">
 
         <div class="container">
-                <form action="#" th:action="@{/register}" th:object="${UserRegistration}" method="post">
+            <form action="#" th:action="@{/register}" th:object="${UserRegistration}" method="post">
                 <p>
-                    <i th:if="${error != null}" th:text="${error}"  class="error1"></i>
+                    <i th:if="${error != null}" th:text="${error}" class="error1"></i>
                 </p>
                 <div class="row">
                     <div class="input-group input-group-icon">
@@ -68,21 +68,32 @@
                         <label class="error" th:errors="*{password}"></label>
                         <div class="input-icon"><i class="fa fa-key"></i></div>
                     </div>
+                    <div>
+
+
+                        <h4 class="right">Add pic</h4>
+                        <div class="float-right1"><label>
+                            <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1"/>
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2000000"/>
+                        </label>
+                        </div>
+
+
                     <div class="input-group input-group-icon">
                         <input type="password" placeholder="Retype password" th:field="*{passwordConfirmation}"/>
                         <label class="error" th:errors="*{passwordConfirmation}"></label>
                         <div class="input-icon"><i class="fa fa-key"></i></div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-half">
-                        <h4>Date of Birth</h4>
-                        <div class="input-group">
+                    <div class="row ">
+                        <div class=" col-half">
+                            <h4>Date of Birth</h4>
+
                             <div class="col-third">
                                 <label class="error" th:errors="*{birthDay}"></label>
 
                                 <select class='form-control2' th:field="*{birthDay}">
-                                    <option value="0" >Day</option>
+                                    <option value="0">Day</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -120,7 +131,7 @@
                             <div class="col-third">
                                 <label class="error" th:errors="*{birthMonth}"></label>
                                 <select class='form-control2' th:field="*{birthMonth}">
-                                    <option value="0" >Month</option>
+                                    <option value="0">Month</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -138,7 +149,7 @@
                             <div class="col-third">
                                 <label class="error" th:errors="*{birthYear}"></label>
                                 <select class='form-control2' th:field="*{birthYear}">
-                                    <option value="1" >Year</option>
+                                    <option value="1">Year</option>
                                     <option value="1940">1940</option>
                                     <option value="1941">1941</option>
                                     <option value="1942">1942</option>
@@ -226,14 +237,8 @@
                 </div>
                 <div class="row">
                     <div class="input-group input-group-icon">
-                <label>
-                    <h4>Add pic</h4>
-                    <input type="file" name ="file" class="form-control-file" id="exampleFormControlFile1"/>
-                    <input type="hidden" name ="MAX_FILE_SIZE" value="2000000"/>
-                </label>
-                        <br>
                     </div>
-                <input type="submit" value="Register"/>
+                    <input type="submit" value="Register"/>
                 </div>
             </form>
         </div>
@@ -241,5 +246,3 @@
 </div>
 </body>
 </html>
-
-

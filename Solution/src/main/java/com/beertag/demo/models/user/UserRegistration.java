@@ -2,6 +2,7 @@ package com.beertag.demo.models.user;
 
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Lob;
 import javax.validation.constraints.*;
 
 public class UserRegistration {
@@ -30,6 +31,8 @@ public class UserRegistration {
     private String password;
     @Size(min = 6, message = "Password is required.Minimum 6 symbols.")
     private String passwordConfirmation;
+    @Lob
+    private byte[] picture;
 
     public UserRegistration() {
     }
@@ -116,5 +119,13 @@ public class UserRegistration {
 
     public void setPasswordConfirmation(String passwordConfirmation) {
         this.passwordConfirmation = passwordConfirmation;
+    }
+
+    public byte[] getPicture() {
+        return picture;
+    }
+
+    public void setPicture(byte[] picture) {
+        this.picture = picture;
     }
 }

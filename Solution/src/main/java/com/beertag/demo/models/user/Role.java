@@ -8,8 +8,7 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "username")
-   private String username;
-
+    private String username;
     @Column(name = "authority")
     private String role;
 

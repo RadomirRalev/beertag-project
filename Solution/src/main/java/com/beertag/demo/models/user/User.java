@@ -54,13 +54,15 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String userName, String email, String password, int enabled) {
+    public User(String firstName, String lastName, String userName,
+                String email, String password, int enabled, byte[] picture) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = userName;
         this.email = email;
         this.password = password;
         this.enabled = enabled;
+        this.picture = picture;
     }
 
     public int getId() {

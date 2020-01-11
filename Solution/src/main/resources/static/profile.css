@@ -1,0 +1,102 @@
+img {
+    padding: 15px 0px 0px 15px;
+    float: left;
+    border-radius: 8px;
+    width: 230px;
+}
+
+h1 {
+    font-family: 'Merienda One', cursive;
+    color: whitesmoke;
+
+    font-weight: 900;
+}
+
+h2 {
+    font-family: 'Merienda One', cursive;
+    color: whitesmoke;
+
+    font-weight: 900;
+}
+
+h3 {
+    font-family: 'Merienda One', cursive;
+    color: whitesmoke;
+
+    font-weight: 900;
+}
+
+h4 {
+    font-family: 'Merienda One', cursive;
+    color: whitesmoke;
+
+    font-weight: 900;
+}
+
+h5 {
+    font-family: 'Merienda One', cursive;
+    color: whitesmoke;
+    padding: 1px;
+
+    font-size: 15px;
+}
+
+h6 {
+    font-family: 'Merienda One', cursive;
+    color: whitesmoke;
+
+    font-weight: 900;
+}
+
+
+.center div {
+    text-align: center
+}
+
+
+#left {
+    float: left;
+    background: rgba(192, 192, 192, 0.3);
+    box-shadow: 0 4px 8px 0 rgba(94, 94, 94, 0.81);
+    width: 45%;
+    height: 500px;
+}
+
+#right {
+    float: right;
+    padding-top: 100px;
+    width: 45%;
+    height: 400px;
+}
+
+.left {
+    float: left;
+}
+
+.title {
+    color: grey;
+    font-size: 18px;
+}
+
+button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+}
+
+a {
+    text-decoration: none;
+    font-size: 22px;
+    color: black;
+}
+
+button:hover, a:hover {
+    opacity: 0.7;
+}

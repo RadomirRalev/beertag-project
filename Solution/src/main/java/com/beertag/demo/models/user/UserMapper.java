@@ -27,7 +27,7 @@ public class UserMapper {
                     userRegistration.getLastName(),
                     userRegistration.getUsername(),
                     userRegistration.getEmail(),
-                    passwordEncoder.encode(userRegistration.getPassword()), ENABLED);
+                    passwordEncoder.encode(userRegistration.getPassword()), ENABLED,userRegistration.getPicture());
             setOptionalFields(user);
             return user;
         }
