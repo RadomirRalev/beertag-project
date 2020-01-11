@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -76,7 +77,7 @@ public class UserController {
     public User create(@RequestBody @Valid UserRegistration userRegistration) {
         try {
             return userService.createUser(userRegistration);
-        } catch (DuplicateEntityException | InvalidAgeException e) {
+        } catch (DuplicateEntityException | InvalidAgeException | IOException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }

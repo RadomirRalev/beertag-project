@@ -38,7 +38,8 @@
     <div class="vert-text">
 
         <div class="container">
-            <form action="#" th:action="@{/register}" th:object="${UserRegistration}" method="post">
+            <form action="#" th:action="@{/register}" th:object="${UserRegistration}" method="post"
+                  enctype="multipart/form-data">
                 <p>
                     <i th:if="${error != null}" th:text="${error}" class="error1"></i>
                 </p>
@@ -73,18 +74,21 @@
 
                         <h4 class="right">Add pic</h4>
                         <div class="float-right1"><label>
-                            <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1"/>
+                            <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1"
+                                   th:field="*{file}"/>
                             <input type="hidden" name="MAX_FILE_SIZE" value="2000000"/>
+                            <label class="error" th:errors="*{file}"></label>
+
                         </label>
                         </div>
 
 
-                    <div class="input-group input-group-icon">
-                        <input type="password" placeholder="Retype password" th:field="*{passwordConfirmation}"/>
-                        <label class="error" th:errors="*{passwordConfirmation}"></label>
-                        <div class="input-icon"><i class="fa fa-key"></i></div>
+                        <div class="input-group input-group-icon">
+                            <input type="password" placeholder="Retype password" th:field="*{passwordConfirmation}"/>
+                            <label class="error" th:errors="*{passwordConfirmation}"></label>
+                            <div class="input-icon"><i class="fa fa-key"></i></div>
+                        </div>
                     </div>
-                </div>
                     <div class="row ">
                         <div class=" col-half">
                             <h4>Date of Birth</h4>

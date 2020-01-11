@@ -4,6 +4,7 @@ import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.user.User;
 import com.beertag.demo.models.user.UserRegistration;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -23,7 +24,7 @@ public interface UserService {
 
     Set<Beer> getDrankList(String username);
 
-    User createUser(UserRegistration userRegistration);
+    User createUser(UserRegistration userRegistration) throws IOException;
 
     User getByUsername(String name);
 

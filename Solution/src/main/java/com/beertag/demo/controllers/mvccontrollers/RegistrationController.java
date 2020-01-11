@@ -48,9 +48,10 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("UserRegistration") UserRegistration userRegistration,
-                               BindingResult bindingResult, Model model) {
+                               BindingResult bindingResult,
+                               Model model) {
 
-//        model.addAttribute("file", file);
+
         if (bindingResult.hasErrors()) {
             return "users/register";
         }
@@ -61,9 +62,8 @@ public class RegistrationController {
         }
 
         try {
-//            userRegistration.setPicture(file.getBytes());
             userService.createUser(userRegistration);
-        } catch (InvalidAgeException | InvalidOptionalFieldParameter | DuplicateEntityException e) {
+        } catch (InvalidAgeException | InvalidOptionalFieldParameter | DuplicateEntityException | IOException e) {
             model.addAttribute("error", e.getMessage());
             return "users/register";
         }

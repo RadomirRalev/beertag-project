@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 import static com.beertag.demo.exceptions.Constants.*;
 import static com.beertag.demo.helpers.UserRegistrationHelper.*;
 
@@ -19,7 +21,7 @@ public class UserMapper {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User validationData(UserRegistration userRegistration) {
+    public User validationData(UserRegistration userRegistration) throws IOException {
         if (isUserAdult
                 (userRegistration.getBirthDay(), userRegistration.getBirthMonth(), userRegistration.getBirthYear()))
         {
@@ -27,7 +29,7 @@ public class UserMapper {
                     userRegistration.getLastName(),
                     userRegistration.getUsername(),
                     userRegistration.getEmail(),
-                    passwordEncoder.encode(userRegistration.getPassword()), ENABLED,userRegistration.getPicture());
+                    passwordEncoder.encode(userRegistration.getPassword()), ENABLED,userRegistration.getFile().getBytes());
             setOptionalFields(user);
             return user;
         }

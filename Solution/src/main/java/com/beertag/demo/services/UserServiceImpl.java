@@ -7,6 +7,7 @@ import com.beertag.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -32,7 +33,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(UserRegistration userRegistration) {
+    public User createUser(UserRegistration userRegistration) throws IOException {
         User user = userMapper.validationData(userRegistration);
 
         if (usernameExist(user.getUsername())) {

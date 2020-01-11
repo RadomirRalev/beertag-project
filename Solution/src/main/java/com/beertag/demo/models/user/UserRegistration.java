@@ -1,6 +1,7 @@
 package com.beertag.demo.models.user;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Lob;
 import javax.validation.constraints.*;
@@ -31,8 +32,9 @@ public class UserRegistration {
     private String password;
     @Size(min = 6, message = "Password is required.Minimum 6 symbols.")
     private String passwordConfirmation;
-    @Lob
-    private byte[] picture;
+
+    private MultipartFile file;
+
 
     public UserRegistration() {
     }
@@ -121,11 +123,11 @@ public class UserRegistration {
         this.passwordConfirmation = passwordConfirmation;
     }
 
-    public byte[] getPicture() {
-        return picture;
+    public MultipartFile getFile() {
+        return file;
     }
 
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 }
