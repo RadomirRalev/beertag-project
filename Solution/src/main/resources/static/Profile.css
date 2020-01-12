@@ -11,7 +11,7 @@ h1 {
     font-weight: 900;
 }
 
-h2 {
+.update h2 {
     font-family: 'Merienda One', cursive;
     color: whitesmoke;
 
@@ -62,17 +62,17 @@ span{
     background: rgba(192, 192, 192, 0.3);
     box-shadow: 0 4px 8px 0 rgba(94, 94, 94, 0.81);
     width: 45%;
-    height: 500px;
+    height: 470px;
 }
 
 #right {
     float: right;
-    padding-top: 100px;
+    padding-top: 20px;
     width: 45%;
     height: 400px;
 }
 
-.left {
+.left1 {
     float: left;
 }
 
