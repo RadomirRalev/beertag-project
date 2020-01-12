@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.Lob;
 import javax.validation.constraints.*;
 
-public class UserRegistration {
+public class UserRegistrationDTO {
     @NotNull
     private String firstName;
     @NotNull
@@ -32,15 +32,13 @@ public class UserRegistration {
     private String password;
     @Size(min = 6, message = "Password is required.Minimum 6 symbols.")
     private String passwordConfirmation;
-
     private MultipartFile file;
 
-
-    public UserRegistration() {
+    public UserRegistrationDTO() {
     }
 
-    public UserRegistration(String firstName, String lastName, int birthYear, int birthMonth, int birthDay,
-                            String username, String email, String password) {
+    public UserRegistrationDTO(String firstName, String lastName, int birthYear, int birthMonth, int birthDay,
+                               String username, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthYear = birthYear;

@@ -7,12 +7,12 @@ import com.beertag.demo.models.beer.*;
 import com.beertag.demo.models.user.User;
 import com.beertag.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import static com.beertag.demo.helpers.UserHelper.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,7 +32,7 @@ public class BeerMVCController {
     @Autowired
     public BeerMVCController(BeerService service, DtoMapper mapper, UserService userService,
                              StyleService styleService, BreweryService breweryService, TagService tagService,
-                             CountryService countryService,RatingService ratingService) {
+                             CountryService countryService, RatingService ratingService) {
         this.service = service;
         this.mapper = mapper;
         this.userService = userService;
@@ -40,7 +40,7 @@ public class BeerMVCController {
         this.breweryService = breweryService;
         this.tagService = tagService;
         this.countryService = countryService;
-        this.ratingService =ratingService;
+        this.ratingService = ratingService;
     }
 
     @GetMapping("/beers")
@@ -51,17 +51,16 @@ public class BeerMVCController {
 
     @GetMapping("/beers/{id}")
     public String showSingleBeer(@PathVariable("id") int id, Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        if (!currentPrincipalName.equals("anonymousUser")) {
-            User user = userService.getByUsername(currentPrincipalName);
-            boolean wishlist = userService.isUserHaveCurrentBeerOnWishList(currentPrincipalName, id);
-            boolean dranklist = userService.isUserHaveCurrentBeerOnDrankList(currentPrincipalName, id);
-            boolean rated =  ratingService.isRated(currentPrincipalName,id);
+
+        if (!currentPrincipalName().equals("anonymousUser")) {
+            User user = userService.getByUsername(currentPrincipalName());
+            boolean wishlist = userService.isUserHaveCurrentBeerOnWishList(currentPrincipalName(), id);
+            boolean dranklist = userService.isUserHaveCurrentBeerOnDrankList(currentPrincipalName(), id);
+            boolean rated = ratingService.isRated(currentPrincipalName(), id);
             model.addAttribute("user", user);
             model.addAttribute("wishlist", wishlist);
             model.addAttribute("dranklist", dranklist);
-            model.addAttribute("rated",rated);
+            model.addAttribute("rated", rated);
         }
         Rating rating = new Rating();
         Beer beer = service.getById(id);
@@ -75,29 +74,23 @@ public class BeerMVCController {
 
     @PostMapping("beers/{id}/wish")
     public String addBeerToWishlist(@PathVariable("id") int id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
 
-        userService.addBeerToWishList(currentPrincipalName, id);
+        userService.addBeerToWishList(currentPrincipalName(), id);
         return "redirect:";
     }
 
     @PostMapping("beers/{id}/drank")
     public String addBeerToDranklist(@PathVariable("id") int id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
 
-        userService.addBeerToDrankList(currentPrincipalName, id);
+        userService.addBeerToDrankList(currentPrincipalName(), id);
 
         return "redirect:";
     }
 
     @PostMapping("beers/{id}/rating")
     public String rateBeer(@PathVariable("id") int id, @ModelAttribute("rating") Rating rating) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
 
-        userService.rateBeer(currentPrincipalName, id, rating.getRating());
+        userService.rateBeer(currentPrincipalName(), id, rating.getRating());
         service.updateAvgRatingOfBeer(id);
         return "redirect:";
     }

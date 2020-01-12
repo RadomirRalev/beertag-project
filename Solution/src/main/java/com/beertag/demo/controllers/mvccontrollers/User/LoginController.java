@@ -1,4 +1,4 @@
-package com.beertag.demo.controllers.mvccontrollers;
+package com.beertag.demo.controllers.mvccontrollers.User;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,4 +15,6 @@ public class LoginController {
     public String showAccessDenied() {
         return "users/access-denied";
     }
+
+
 }

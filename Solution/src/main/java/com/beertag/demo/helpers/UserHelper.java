@@ -2,6 +2,8 @@ package com.beertag.demo.helpers;
 
 import com.beertag.demo.exceptions.InvalidOptionalFieldParameter;
 import com.beertag.demo.models.user.User;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,7 +11,7 @@ import java.util.Date;
 import static com.beertag.demo.exceptions.Constants.*;
 import static java.lang.Integer.parseInt;
 
-public class UserRegistrationHelper {
+public class UserHelper {
     private static final int ADULT_YEAR = 18;
     private static final int MIN_LENGTH = 3;
     private static final String ONLY_LETTERS = "^[a-zA-Z]+$";
@@ -52,5 +54,10 @@ public class UserRegistrationHelper {
                 throw new InvalidOptionalFieldParameter(LAST_NAME_REGEX_EXCEPTION);
             }
         }
+    }
+
+    public static String currentPrincipalName(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
     }
 }

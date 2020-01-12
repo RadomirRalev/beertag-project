@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(UserRegistration userRegistration) throws IOException {
-        User user = userMapper.validationData(userRegistration);
+    public User createUser(UserRegistrationDTO userRegistrationDTO) throws IOException {
+        User user = userMapper.validationData(userRegistrationDTO);
 
         if (usernameExist(user.getUsername())) {
             throw new DuplicateEntityException(USER_USERNAME_EXISTS, user.getUsername());
@@ -63,8 +63,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user) {
-        return userRepository.updateUser(user);
+    public User updateUser(User userToUpdate, UserUpdateDTO userUpdateDTO) throws IOException {
+         userMapper.validationData(userUpdateDTO, userToUpdate);
+        return userRepository.updateUser(userToUpdate);
     }
 
     @Override

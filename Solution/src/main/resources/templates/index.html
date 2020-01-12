@@ -47,11 +47,13 @@
             <div class="right"></div>
         </button>
     </form>
-    <button sec:authorize="isAuthenticated()" href="#">
-        <div class="left"></div>
-        Account Settings
-        <div class="right"></div>
-    </button>
+    <form style="display: inline-block" th:action="@{/profile}">
+        <button type="submit">
+            <div class="left"></div>
+            Account Settings
+            <div class="right"></div>
+        </button>
+    </form>
     <button sec:authorize="isAuthenticated()" href="#">
         <div class="left"></div>
         Wish List

@@ -21,12 +21,10 @@ import java.util.Set;
 public class UserController {
 
     private UserService userService;
-    private UserMapper mapper;
 
     @Autowired
-    public UserController(UserService beerTagServices, UserMapper mapper) {
+    public UserController(UserService beerTagServices) {
         this.userService = beerTagServices;
-        this.mapper = mapper;
     }
 
     @GetMapping("/wishlist/{userId}")
@@ -74,19 +72,19 @@ public class UserController {
     }
 
     @PostMapping
-    public User create(@RequestBody @Valid UserRegistration userRegistration) {
+    public User create(@RequestBody @Valid UserRegistrationDTO userRegistrationDTO) {
         try {
-            return userService.createUser(userRegistration);
+            return userService.createUser(userRegistrationDTO);
         } catch (DuplicateEntityException | InvalidAgeException | IOException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
 
     @PutMapping("/update/{id}")
-    public User updateUser(@PathVariable int id, @RequestBody @Valid UserUpdateDTO userUpdateDTO) {
+    public User updateUser(@PathVariable int id, @RequestBody @Valid UserUpdateDTO userUpdateDTO)
+            throws IOException {
         User userToUpdate = getById(id);
-        mapper.validationData(userUpdateDTO, userToUpdate);
-        return userService.updateUser(userToUpdate);
+        return userService.updateUser(userToUpdate,userUpdateDTO);
     }
 
 

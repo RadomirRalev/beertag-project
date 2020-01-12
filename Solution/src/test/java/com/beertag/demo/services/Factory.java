@@ -2,7 +2,7 @@ package com.beertag.demo.services;
 
 import com.beertag.demo.models.beer.*;
 import com.beertag.demo.models.user.User;
-import com.beertag.demo.models.user.UserRegistration;
+import com.beertag.demo.models.user.UserRegistrationDTO;
 
 public class Factory {
     public static final int INDEX = 0;
@@ -29,8 +29,8 @@ public class Factory {
                 "pesh0","pesho@gmail.com","strong",1);
     }
 
-    public static UserRegistration createUserRegistration(){
-        return new UserRegistration("Petar","Petrov",5,12,2002,"pesh0", "pesho@gmail.com","strong");
+    public static UserRegistrationDTO createUserRegistration(){
+        return new UserRegistrationDTO("Petar","Petrov",5,12,2002,"pesh0", "pesho@gmail.com","strong");
     }
 
 

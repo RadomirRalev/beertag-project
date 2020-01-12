@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 import static com.beertag.demo.exceptions.Constants.*;
-import static com.beertag.demo.helpers.UserRegistrationHelper.*;
+import static com.beertag.demo.helpers.UserHelper.*;
 
 @Component
 public class UserMapper {
@@ -21,24 +21,25 @@ public class UserMapper {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User validationData(UserRegistration userRegistration) throws IOException {
+    public User validationData(UserRegistrationDTO userRegistrationDTO) throws IOException {
         if (isUserAdult
-                (userRegistration.getBirthDay(), userRegistration.getBirthMonth(), userRegistration.getBirthYear()))
+                (userRegistrationDTO.getBirthDay(), userRegistrationDTO.getBirthMonth(), userRegistrationDTO.getBirthYear()))
         {
-            User user = new User(userRegistration.getFirstName(),
-                    userRegistration.getLastName(),
-                    userRegistration.getUsername(),
-                    userRegistration.getEmail(),
-                    passwordEncoder.encode(userRegistration.getPassword()), ENABLED,userRegistration.getFile().getBytes());
+            User user = new User(userRegistrationDTO.getFirstName(),
+                    userRegistrationDTO.getLastName(),
+                    userRegistrationDTO.getUsername(),
+                    userRegistrationDTO.getEmail(),
+                    passwordEncoder.encode(userRegistrationDTO.getPassword()), ENABLED, userRegistrationDTO.getFile().getBytes());
             setOptionalFields(user);
             return user;
         }
         throw new InvalidAgeException(NOT_ADULT);
     }
 
-    public void validationData(UserUpdateDTO userUpdateDTO, User user) {
+    public void validationData(UserUpdateDTO userUpdateDTO, User user) throws IOException {
         user.setFirstName(userUpdateDTO.getFirstName());
         user.setLastName(userUpdateDTO.getLastName());
+        user.setPicture(userUpdateDTO.getFile().getBytes());
         setOptionalFields(user);
     }
 }

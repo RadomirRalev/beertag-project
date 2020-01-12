@@ -2,7 +2,8 @@ package com.beertag.demo.services;
 
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.user.User;
-import com.beertag.demo.models.user.UserRegistration;
+import com.beertag.demo.models.user.UserRegistrationDTO;
+import com.beertag.demo.models.user.UserUpdateDTO;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +25,7 @@ public interface UserService {
 
     Set<Beer> getDrankList(String username);
 
-    User createUser(UserRegistration userRegistration) throws IOException;
+    User createUser(UserRegistrationDTO userRegistrationDTO) throws IOException;
 
     User getByUsername(String name);
 
@@ -32,7 +33,7 @@ public interface UserService {
 
     void softDeleteUser(User user);
 
-    User updateUser(User user);
+    User updateUser(User userToUpdate, UserUpdateDTO userUpdateDTO) throws IOException;
 
     boolean usernameExist(String name);
 

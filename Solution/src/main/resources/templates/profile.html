@@ -10,16 +10,24 @@
 
     <title>Profile</title>
 
+    <!-- Bootstrap core CSS -->
+    <!--    <link href="css/bootstrap.css" rel="stylesheet">-->
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css">
+
+    <!-- Add custom CSS here -->
+    <!--    <link href="css/stylish-portfolio.css" rel="stylesheet">-->
     <link rel="stylesheet" th:href="@{/css/stylish-portfolio.css}" href="../static/css/stylish-portfolio.css">
+
+    <!--    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">-->
     <link rel="stylesheet" th:href="@{/font-awesome/css/font-awesome.min.css}"
           href="../static/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!--Mirenda font-->
     <link href="https://fonts.googleapis.com/css?family=Merienda+One&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" th:href="@{/profile.css}"
-          href="../static/profile.css">
-    <link rel="stylesheet" th:href="@{Update.css}"
+    <link rel="stylesheet" th:href="@{/Profile.css}"
+          href="../static/Profile.css">
+    <link rel="stylesheet" th:href="@{/Update.css}"
           href="../static/Update.css">
 
 
@@ -34,19 +42,26 @@
             <div id="left">
                 <div class="center">
 
-                    <img th:src="@{'data:image/jpeg; base64,'+${beer.getPicture()}}" alt="" src="">
-                    <div class="empty"></div>
-                    <div class="text2">
-                        <h4 class="text-left">Username:</h4>
+                        <img th:src="@{'data:image/jpeg; base64,'+${user.getPicture()}}" alt="" src="">
 
-                        <h4 class="text-left">First Name:</h4>
-                        <h4 class="text-left">Last Name:</h4>
-                        <h4 class="text-left">My Beers:</h4>
+                    <div class="text2">
+                        <h4 class="text-left">Username: <span
+                                th:text="${user.getUsername()}"> </span></h4>
+
+                        <h4 th:if="${user.firstName != ''}" class="text-left">First name: <span
+                                th:text="${user.getFirstName()}"> </span></h4>
+
+                        <h4 th:if="${user.lastName != ''}" class="text-left">Last name: <span
+                                th:text="${user.getLastName()}"> </span></h4>
+
+                        <h4 class="text-left">My Beers: <span
+                                th:text="${user.getUsername()}"> </span></h4>
+                        <h4 class="text-left">Email: <span
+                                th:text="${user.getEmail()}"> </span></h4>
+
                         <div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
 
@@ -54,31 +69,33 @@
             <div id="right">
                 <div class="center">
                 </div>
-                <form>
-                    <!--                <p>-->
-                    <!--                    <i th:if="${error != null}" th:text="${error}" class="error1"></i>-->
-                    <!--                </p>-->
+                <form action="#" th:action="@{/profile}" th:object="${userUpdateDTO}" method="post"
+                      enctype="multipart/form-data">
+                    <p>
+                        <i th:if="${error != null}" th:text="${error}" ></i>
+                    </p>
                     <h4>Update profile</h4>
 
                     <div class="row">
 
                         <div class="input-group input-group-icon">
-                            <input type="text" placeholder="First Name /Optional"/>
-                            <!--                        <label class="error" th:errors="></label>-->
+                            <input type="text" placeholder="First Name /Optional" th:field="*{firstName}"/>
+                            <label class="error" th:errors="*{firstName}"></label>
                             <div class="input-icon"><i class="fa fa-user"></i></div>
                         </div>
                         <div class="input-group input-group-icon">
-                            <input type="text" placeholder="First Name /Optional"/>
-                            <!--                        <label class="error" th:errors="></label>-->
+                            <input type="text" placeholder="Last Name /Optional" th:field="*{lastName}"/>
+                            <label class="error" th:errors="*{lastName}"></label>
                             <div class="input-icon"><i class="fa fa-user"></i></div>
                         </div>
 
                         <h5>Update profile picture</h5>
 
                         <div class="row1 left input-group"><label>
-
-                            <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1"/>
+                            <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1"
+                                   th:field="*{file}"/>
                             <input type="hidden" name="MAX_FILE_SIZE" value="2000000"/>
+                            <label class="error" th:errors="*{file}"></label>
                         </label>
                         </div>
 

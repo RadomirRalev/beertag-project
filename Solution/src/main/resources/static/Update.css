@@ -236,7 +236,6 @@ select:active {
 }
 
 .text2{
-    border: 2px solid red;
 }
 
 .text-left{
@@ -244,8 +243,3 @@ select:active {
     text-align: left;
 }
 
-.empty{
-    width: 100px;
-    border: 2px solid red;
-height: 250px;
-}

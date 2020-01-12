@@ -1,8 +1,7 @@
 img {
     padding: 15px 0px 0px 15px;
-    float: left;
-    border-radius: 8px;
-    width: 230px;
+    /*border-radius: 30px;*/
+    width: 280px;
 }
 
 h1 {
@@ -46,6 +45,10 @@ h6 {
     color: whitesmoke;
 
     font-weight: 900;
+}
+
+span{
+    color: whitesmoke;
 }
 
 

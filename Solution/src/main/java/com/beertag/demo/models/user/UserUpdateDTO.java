@@ -1,19 +1,15 @@
 package com.beertag.demo.models.user;
 
-import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.*;
 import javax.validation.constraints.*;
 
-//TODO
-@Component
 public class UserUpdateDTO {
-    @Column(name = "first_name")
     @NotNull
     private String firstName;
-    @Column(name = "last_name")
     @NotNull
     private String lastName;
+    private MultipartFile file;
 
     public UserUpdateDTO() {
     }
@@ -32,5 +28,13 @@ public class UserUpdateDTO {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 }
