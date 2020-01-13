@@ -5,6 +5,9 @@ Link to Trello board - https://trello.com/b/DhmgxTbo/team20-beertag
 
 BeerTag is a RESTful API for rating and collecting beers.
 
+Bugs - 'Update' html file does not read CSS files.
+     - No pagination
+
 ## Installation
 
 Use localhost:8181 to execute the app after it runs in your IDE.
@@ -17,10 +20,10 @@ Pull requests are welcome.
 
 #Screenshots
 
-![image](https://easyupload.io/k1z3s0)
+![image](https://gitlab.com/telerikacademyteam-20/radomirralev-vasildinchev-teamworkassignment/blob/master/Documentation/Screenshot%20(1).png)
 
-![image](https://easyupload.io/z5ajed)
+![image](https://gitlab.com/telerikacademyteam-20/radomirralev-vasildinchev-teamworkassignment/blob/master/Documentation/Screenshot%20(2).png)
 
-![image](https://easyupload.io/7gpjfi)
+![image](https://gitlab.com/telerikacademyteam-20/radomirralev-vasildinchev-teamworkassignment/blob/master/Documentation/Screenshot%20(3).png)
 
-![image](https://easyupload.io/edim64)
+![image](https://gitlab.com/telerikacademyteam-20/radomirralev-vasildinchev-teamworkassignment/blob/master/Documentation/Screenshot%20(4).png)
