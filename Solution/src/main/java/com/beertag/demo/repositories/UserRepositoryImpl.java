@@ -204,13 +204,13 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void softDeleteUser(User user) {
+    public void setStatusUser(String username,int status) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.createQuery("update User " +
-                    "set enabled = :status where id = :id ")
-                    .setParameter("id", user.getId())
-                    .setParameter("status", DISABLE)
+                    "set enabled = :status where username = :username ")
+                    .setParameter("username", username)
+                    .setParameter("status", status)
                     .executeUpdate();
             session.
                     getTransaction()

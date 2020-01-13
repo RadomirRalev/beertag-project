@@ -2,6 +2,7 @@ package com.beertag.demo.services;
 
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.beer.Tag;
+import com.beertag.demo.models.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -19,7 +20,7 @@ public interface BeerService {
 
     void deleteBeer(int id);
 
-    Beer update(int id, Beer beerToBeUpdated);
+    Beer update(int id, Beer beerToBeUpdated, User requestUser);
 
     List<Beer> getBeersByStyleName(String styleName);
 

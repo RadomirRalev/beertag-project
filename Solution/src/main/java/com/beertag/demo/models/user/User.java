@@ -30,14 +30,12 @@ public class User {
     @Lob
     @Column(name = "picture", columnDefinition = "BLOB")
     private byte[] picture;
-
-    //TODO
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(name = "authorities",
-//            joinColumns = @JoinColumn(name = "username"),
-//            inverseJoinColumns = @JoinColumn(name = "authority")
-//    )
-//    private Set<Role> roles;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_username"),
+            inverseJoinColumns = @JoinColumn(name = "role_username")
+    )
+    private Set<Role> roles;
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "wish_beer",
@@ -105,13 +103,13 @@ public class User {
         this.email = email;
     }
 
-//    public Set<Role> getRoles() {
-//        return new HashSet<>(roles);
-//    }
-//
-//    public void setRoles(Set<Role> roles) {
-//        this.roles = roles;
-//    }
+    public Set<Role> getRoles() {
+        return new HashSet<>(roles);
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     public int getEnabled() {
         return enabled;

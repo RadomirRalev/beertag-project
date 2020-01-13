@@ -59,8 +59,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void softDeleteUser(User user) {
-        userRepository.softDeleteUser(user);
+    public void setStatusUser(String username,int status) {
+        userRepository.setStatusUser(username,status);
     }
 
     @Override

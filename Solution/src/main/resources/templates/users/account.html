@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Profile</title>
+
+    <!-- Bootstrap core CSS -->
+    <!--    <link href="css/bootstrap.css" rel="stylesheet">-->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css">
+
+    <!-- Add custom CSS here -->
+    <!--    <link href="css/stylish-portfolio.css" rel="stylesheet">-->
+    <link rel="stylesheet" th:href="@{/css/stylish-portfolio.css}" href="../static/css/stylish-portfolio.css">
+
+    <!--    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" th:href="@{/font-awesome/css/font-awesome.min.css}"
+          href="../static/font-awesome/css/font-awesome.min.css">
+
+    <!--Mirenda font-->
+    <link href="https://fonts.googleapis.com/css?family=Merienda+One&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/Register.css}"
+          href="../static/Register.css">
+
+    <link rel="stylesheet" th:href="@{/Butons.css}"
+          href="../static/Butons.css">
+
+    <link rel="stylesheet" th:href="@{/Profile.css}"
+          href="../static/Profile.css">
+
+
+</head>
+
+<div id="top" class="header">
+    <div class="vert-text">
+        <div class="container21">
+
+            <div class="center">
+                <img th:src="@{'data:image/jpeg; base64,'+${user.getPicture()}}" alt="" src="">
+                <div class="text2">
+                    <h4 class="text-left">Username: <span
+                            th:text="${user.getUsername()}"> </span></h4>
+
+                    <h4 th:if="${user.firstName != ''}" class="text-left">First name: <span
+                            th:text="${user.getFirstName()}"> </span></h4>
+
+                    <h4 th:if="${user.lastName != ''}" class="text-left">Last name: <span
+                            th:text="${user.getLastName()}"> </span></h4>
+
+                    <h4 class="text-left">My Beers: <span
+                            th:text="${user.getUsername()}"> </span></h4>
+                    <h4 class="text-left">Email: <span
+                            th:text="${user.getEmail()}"> </span></h4>
+
+                    <div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form class="small" style="display: inline-block" th:action="@{/update}">
+            <button type="submit">
+                <div class="left"></div>
+                Edit profile
+                <div class="right"></div>
+            </button>
+        </form>
+
+        <form class="small" style="display: inline-block" th:action="@{/}">
+            <button type="submit">
+                <div class="left"></div>
+                Homepage
+                <div class="right"></div>
+            </button>
+        </form>
+
+
+    </div>
+
+</div>
+</html>

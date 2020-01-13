@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import static com.beertag.demo.constants.SQLQueryConstants.*;
+
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -84,13 +86,12 @@ public class UserController {
     public User updateUser(@PathVariable int id, @RequestBody @Valid UserUpdateDTO userUpdateDTO)
             throws IOException {
         User userToUpdate = getById(id);
-        return userService.updateUser(userToUpdate,userUpdateDTO);
+        return userService.updateUser(userToUpdate, userUpdateDTO);
     }
 
 
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable int id) {
-        User userToDelete = getById(id);
-        userService.softDeleteUser(userToDelete);
+    @DeleteMapping("/delete/{username}")
+    public void delete(@PathVariable String username) {
+        userService.setStatusUser(username, DISABLE);
     }
 }

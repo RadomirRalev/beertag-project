@@ -31,7 +31,7 @@ public interface UserService {
 
     User getById(int id);
 
-    void softDeleteUser(User user);
+    void setStatusUser(String username,int status);
 
     User updateUser(User userToUpdate, UserUpdateDTO userUpdateDTO) throws IOException;
 

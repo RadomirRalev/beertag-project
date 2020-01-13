@@ -15,6 +15,8 @@ import javax.validation.Valid;
 import java.io.IOException;
 
 import static com.beertag.demo.helpers.UserHelper.currentPrincipalName;
+import static com.beertag.demo.constants.SQLQueryConstants.*;
+
 
 @Controller
 public class UpdateController {
@@ -33,6 +35,12 @@ public class UpdateController {
         model.addAttribute("user", user);
         model.addAttribute("userUpdateDTO", userUpdateDTO);
         return "/users/update";
+    }
+
+    @PostMapping("/delete")
+    public String deleteProfile() {
+       userService.setStatusUser(currentPrincipalName(),DISABLE);
+        return "/users/success-delete";
     }
 
     @PostMapping("/update")

@@ -31,7 +31,7 @@ public interface UserRepository {
 
     User getByUsername(String name);
 
-    void softDeleteUser(User user);
+    void setStatusUser(String username,int status);
 
     User updateUser(User user);
 

@@ -28,7 +28,7 @@ public class ProfileController {
     public String account(@PathVariable("username") String username, Model model){
         model.addAttribute("user",userService.getByUsername(username));
 
-        return "/account";
+        return "/users/account";
     }
 
 

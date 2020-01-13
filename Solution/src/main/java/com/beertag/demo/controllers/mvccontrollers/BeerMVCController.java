@@ -150,6 +150,7 @@ public class BeerMVCController {
     @PostMapping("beers/update")
     public String updateBeer(@ModelAttribute Parametres parametres,
                              Model model) {
+        User requestUser = userService.getByUsername(currentPrincipalName());
         Beer beerToUpdate = service.getById(parametres.getBeerId());
         beerToUpdate.setName(parametres.getNameParam());
         beerToUpdate.setAbvTag(parametres.getAbvParam());
@@ -159,7 +160,7 @@ public class BeerMVCController {
         beerToUpdate.setOriginCountry(countryService.getCountryById(parametres.getCountryParamId()));
         List<Tag> tagList = beerToUpdate.getTags();
         tagList.add(tagService.getTagById(parametres.getTagId()));
-        service.update(beerToUpdate.getId(), beerToUpdate);
+        service.update(beerToUpdate.getId(), beerToUpdate, requestUser);
         return "redirect:/beers";
     }
 
@@ -174,6 +175,8 @@ public class BeerMVCController {
                              @ModelAttribute Parametres parametres, Model model) throws IOException {
         model.addAttribute("file", file);
         Beer newBeer = new Beer();
+        User user = userService.getByUsername(currentPrincipalName());
+        newBeer.setCreatedBy(user);
         newBeer.setName(parametres.getNameParam());
         newBeer.setAbvTag(parametres.getAbvParam());
         newBeer.setDescription(parametres.getDescriptionParam());

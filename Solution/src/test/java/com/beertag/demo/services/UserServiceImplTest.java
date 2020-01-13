@@ -17,25 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.beertag.demo.services.Factory.*;
+import static com.beertag.demo.services.Factory.userUpdateDTO;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
-    //TODO
-//    private static ValidatorFactory validatorFactory;
-//    private static Validator validator;
-//
-//    @BeforeClass
-//    public static void createValidator() {
-//        validatorFactory = Validation.buildDefaultValidatorFactory();
-//        validator = validatorFactory.getValidator();
-//    }
-//
-//    @AfterClass
-//    public static void close() {
-//        validatorFactory.close();
-//    }
 
     @Mock
     UserRepository repository;
@@ -85,7 +72,7 @@ public class UserServiceImplTest {
 
         //Assert
         Assertions.assertThrows(EntityNotFoundException.class,
-                () -> mockService.updateUser(createUser()));
+                () -> mockService.updateUser(createUser(),userUpdateDTO()));
     }
     @Test
     public void deleteUserShould_ThrowException_whenNameNotExist() {
@@ -94,6 +81,6 @@ public class UserServiceImplTest {
 
         //Assert
         Assertions.assertThrows(EntityNotFoundException.class,
-                () -> mockService.updateUser(createUser()));
+                () -> mockService.updateUser(createUser(),userUpdateDTO()));
     }
 }

@@ -32,7 +32,11 @@
     <link rel="stylesheet" th:href="@{/Butons.css}"
           href="/Butons.css">
 
-
+    <script>
+        function confirmationFunction() {
+            confirm("Are you sure you wish to delete your account ?");
+        }
+    </script>
 </head>
 
 <body>
@@ -61,6 +65,11 @@
                         <h4 class="text-left">Email: <span
                                 th:text="${user.getEmail()}"> </span></h4>
 
+
+                        <form class="button" th:action="@{/delete}" method="post">
+                            <input class="btn btn-primary btn-lg btn-block red black-background" type="submit" value="delete user" onclick="confirmationFunction()"/>
+                        </form>
+
                         <div>
                         </div>
                     </div>
@@ -71,7 +80,7 @@
             <div id="right">
                 <div class="center">
                 </div>
-                <form action="#" th:action="@{/account}" th:object="${userUpdateDTO}" method="post"
+                <form action="#" th:action="@{/update}" th:object="${userUpdateDTO}" method="post"
                       enctype="multipart/form-data" >
 
                     <h3>Update profile</h3>
