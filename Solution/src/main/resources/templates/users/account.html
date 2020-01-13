@@ -37,9 +37,11 @@
         <div class="container21">
 
             <div class="center">
-                <img  th:src="@{'data:image/jpeg; base64,'+${user.getPicture()}}" alt="" src="">
-                <img th:if="${user.picture == ''}" src="https://www.blogsaays.com/wp-content/uploads/2014/02/no-user-profile-picture-whatsapp.jpg" >
+                <img th:src="@{'data:image/jpeg; base64,'+${user.getPicture()}}" alt="" src="">
+                <img th:if="${user.picture == ''}"
+                     src="https://www.blogsaays.com/wp-content/uploads/2014/02/no-user-profile-picture-whatsapp.jpg">
                 <div class="text2">
+
                     <h4 class="text-left">Username: <span
                             th:text="${user.getUsername()}"> </span></h4>
 
@@ -49,8 +51,6 @@
                     <h4 th:if="${user.lastName != ''}" class="text-left">Last name: <span
                             th:text="${user.getLastName()}"> </span></h4>
 
-                    <h4 class="text-left">My Beers: <span
-                            th:text="${user.getUsername()}"> </span></h4>
                     <h4 class="text-left">Email: <span
                             th:text="${user.getEmail()}"> </span></h4>
                     <div>
@@ -58,14 +58,16 @@
                 </div>
             </div>
         </div>
-        <form th:if="${user.username == currentuser}"  class="small" style="display: inline-block" th:action="@{/update}">
+        <form th:if="${user.username == currentuser}" class="small" style="display: inline-block"
+              th:action="@{/update}">
             <button type="submit">
                 <div class="left"></div>
                 Edit profile
                 <div class="right"></div>
             </button>
         </form>
-        <form sec:authorize="hasRole('ADMIN')"  class="small" style="display: inline-block" th:action="@{/update/{username}(username=${user.username})}">
+        <form sec:authorize="hasRole('ADMIN')" class="small" style="display: inline-block"
+              th:action="@{/update/{username}(username=${user.username})}">
             <button type="submit">
                 <div class="left"></div>
                 Edit profile as admin

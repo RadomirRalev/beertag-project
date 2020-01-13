@@ -21,6 +21,7 @@ import java.util.List;
 
 @Controller
 public class BeerMVCController {
+    private static final String REDIRECT = "redirect:http://localhost:8181/beers/%d";
     private BeerService service;
     private UserService userService;
     private StyleService styleService;
@@ -75,23 +76,22 @@ public class BeerMVCController {
     }
     @PostMapping("beers/{id}/wish")
     public String addBeerToWishlist(@PathVariable("id") int id) {
-
         userService.addBeerToWishList(currentPrincipalName(), id);
-        return "redirect:";
+        return String.format(REDIRECT,id);
     }
 
     @PostMapping("beers/{id}/wish-delete")
     public String deleteBeerToWishlist(@PathVariable("id") int beerId) {
 
         userService.setStatusWishList(currentPrincipalName(), beerId, DISABLE);
-        return "redirect:";
+        return String.format(REDIRECT,beerId);
     }
 
     @PostMapping("beers/{id}/wish-enable")
     public String enableBeerToWishlist(@PathVariable("id") int beerId) {
 
         userService.setStatusWishList(currentPrincipalName(), beerId, ENABLE);
-        return "redirect:";
+        return String.format(REDIRECT,beerId);
     }
 
     @PostMapping("beers/{id}/drank")
@@ -99,7 +99,7 @@ public class BeerMVCController {
 
         userService.addBeerToDrankList(currentPrincipalName(), id);
 
-        return "redirect:";
+        return String.format(REDIRECT,id);
     }
 
     @PostMapping("beers/{id}/drank-delete")
@@ -107,7 +107,7 @@ public class BeerMVCController {
 
         userService.setStatusDrankList(currentPrincipalName(), id, DISABLE);
 
-        return "redirect:";
+        return String.format(REDIRECT,id);
     }
 
     @PostMapping("beers/{id}/drank-enable")
@@ -115,7 +115,7 @@ public class BeerMVCController {
 
         userService.setStatusDrankList(currentPrincipalName(), id, ENABLE);
 
-        return "redirect:";
+        return String.format(REDIRECT,id);
     }
 
     @PostMapping("beers/{id}/rating")
@@ -123,7 +123,7 @@ public class BeerMVCController {
 
         userService.rateBeer(currentPrincipalName(), id, rating.getRating());
         service.updateAvgRatingOfBeer(id);
-        return "redirect:";
+        return String.format(REDIRECT,id);
     }
 
     @PostMapping("beers/deletebeer/{id}")

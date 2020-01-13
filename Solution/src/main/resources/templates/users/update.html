@@ -73,8 +73,8 @@
                                    onclick="confirmationFunction()"/>
                         </form>
 
-                        <form sec:authorize="hasRole('ADMIN')" class="button" th:action="@{/delete/{username}(username=${user.username})}" method="post">
-                            <input class="btn btn-primary btn-lg btn-block " type="submit" value="delete user"
+                        <form sec:authorize="hasRole('ADMIN')" class="button" th:action="@{/delete/{username}(username=${user.username})}"  method="post">
+                            <input class="btn btn-primary btn-lg btn-block " type="submit" value="delete user as admin"
                                    onclick="confirmationFunction()"/>
                         </form>
                         <div>
@@ -82,6 +82,48 @@
                     </div>
                 </div>
             </div>
+
+
+            <div id="rightadmin">
+                <div   class="center">
+                </div>
+                <form sec:authorize="hasRole('ADMIN')" action="#" th:action="@{/update/{username}(username=${user.username})}" th:object="${userUpdateDTO}" method="post"
+                      enctype="multipart/form-data">
+
+                    <h3>Update profile as admin</h3>
+
+                    <div class="row">
+
+                        <div class="input-group input-group-icon">
+                            <input type="text" placeholder="First Name /Optional" th:field="*{firstName}"/>
+                            <div class="input-icon"><i class="fa fa-user"></i></div>
+                        </div>
+
+                        <div class="input-group input-group-icon">
+                            <input type="text" placeholder="Last Name /Optional" th:field="*{lastName}"/>
+                            <div class="input-icon"><i class="fa fa-user"></i></div>
+                        </div>
+
+                        <h5>Update profile picture</h5>
+
+                        <div class="row1 left1 input-group"><label>
+                            <input type="file" name="file" class="form-control-file" id="exampleFormControlFile2"
+                                   th:field="*{file}"/>
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2000000"/>
+                        </label>
+                        </div>
+
+                        <div class=>
+                            <div class="input-group input-group-icon">
+                            </div>
+                            <input type="submit" value="Update"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
             <div  id="right">
                 <div  class="center">
                 </div>
@@ -121,50 +163,11 @@
             </div>
             <form class="small" style="display: inline-block" th:action="@{/}">
                 <button type="submit">
-                    <div sec:authorize="hasRole('ADMIN')" id="rightadmin">
-                        <div class="center">
-                        </div>
-                        <form action="#" th:action="@{/update/{username}(username=${user.username})}" th:object="${userUpdateDTO}" method="post"
-                              enctype="multipart/form-data">
-
-                            <h3>Update profile as admin</h3>
-
-                            <div class="row">
-
-                                <div class="input-group input-group-icon">
-                                    <input type="text" placeholder="First Name /Optional" th:field="*{firstName}"/>
-                                    <div class="input-icon"><i class="fa fa-user"></i></div>
-                                </div>
-
-                                <div class="input-group input-group-icon">
-                                    <input type="text" placeholder="Last Name /Optional" th:field="*{lastName}"/>
-                                    <div class="input-icon"><i class="fa fa-user"></i></div>
-                                </div>
-
-                                <h5>Update profile picture</h5>
-
-                                <div class="row1 left1 input-group"><label>
-                                    <input type="file" name="file" class="form-control-file" id="exampleFormControlFile2"
-                                           th:field="*{file}"/>
-                                    <input type="hidden" name="MAX_FILE_SIZE" value="2000000"/>
-                                </label>
-                                </div>
-
-                                <div class=>
-                                    <div class="input-group input-group-icon">
-                                    </div>
-                                    <input type="submit" value="Update"/>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <form class="small" style="display: inline-block" th:action="@{/}">
-                        <button type="submit">
-                            <div class="left"></div>
-                            Homepage
-                            <div class="right"></div>
-                        </button>
-                    </form>
+                    <div class="left"></div>
+                    Homepage
+                    <div class="right"></div>
+                </button>
+            </form>
         </div>
     </div>
 </div>

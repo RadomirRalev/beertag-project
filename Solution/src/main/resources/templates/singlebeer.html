@@ -29,13 +29,15 @@
                         <div class="preview-pic tab-content">
                             <div class="tab-pane active" id="pic-1"><img
                                     th:src="@{'data:image/jpeg; base64,'+${beer.getPicture()}}" alt="" src=""></div>
+                            <img th:if="${beer.getPicture() == ''}"
+                                 src="https://www.lcbo.com/content/dam/lcbo/products/110320.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg">
                             <div class="tab-pane" id="pic-2"><img src="http://placekitten.com/400/252"/></div>
                             <div class="tab-pane" id="pic-3"><img src="http://placekitten.com/400/252"/></div>
                             <div class="tab-pane" id="pic-4"><img src="http://placekitten.com/400/252"/></div>
                             <div class="tab-pane" id="pic-5"><img src="http://placekitten.com/400/252"/></div>
                         </div>
                     </div>
-<!--                    Check cancel-->
+                    <!--                    Check cancel-->
                     <div class="details col-md-6">
                         <h3 class="product-title" th:text="${beer.name}">beer name</h3>
                         <div class="rating-score">Rating: <span th:text="${beer.avgRating}"></span></div>
@@ -71,6 +73,11 @@
                         </p>
                         <p class="vote"><strong>Style: </strong> <span th:text="${beer.style.getName()}"></span></p>
 
+                        <p class="vote"><strong>Created by:</strong>
+                            <a th:href="@{/account/{username}(username=${beer.createdBy.username})}">
+                                <span th:text="${beer.createdBy.username}"></span>
+                            </a>
+                        </p>
                         <div class="action">
                             <form class="button" th:if="${!isBeerExistOnWishList}" sec:authorize="isAuthenticated()"
                                   th:action="@{__${beer.getId()}__/wish}"
@@ -111,7 +118,8 @@
                                        onclick="confirmationFunction()"/>
                             </form>
 
-                            <form th:if="${user.username == beer.createdBy.username}" class="button"
+                            <form sec:authorize="isAuthenticated()" th:if="${user.username == beer.createdBy.username}"
+                                  class="button"
                                   th:action="@{updatebeer/__${beer.getId()}__}" method="get">
                                 <input class="add-to-cart btn btn-default" type="submit" value="update"/>
                             </form>
@@ -120,7 +128,8 @@
                                 <input class="add-to-cart btn btn-default" type="submit" value="update"/>
                             </form>
 
-                            <form th:if="${user.username == beer.createdBy.username}" class="button"
+                            <form sec:authorize="isAuthenticated()" th:if="${user.username == beer.createdBy.username}"
+                                  class="button"
                                   th:action="@{deletebeer/__${beer.getId()}__}" method="get">
                                 <input class="add-to-cart btn btn-default" type="submit" value="delete"
                                        onclick="confirmationFunction()"/>

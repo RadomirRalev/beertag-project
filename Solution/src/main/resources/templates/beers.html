@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="utf-8">
     <title>Beertag</title>
@@ -44,7 +46,7 @@
             <div class="mb-4">
                 <div class="small mb-3">Help us expand the world of beers</div>
                 <ul class="nav flex-column nav-pills">
-                    <li class="nav-item"><a th:href="@{/beers/new}" class="nav-link"><i class="fa fa-fw fa-plus mr-2"></i>Add New Beer</a></li>
+                    <li sec:authorize="isAuthenticated()" class="nav-item"><a th:href="@{/beers/new}" class="nav-link"><i class="fa fa-fw fa-plus mr-2"></i>Add New Beer</a></li>
                 </ul>
             </div>
         </div>
