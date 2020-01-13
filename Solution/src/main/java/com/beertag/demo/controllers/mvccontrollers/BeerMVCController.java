@@ -23,7 +23,6 @@ import java.util.List;
 public class BeerMVCController {
     private BeerService service;
     private UserService userService;
-    private DtoMapper mapper;
     private StyleService styleService;
     private BreweryService breweryService;
     private TagService tagService;
@@ -31,11 +30,10 @@ public class BeerMVCController {
     private RatingService ratingService;
 
     @Autowired
-    public BeerMVCController(BeerService service, DtoMapper mapper, UserService userService,
+    public BeerMVCController(BeerService service, UserService userService,
                              StyleService styleService, BreweryService breweryService, TagService tagService,
                              CountryService countryService, RatingService ratingService) {
         this.service = service;
-        this.mapper = mapper;
         this.userService = userService;
         this.styleService = styleService;
         this.breweryService = breweryService;
@@ -67,16 +65,14 @@ public class BeerMVCController {
             model.addAttribute("isBeerEnableOnDrankList", isBeerEnableOnDrankList);
             model.addAttribute("rated", rated);
         }
-        Rating rating = new Rating();
         Beer beer = service.getById(id);
         List<Tag> tagsOfBeer = service.getTags(id);
         model.addAttribute("beers", service.getBeersList());
         model.addAttribute("beer", beer);
         model.addAttribute("tags", tagsOfBeer);
-        model.addAttribute("rating", rating);
+        model.addAttribute("rating", beer.getAvgRating());
         return "singlebeer";
     }
-
     @PostMapping("beers/{id}/wish")
     public String addBeerToWishlist(@PathVariable("id") int id) {
 
@@ -130,13 +126,16 @@ public class BeerMVCController {
         return "redirect:";
     }
 
-    @GetMapping("beers/deletebeer/{id}")
+    @PostMapping("beers/deletebeer/{id}")
     public String showDeleteBeerForm(@PathVariable("id") int id, Model model) {
         Beer beer = service.getById(id);
         model.addAttribute("beer", beer);
         service.deleteBeer(id);
         return "redirect:/beers";
     }
+    //TODO Check Get/Post
+
+    //TODO Update Tag???
 
 
     @GetMapping("beers/updatebeer/{id}")
@@ -148,8 +147,7 @@ public class BeerMVCController {
     }
 
     @PostMapping("beers/update")
-    public String updateBeer(@ModelAttribute Parametres parametres,
-                             Model model) {
+    public String updateBeer(@ModelAttribute Parametres parametres) {
         User requestUser = userService.getByUsername(currentPrincipalName());
         Beer beerToUpdate = service.getById(parametres.getBeerId());
         beerToUpdate.setName(parametres.getNameParam());
@@ -254,4 +252,3 @@ public class BeerMVCController {
         model.addAttribute("parametres", new Parametres());
     }
 }
-

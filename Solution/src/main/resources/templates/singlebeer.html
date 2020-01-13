@@ -17,26 +17,6 @@
             confirm("Are you sure you wish to delete this beer?");
         }
     </script>
-    <style>
-
-    </style>
-
-
-    <!--    <link rel="stylesheet" type="text/css" href="../detailedsearch.css" th:src="@{detailedsearch.css}"/>-->
-    <!--    <style>-->
-    <!--        body {-->
-    <!--            font-family: 'Lato', sans-serif;-->
-    <!--            background: #FFBF00;-->
-    <!--        }-->
-
-    <!--        /*.centered {*/-->
-    <!--        /*    position: fixed;*/-->
-    <!--        /*    top: 50%;*/-->
-    <!--        /*    left: 50%;*/-->
-    <!--        /*    margin-top: -50px;*/-->
-    <!--        /*    margin-left: -100px;*/-->
-    <!--        /*}*/-->
-    <!--    </style>-->
 </head>
 <body>
 <div class="centered">
@@ -54,15 +34,8 @@
                             <div class="tab-pane" id="pic-4"><img src="http://placekitten.com/400/252"/></div>
                             <div class="tab-pane" id="pic-5"><img src="http://placekitten.com/400/252"/></div>
                         </div>
-                        <!--                        <ul class="preview-thumbnail nav nav-tabs">-->
-                        <!--                            <li class="active"><a data-target="#pic-1" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>-->
-                        <!--                            <li><a data-target="#pic-2" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>-->
-                        <!--                            <li><a data-target="#pic-3" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>-->
-                        <!--                            <li><a data-target="#pic-4" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>-->
-                        <!--                            <li><a data-target="#pic-5" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>-->
-                        <!--                        </ul>-->
-
                     </div>
+<!--                    Check cancel-->
                     <div class="details col-md-6">
                         <h3 class="product-title" th:text="${beer.name}">beer name</h3>
                         <div class="rating-score">Rating: <span th:text="${beer.avgRating}"></span></div>
@@ -97,9 +70,8 @@
                             <span th:each="tag : ${tags}"><span th:text="${tag.name} + ' '"></span></span>
                         </p>
                         <p class="vote"><strong>Style: </strong> <span th:text="${beer.style.getName()}"></span></p>
+
                         <div class="action">
-
-
                             <form class="button" th:if="${!isBeerExistOnWishList}" sec:authorize="isAuthenticated()"
                                   th:action="@{__${beer.getId()}__/wish}"
                                   method="post">
@@ -121,7 +93,6 @@
                                        value="delete from wishlist" onclick="confirmationFunction()"/>
                             </form>
 
-
                             <form class="button" th:if="${!isBeerExistOnDrankList}" sec:authorize="isAuthenticated()"
                                   th:action="@{__${beer.getId()}__/drank}" method="post">
                                 <input class="add-to-cart btn btn-default" type="submit" value="add to dranklist"/>
@@ -132,6 +103,7 @@
                                   th:action="@{__${beer.getId()}__/drank-enable}" method="post">
                                 <input class="add-to-cart btn btn-default" type="submit" value="add to dranklist"/>
                             </form>
+
                             <form class="button" th:if="${isBeerExistOnDrankList && isBeerEnableOnDrankList}"
                                   sec:authorize="isAuthenticated()"
                                   th:action="@{__${beer.getId()}__/drank-delete}" method="post">
@@ -139,7 +111,6 @@
                                        onclick="confirmationFunction()"/>
                             </form>
 
-
                             <form th:if="${user.username == beer.createdBy.username}" class="button"
                                   th:action="@{updatebeer/__${beer.getId()}__}" method="get">
                                 <input class="add-to-cart btn btn-default" type="submit" value="update"/>
@@ -159,10 +130,6 @@
                                 <input class="add-to-cart btn btn-default" type="submit" value="delete"
                                        onclick="confirmationFunction()"/>
                             </form>
-                            <!--                            <form class="button" th:action="@{delete/__${beer.getId()}__}" method="post">-->
-                            <!--                                <input class="add-to-cart btn btn-default" type="submit" value="delete"/>-->
-                            <!--                            </form>-->
-
 
                             <form class="button" th:if="${ isBeerExistOnDrankList && !rated && isBeerEnableOnDrankList}"
                                   th:action="@{__${beer.getId()}__/rating}" th:object="${rating}"

@@ -28,16 +28,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(securityDataSource);
-
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-//                .antMatchers("/beers/**")
-//                .hasRole("USER")
-//                .antMatchers("/admin")
-//                .hasRole("ADMIN")
                 .antMatchers("/account/**")
                 .hasRole("USER")
                 .antMatchers("/wishlist/**")

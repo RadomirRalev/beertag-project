@@ -77,14 +77,11 @@
                             <input class="btn btn-primary btn-lg btn-block " type="submit" value="delete user"
                                    onclick="confirmationFunction()"/>
                         </form>
-
                         <div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
             <div  id="right">
                 <div  class="center">
                 </div>
@@ -124,10 +121,6 @@
             </div>
             <form class="small" style="display: inline-block" th:action="@{/}">
                 <button type="submit">
-
-
-
-
                     <div sec:authorize="hasRole('ADMIN')" id="rightadmin">
                         <div class="center">
                         </div>
@@ -167,14 +160,11 @@
                     </div>
                     <form class="small" style="display: inline-block" th:action="@{/}">
                         <button type="submit">
-
-
-
-                    <div class="left"></div>
-                    Homepage
-                    <div class="right"></div>
-                </button>
-            </form>
+                            <div class="left"></div>
+                            Homepage
+                            <div class="right"></div>
+                        </button>
+                    </form>
         </div>
     </div>
 </div>
