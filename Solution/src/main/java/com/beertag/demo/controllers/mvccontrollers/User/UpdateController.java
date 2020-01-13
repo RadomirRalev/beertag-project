@@ -26,7 +26,7 @@ public class UpdateController {
         this.userService = userService;
     }
 
-    @GetMapping("/account")
+    @GetMapping("/update")
     public String profile(Model model) {
         UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
         User user = userService.getByUsername(currentPrincipalName());
@@ -35,7 +35,7 @@ public class UpdateController {
         return "/users/update";
     }
 
-    @PostMapping("/account")
+    @PostMapping("/update")
     public String updateProfile(@Valid @ModelAttribute("userUpdateDTO") UserUpdateDTO userUpdateDTO, Model model) {
         User user = userService.getByUsername(currentPrincipalName());
         try {

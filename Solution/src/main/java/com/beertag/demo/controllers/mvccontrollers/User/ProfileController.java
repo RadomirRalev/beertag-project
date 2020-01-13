@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Set;
 
@@ -22,6 +23,14 @@ public class ProfileController {
         this.userService = userService;
 
     }
+
+    @GetMapping ("/account/{username}")
+    public String account(@PathVariable("username") String username, Model model){
+        model.addAttribute("user",userService.getByUsername(username));
+
+        return "/account";
+    }
+
 
     @GetMapping ("/wishlist")
     public String wishlist(Model model){
