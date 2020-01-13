@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 
 <head>
     <meta charset="utf-8">
@@ -29,8 +31,8 @@
           href="/Profile.css">
     <link rel="stylesheet" th:href="@{/Update.css}"
           href="/Update.css">
-    <link rel="stylesheet" th:href="@{/Butons.css}"
-          href="/Butons.css">
+    <link rel="stylesheet" th:href="@{/Buttons.css}"
+          href="/Buttons.css">
 
     <script>
         function confirmationFunction() {
@@ -49,6 +51,8 @@
                 <div class="center">
 
                     <img th:src="@{'data:image/jpeg; base64,'+${user.getPicture()}}" alt="" src="">
+                    <img th:if="${user.picture == ''}"
+                         src="https://www.blogsaays.com/wp-content/uploads/2014/02/no-user-profile-picture-whatsapp.jpg">
 
                     <div class="text2">
                         <h4 class="text-left">Username: <span
@@ -60,14 +64,18 @@
                         <h4 th:if="${user.lastName != ''}" class="text-left">Last name: <span
                                 th:text="${user.getLastName()}"> </span></h4>
 
-                        <h4 class="text-left">My Beers: <span
-                                th:text="${user.getUsername()}"> </span></h4>
                         <h4 class="text-left">Email: <span
                                 th:text="${user.getEmail()}"> </span></h4>
 
 
-                        <form class="button" th:action="@{/delete}" method="post">
-                            <input class="btn btn-primary btn-lg btn-block red black-background" type="submit" value="delete user" onclick="confirmationFunction()"/>
+                        <form th:if="${user.username == currentuser}" class="button" th:action="@{/delete}" method="post">
+                            <input class="btn btn-primary btn-lg btn-block " type="submit" value="delete user"
+                                   onclick="confirmationFunction()"/>
+                        </form>
+
+                        <form sec:authorize="hasRole('ADMIN')" class="button" th:action="@{/delete/{username}(username=${user.username})}" method="post">
+                            <input class="btn btn-primary btn-lg btn-block " type="submit" value="delete user"
+                                   onclick="confirmationFunction()"/>
                         </form>
 
                         <div>
@@ -77,11 +85,11 @@
             </div>
 
 
-            <div id="right">
-                <div class="center">
+            <div  id="right">
+                <div  class="center">
                 </div>
-                <form action="#" th:action="@{/update}" th:object="${userUpdateDTO}" method="post"
-                      enctype="multipart/form-data" >
+                <form th:if="${user.username == currentuser}" action="#" th:action="@{/update}" th:object="${userUpdateDTO}" method="post"
+                      enctype="multipart/form-data">
 
                     <h3>Update profile</h3>
 
@@ -93,7 +101,7 @@
                         </div>
 
                         <div class="input-group input-group-icon">
-                            <input type="text" placeholder="Last Name /Optional" th:field="*{lastName}" />
+                            <input type="text" placeholder="Last Name /Optional" th:field="*{lastName}"/>
                             <div class="input-icon"><i class="fa fa-user"></i></div>
                         </div>
 
@@ -116,6 +124,52 @@
             </div>
             <form class="small" style="display: inline-block" th:action="@{/}">
                 <button type="submit">
+
+
+
+
+                    <div sec:authorize="hasRole('ADMIN')" id="rightadmin">
+                        <div class="center">
+                        </div>
+                        <form action="#" th:action="@{/update/{username}(username=${user.username})}" th:object="${userUpdateDTO}" method="post"
+                              enctype="multipart/form-data">
+
+                            <h3>Update profile as admin</h3>
+
+                            <div class="row">
+
+                                <div class="input-group input-group-icon">
+                                    <input type="text" placeholder="First Name /Optional" th:field="*{firstName}"/>
+                                    <div class="input-icon"><i class="fa fa-user"></i></div>
+                                </div>
+
+                                <div class="input-group input-group-icon">
+                                    <input type="text" placeholder="Last Name /Optional" th:field="*{lastName}"/>
+                                    <div class="input-icon"><i class="fa fa-user"></i></div>
+                                </div>
+
+                                <h5>Update profile picture</h5>
+
+                                <div class="row1 left1 input-group"><label>
+                                    <input type="file" name="file" class="form-control-file" id="exampleFormControlFile2"
+                                           th:field="*{file}"/>
+                                    <input type="hidden" name="MAX_FILE_SIZE" value="2000000"/>
+                                </label>
+                                </div>
+
+                                <div class=>
+                                    <div class="input-group input-group-icon">
+                                    </div>
+                                    <input type="submit" value="Update"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <form class="small" style="display: inline-block" th:action="@{/}">
+                        <button type="submit">
+
+
+
                     <div class="left"></div>
                     Homepage
                     <div class="right"></div>

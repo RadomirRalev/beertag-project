@@ -3,6 +3,7 @@ package com.beertag.demo.controllers.mvccontrollers.User;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,10 @@ public class ProfileController {
 
     @GetMapping ("/account/{username}")
     public String account(@PathVariable("username") String username, Model model){
+        String currentUser = currentPrincipalName();
+
         model.addAttribute("user",userService.getByUsername(username));
+        model.addAttribute("currentuser",currentUser);
 
         return "/users/account";
     }

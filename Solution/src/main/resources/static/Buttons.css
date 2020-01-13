@@ -4,15 +4,6 @@
     --bg-color: #141218;
 }
 
-.red{
-    color: red;
-}
-
-.black-background{
-    background-color: black;
-}
-
-
 * {
     box-sizing: border-box;
 }

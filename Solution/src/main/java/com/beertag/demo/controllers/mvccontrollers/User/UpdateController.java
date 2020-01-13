@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -28,20 +29,29 @@ public class UpdateController {
         this.userService = userService;
     }
 
-    @GetMapping("/update")
-    public String profile(Model model) {
+    @GetMapping("/update/{username}")
+    public String profile(@PathVariable("username") String username, Model model) {
+        String currentUser = currentPrincipalName();
         UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
-        User user = userService.getByUsername(currentPrincipalName());
+        User user = userService.getByUsername(username);
         model.addAttribute("user", user);
         model.addAttribute("userUpdateDTO", userUpdateDTO);
+        model.addAttribute("currentuser", currentUser);
+
+        return "/users/account";
+    }
+
+
+    @GetMapping("/update")
+    public String profile( Model model) {
+        String currentUser = currentPrincipalName();
+        UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
+        model.addAttribute("user", userService.getByUsername(currentPrincipalName()));
+        model.addAttribute("userUpdateDTO", userUpdateDTO);
+        model.addAttribute("currentuser", currentUser);
         return "/users/update";
     }
 
-    @PostMapping("/delete")
-    public String deleteProfile() {
-       userService.setStatusUser(currentPrincipalName(),DISABLE);
-        return "/users/success-delete";
-    }
 
     @PostMapping("/update")
     public String updateProfile(@Valid @ModelAttribute("userUpdateDTO") UserUpdateDTO userUpdateDTO, Model model) {
@@ -50,9 +60,35 @@ public class UpdateController {
             userService.updateUser(user, userUpdateDTO);
         } catch (InvalidOptionalFieldParameter | IOException e) {
             model.addAttribute("error", e.getMessage());
-            return "redirect:/account";
+            return "redirect:";
         }
         return "/users/success-update";
+    }
+
+
+    @PostMapping("/update/{username}")
+    public String updateProfileAdmin(@Valid @PathVariable("username") String username,
+                                     @ModelAttribute("userUpdateDTO") UserUpdateDTO userUpdateDTO, Model model) {
+        User user = userService.getByUsername(username);
+        try {
+            userService.updateUser(user, userUpdateDTO);
+        } catch (InvalidOptionalFieldParameter | IOException e) {
+            model.addAttribute("error", e.getMessage());
+            return "redirect:";
+        }
+        return "/users/success-update";
+    }
+
+    @PostMapping("/delete")
+    public String deleteProfile() {
+        userService.setStatusUser(currentPrincipalName(),DISABLE);
+        return "/users/success-delete";
+    }
+
+    @PostMapping("/delete{username}")
+    public String deleteProfileAdmin(@PathVariable("username") String username) {
+        userService.setStatusUser(username,DISABLE);
+        return "/users/success-delete";
     }
 
 }

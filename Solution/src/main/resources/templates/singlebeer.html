@@ -140,11 +140,22 @@
                             </form>
 
 
-                            <form class="button" th:action="@{updatebeer/__${beer.getId()}__}" method="get">
+                            <form th:if="${user.username == beer.createdBy.username}" class="button"
+                                  th:action="@{updatebeer/__${beer.getId()}__}" method="get">
+                                <input class="add-to-cart btn btn-default" type="submit" value="update"/>
+                            </form>
+                            <form sec:authorize="hasRole('ADMIN')" class="button"
+                                  th:action="@{updatebeer/__${beer.getId()}__}" method="get">
                                 <input class="add-to-cart btn btn-default" type="submit" value="update"/>
                             </form>
 
-                            <form class="button" th:action="@{deletebeer/__${beer.getId()}__}" method="get">
+                            <form th:if="${user.username == beer.createdBy.username}" class="button"
+                                  th:action="@{deletebeer/__${beer.getId()}__}" method="get">
+                                <input class="add-to-cart btn btn-default" type="submit" value="delete"
+                                       onclick="confirmationFunction()"/>
+                            </form>
+                            <form sec:authorize="hasRole('ADMIN')" class="button"
+                                  th:action="@{deletebeer/__${beer.getId()}__}" method="get">
                                 <input class="add-to-cart btn btn-default" type="submit" value="delete"
                                        onclick="confirmationFunction()"/>
                             </form>

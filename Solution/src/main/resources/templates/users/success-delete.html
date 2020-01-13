@@ -27,6 +27,9 @@
     <!--Mirenda font-->
     <link href="https://fonts.googleapis.com/css?family=Merienda+One&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" th:href="@{/Buttons.css}"
+          href="../Buttons.css">
+
 </head>
 
 <body>
@@ -41,6 +44,13 @@
 
                 <h1>Successfully deleted your account.</h1>
 
+                <form class="homepage" style="display: inline-block" th:action="@{/}">
+                    <button type="submit">
+                        <div class="left"></div>
+                        Homepage
+                        <div class="right"></div>
+                    </button>
+                </form>
             </div>
         </div>
     </div>

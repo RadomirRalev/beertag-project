@@ -26,8 +26,8 @@
     <!--Mirenda font-->
     <link href="https://fonts.googleapis.com/css?family=Merienda+One&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" th:href="@{Butons.css}"
-          href="../static/Butons.css">
+    <link rel="stylesheet" th:href="@{Buttons.css}"
+          href="../static/Buttons.css">
 
 </head>
 
@@ -47,7 +47,8 @@
             <div class="right"></div>
         </button>
     </form>
-    <form sec:authorize="isAuthenticated()" style="display: inline-block" th:action="@{/account/{username}(username=${user.username})}">
+    <form sec:authorize="isAuthenticated()" style="display: inline-block"
+          th:action="@{/account/{username}(username=${user.username})}">
         <button type="submit">
             <div class="left"></div>
             Account Settings
@@ -68,11 +69,6 @@
             <div class="right"></div>
         </button>
     </form>
-    <button sec:authorize="isAuthenticated()" href="#">
-        <div class="left"></div>
-        My Beers
-        <div class="right"></div>
-    </button>
     <form class="logout" th:action="@{/logout}" sec:authorize="isAuthenticated()" method="post">
         <button type="submit" value="logout">
             <div class="left"></div>

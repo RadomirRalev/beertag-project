@@ -185,7 +185,7 @@ public class BeerMVCController {
         newBeer.setOriginCountry(countryService.getCountryById(parametres.getCountryParamId()));
         newBeer.setPicture(file.getBytes());
         service.createBeer(newBeer);
-        return "redirect:/beers";
+        return "success-beer";
     }
 
     @GetMapping("/allbeers")

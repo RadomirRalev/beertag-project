@@ -29,8 +29,8 @@
     <link rel="stylesheet" th:href="@{/Register.css}"
           href="../static/Register.css">
 
-    <link rel="stylesheet" th:href="@{/Butons.css}"
-          href="../static/Butons.css">
+    <link rel="stylesheet" th:href="@{/Buttons.css}"
+          href="../static/Buttons.css">
 
     <link rel="stylesheet" th:href="@{/Profile.css}"
           href="../static/Profile.css">
@@ -43,7 +43,8 @@
         <div class="container21">
 
             <div class="center">
-                <img th:src="@{'data:image/jpeg; base64,'+${user.getPicture()}}" alt="" src="">
+                <img  th:src="@{'data:image/jpeg; base64,'+${user.getPicture()}}" alt="" src="">
+                <img th:if="${user.picture == ''}" src="https://www.blogsaays.com/wp-content/uploads/2014/02/no-user-profile-picture-whatsapp.jpg" >
                 <div class="text2">
                     <h4 class="text-left">Username: <span
                             th:text="${user.getUsername()}"> </span></h4>
@@ -58,16 +59,22 @@
                             th:text="${user.getUsername()}"> </span></h4>
                     <h4 class="text-left">Email: <span
                             th:text="${user.getEmail()}"> </span></h4>
-
                     <div>
                     </div>
                 </div>
             </div>
         </div>
-        <form class="small" style="display: inline-block" th:action="@{/update}">
+        <form th:if="${user.username == currentuser}"  class="small" style="display: inline-block" th:action="@{/update}">
             <button type="submit">
                 <div class="left"></div>
                 Edit profile
+                <div class="right"></div>
+            </button>
+        </form>
+        <form sec:authorize="hasRole('ADMIN')"  class="small" style="display: inline-block" th:action="@{/update/{username}(username=${user.username})}">
+            <button type="submit">
+                <div class="left"></div>
+                Edit profile as admin
                 <div class="right"></div>
             </button>
         </form>
