@@ -3,7 +3,7 @@ Link to Trello board - https://trello.com/b/DhmgxTbo/team20-beertag
 
 # Beertag
 
-BeerTag is a RESTful API for rating and collecting beers.
+BeerTag is a RESTful web application for rating and collecting beers.
 
 Bugs - 'Update' html file does not read CSS files.
      - No pagination
