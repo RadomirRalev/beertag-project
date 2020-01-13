@@ -1,4 +1,5 @@
 # RadomirRalev-VasilDinchev-TeamworkAssignment
+Link to Trello board - https://trello.com/b/DhmgxTbo/team20-beertag
 
 # Beertag
 
@@ -14,10 +15,7 @@ Pull requests are welcome.
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
 
-##Link to Trello board 
-https://trello.com/b/DhmgxTbo/team20-beertag
-
-##Screenshots
+#Screenshots
 
 ![image](https://easyupload.io/k1z3s0)
 
