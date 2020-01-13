@@ -1,6 +1,8 @@
 # RadomirRalev-VasilDinchev-TeamworkAssignment
 Link to Trello board - https://trello.com/b/DhmgxTbo/team20-beertag
 
+Swagger link - http://localhost:8181/swagger-ui.html#/
+
 # Beertag
 
 BeerTag is a RESTful web application for rating and collecting beers.
