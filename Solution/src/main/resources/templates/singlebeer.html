@@ -14,7 +14,12 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script>
         function confirmationFunction() {
-            confirm("Are you sure you wish to delete this beer?");
+            if (confirm("Are you sure you wish to delete this beer?")){
+                return true;
+            }
+            else {
+                return false;
+            }
         }
     </script>
 </head>
@@ -88,9 +93,9 @@
                             <form class="button" th:if="${isBeerExistOnWishList && isBeerEnabledOnWishList}"
                                   sec:authorize="isAuthenticated()"
                                   th:action="@{__${beer.getId()}__/wish-delete}"
-                                  method="post">
+                                  method="post" onsubmit="return confirmationFunction()">
                                 <input class="add-to-cart btn btn-default" type="submit"
-                                       value="delete from wishlist" onclick="confirmationFunction()"/>
+                                       value="delete from wishlist"/>
                             </form>
 
                             <form class="button" th:if="${!isBeerExistOnDrankList}" sec:authorize="isAuthenticated()"
@@ -106,9 +111,8 @@
 
                             <form class="button" th:if="${isBeerExistOnDrankList && isBeerEnableOnDrankList}"
                                   sec:authorize="isAuthenticated()"
-                                  th:action="@{__${beer.getId()}__/drank-delete}" method="post">
-                                <input class="add-to-cart btn btn-default" type="submit" value="delete from dranklist"
-                                       onclick="confirmationFunction()"/>
+                                  th:action="@{__${beer.getId()}__/drank-delete}" method="post" onsubmit="return confirmationFunction()">
+                                <input class="add-to-cart btn btn-default" type="submit" value="delete from dranklist"/>
                             </form>
 
                             <form th:if="${user.username == beer.createdBy.username}" class="button"
@@ -121,14 +125,13 @@
                             </form>
 
                             <form th:if="${user.username == beer.createdBy.username}" class="button"
-                                  th:action="@{deletebeer/__${beer.getId()}__}" method="get">
+                                  th:action="@{deletebeer/__${beer.getId()}__}" method="post" onsubmit="return confirmationFunction()">
                                 <input class="add-to-cart btn btn-default" type="submit" value="delete"
-                                       onclick="confirmationFunction()"/>
+                                       />
                             </form>
                             <form sec:authorize="hasRole('ADMIN')" class="button"
-                                  th:action="@{deletebeer/__${beer.getId()}__}" method="get">
-                                <input class="add-to-cart btn btn-default" type="submit" value="delete"
-                                       onclick="confirmationFunction()"/>
+                                  th:action="@{deletebeer/__${beer.getId()}__}" method="post" onsubmit="return confirmationFunction()">
+                                <input class="add-to-cart btn btn-default" type="submit" value="delete"/>
                             </form>
 
                             <form class="button" th:if="${ isBeerExistOnDrankList && !rated && isBeerEnableOnDrankList}"

@@ -131,12 +131,8 @@ public class BeerMVCController {
         Beer beer = service.getById(id);
         model.addAttribute("beer", beer);
         service.deleteBeer(id);
-        return "redirect:/beers";
+        return "delete-beer";
     }
-    //TODO Check Get/Post
-
-    //TODO Update Tag???
-
 
     @GetMapping("beers/updatebeer/{id}")
     public String showUpdateBeerForm(@PathVariable("id") int id, Model model) {
@@ -157,7 +153,9 @@ public class BeerMVCController {
         beerToUpdate.setBrewery(breweryService.getBreweryById(parametres.getBreweryParamId()));
         beerToUpdate.setOriginCountry(countryService.getCountryById(parametres.getCountryParamId()));
         List<Tag> tagList = beerToUpdate.getTags();
-        tagList.add(tagService.getTagById(parametres.getTagId()));
+        if (parametres.getTagId() != 0) {
+            tagList.add(tagService.getTagById(parametres.getTagId()));
+        }
         service.update(beerToUpdate.getId(), beerToUpdate, requestUser);
         return "redirect:/beers";
     }
