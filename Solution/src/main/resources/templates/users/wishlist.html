@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Beertag</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <style type="text/css">
+        body{
+            margin-top:20px;
+            background:#2E2216;
+        }
+        .avatar--md .avatar__content img{
+            width:40px;
+            height:40px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="mb-3 Card_custom-card--border_5wJKy card" >
+                <div class="table-responsive-xl">
+                    <table class="mb-0 table table-hover">
+                        <thead>
+                        <tr>
+                            <th class="align-middle bt-0"></th>
+                            <th class="align-middle bt-0">Beer</th>
+                            <th class="align-middle bt-0">Style</th>
+                            <th class="align-middle bt-0">Rating</th>
+                            <th class="align-middle bt-0">Pic</th>
+                            <th class="align-middle bt-0 text-right">ABV</th>
+                        </tr>
+                        </thead>
+                        <tbody th:each="beer : ${beers}">
+                        <tr>
+                            <td class="align-middle">
+                                <div class="text-inverse"><a href="#"><i class="fa fa-fw fa-lg fa-beer"></i></a></div>
+                            </td>
+                            <td class="align-middle">
+                                <div><a th:text="${beer.name}" th:href="@{/beers/{id}(id=${beer.id})}"></a></div></td>
+                            <td class="align-middle"><span class="badge badge-success badge-pill" th:text="${beer.style.name}">Style</span></td>
+                            <td class="align-middle">
+                                <div th:text="${beer.getAvgRating()}">Average rating:<span class="text-inverse">88/94</span></div>
+                            </td>
+                            <td class="align-middle">
+                                <div class="avatar-image avatar-image--loaded">
+                                    <div class="avatar avatar--md avatar-image__image">
+                                        <div class="avatar__content">
+                                            <img th:src="@{'data:image/jpeg; base64,'+${beer.getPicture()}}" alt="" src="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle">
+                                <div th:text="${beer.getAbvTag()}">ABV:<span class="text-inverse">88/94</span></div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center pb-0 card-footer">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination pg-blue">
+                            <li class="page-item disabled">
+                                <span class="page-link">Previous</span>
+                            </li>
+                            <li class="page-item"><a class="page-link">1</a></li>
+                            <li class="page-item active">
+                              <span class="page-link">
+                                        2
+                                  <span class="sr-only">(current)</span>
+                                 </span>
+                            </li>
+                            <li class="page-item"><a class="page-link">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- pagination -->
+
+<script src="http://netdna.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+
+</script>
+</body>
+</html>

@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.beertag.demo.exceptions.Constants.*;
+import static com.beertag.demo.constants.ExceptionConstants.*;
+import static com.beertag.demo.constants.SQLQueryConstants.*;
 
 @Service
 public class BreweryServiceImpl implements BreweryService {
@@ -68,7 +69,7 @@ public class BreweryServiceImpl implements BreweryService {
 
     @Override
     public Brewery createBrewery(Brewery newBrewery) {
-        newBrewery.setStatus(ENABLED);
+        newBrewery.setStatus(ENABLE);
         try {
            return breweryRepository.createBrewery(newBrewery);
         } catch (Exception e) {

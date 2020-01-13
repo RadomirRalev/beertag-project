@@ -8,7 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.beertag.demo.exceptions.Constants.*;
+import static com.beertag.demo.constants.ExceptionConstants.*;
 import static java.lang.Integer.parseInt;
 
 public class UserHelper {

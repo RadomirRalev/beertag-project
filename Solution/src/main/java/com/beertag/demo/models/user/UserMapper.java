@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-import static com.beertag.demo.exceptions.Constants.*;
+import static com.beertag.demo.constants.ExceptionConstants.*;
 import static com.beertag.demo.helpers.UserHelper.*;
 
 @Component

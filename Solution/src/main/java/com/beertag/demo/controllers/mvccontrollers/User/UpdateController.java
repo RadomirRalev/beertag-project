@@ -7,7 +7,6 @@ import com.beertag.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,31 +26,25 @@ public class UpdateController {
         this.userService = userService;
     }
 
-    @GetMapping("/profile")
+    @GetMapping("/account")
     public String profile(Model model) {
         UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
         User user = userService.getByUsername(currentPrincipalName());
         model.addAttribute("user", user);
         model.addAttribute("userUpdateDTO", userUpdateDTO);
-        return "profile";
+        return "/users/update";
     }
 
-    @PostMapping("/profile")
-    public String updateProfile(@Valid @ModelAttribute("userUpdateDTO") UserUpdateDTO userUpdateDTO,
-                                BindingResult bindingResult, Model model) {
-
+    @PostMapping("/account")
+    public String updateProfile(@Valid @ModelAttribute("userUpdateDTO") UserUpdateDTO userUpdateDTO, Model model) {
         User user = userService.getByUsername(currentPrincipalName());
-        if (bindingResult.hasErrors()) {
-            return "redirect:";
-        }
         try {
             userService.updateUser(user, userUpdateDTO);
         } catch (InvalidOptionalFieldParameter | IOException e) {
             model.addAttribute("error", e.getMessage());
-            return "redirect:/profile";
+            return "redirect:/account";
         }
         return "/users/success-update";
     }
-
 
 }

@@ -11,7 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.beertag.demo.exceptions.Constants.*;
+import static com.beertag.demo.constants.ExceptionConstants.*;
+import static com.beertag.demo.constants.SQLQueryConstants.*;
 
 @Repository
 public class TagRepositoryImpl implements TagRepository {
@@ -26,7 +27,7 @@ public class TagRepositoryImpl implements TagRepository {
     public Tag getTagById(int id) {
         try(Session session = sessionFactory.openSession()) {
             Tag tag = session.get(Tag.class, id);
-            if (tag == null || tag.getStatus() != ENABLED) {
+            if (tag == null || tag.getStatus() != ENABLE) {
                 throw new EntityNotFoundException(
                         String.format(TAG_ID_NOT_FOUND, id));
             }
@@ -38,7 +39,7 @@ public class TagRepositoryImpl implements TagRepository {
     public List<Tag> getTagList() {
         try(Session session = sessionFactory.openSession()) {
             Query<Tag> query = session.createQuery("from Tag where status = :status", Tag.class)
-                    .setParameter("status",ENABLED);
+                    .setParameter("status", ENABLE);
             return query.list();
         } catch (Exception e) {
             throw new EntityNotFoundException(LIST_EMPTY);
@@ -89,7 +90,7 @@ public class TagRepositoryImpl implements TagRepository {
             Query<Tag> query = session.createQuery("from Tag " +
                     "where name LIKE :name and status = :status", Tag.class);
             query.setParameter("name", "%" + name + "%");
-            query.setParameter("status", ENABLED);
+            query.setParameter("status", ENABLE);
             return query.list();
         } catch (Exception e) {
             throw new EntityNotFoundException(TAG_NAME_NOT_FOUND, name);

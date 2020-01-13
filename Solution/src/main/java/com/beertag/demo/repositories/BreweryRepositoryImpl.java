@@ -9,7 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.beertag.demo.exceptions.Constants.*;
+import static com.beertag.demo.constants.ExceptionConstants.*;
+import static com.beertag.demo.constants.SQLQueryConstants.*;
+
+
 
 @Repository
 public class BreweryRepositoryImpl implements BreweryRepository {
@@ -23,7 +26,7 @@ public class BreweryRepositoryImpl implements BreweryRepository {
     public Brewery getBreweryById(int id) {
         try(Session session = sessionFactory.openSession()) {
             Brewery brewery = session.get(Brewery.class, id);
-            if (brewery == null || brewery.getStatus() != ENABLED) {
+            if (brewery == null || brewery.getStatus() != ENABLE) {
                 throw new EntityNotFoundException(
                         String.format(BREWERY_ID_NOT_FOUND, id));
             }
@@ -35,7 +38,7 @@ public class BreweryRepositoryImpl implements BreweryRepository {
     public List<Brewery> getBreweriesList() {
         try(Session session = sessionFactory.openSession()) {
             Query<Brewery> query = session.createQuery("from Brewery where status = :status", Brewery.class)
-                    .setParameter("status",ENABLED);
+                    .setParameter("status", ENABLE);
             return query.list();
         }
     }
@@ -46,7 +49,7 @@ public class BreweryRepositoryImpl implements BreweryRepository {
             Query<Brewery> query = session.createQuery("from Brewery " +
                     "where name LIKE :name and status = :status", Brewery.class);
             query.setParameter("name", "%" + name + "%");
-            query.setParameter("status", ENABLED);
+            query.setParameter("status", ENABLE);
             return query.list();
         } catch (Exception e) {
             throw new EntityNotFoundException(BREWERY_NAME_NOT_FOUND, name);

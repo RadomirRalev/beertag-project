@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.beertag.demo.exceptions.Constants.*;
+import static com.beertag.demo.constants.ExceptionConstants.*;
+import static com.beertag.demo.constants.SQLQueryConstants.*;
 
 @Service
 public class TagServiceImpl implements TagService {
@@ -60,7 +61,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag createTag(Tag newTag) {
-        newTag.setStatus(ENABLED);
+        newTag.setStatus(ENABLE);
         try {
             return tagRepository.createTag(newTag);
         } catch (Exception e) {

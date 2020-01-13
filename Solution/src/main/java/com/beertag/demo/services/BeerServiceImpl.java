@@ -18,7 +18,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.beertag.demo.exceptions.Constants.*;
+import static com.beertag.demo.constants.ExceptionConstants.*;
+import static com.beertag.demo.constants.SQLQueryConstants.*;
 
 @Service
 public class BeerServiceImpl implements BeerService {
@@ -97,7 +98,7 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public Beer createBeer(Beer newBeer) {
-        newBeer.setStatus(ENABLED);
+        newBeer.setStatus(ENABLE);
             return repository.createBeer(newBeer);
     }
 

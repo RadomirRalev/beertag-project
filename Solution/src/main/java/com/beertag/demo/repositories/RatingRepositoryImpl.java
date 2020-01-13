@@ -10,20 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.beertag.demo.exceptions.Constants.*;
+import static com.beertag.demo.constants.ExceptionConstants.*;
+import static com.beertag.demo.constants.SQLQueryConstants.*;
 
 @Repository
 public class RatingRepositoryImpl implements RatingRepository {
-    private static final String IS_RATING_EXITS_SQL = "select * " +
-            "from rating " +
-            "where drank_id = (select (drank_beer_id)" +
-            "    from drank_beer " +
-            "    where username = :username and beer_id = :beerId and status = :status);" ;
-
-    private static final String GET_RATING_FROM_BEER = "select * from rating" +
-            " join drank_beer on rating.drank_id = drank_beer.drank_beer_id" +
-            " where beer_id = :beerId " +
-            "and drank_beer.status = :beerStatus";
 
     private SessionFactory sessionFactory;
 
@@ -63,9 +54,9 @@ public class RatingRepositoryImpl implements RatingRepository {
     @Override
     public List<Rating> getRatingsOfSpecificBeer(int beerId) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Rating> query = session.createNativeQuery(GET_RATING_FROM_BEER, Rating.class);
+            Query<Rating> query = session.createNativeQuery(GET_RATING_FROM_BEER_SQL, Rating.class);
             query.setParameter("beerId", beerId);
-            query.setParameter("beerStatus", ENABLED);
+            query.setParameter("beerStatus", ENABLE);
             return query.list();
         }
     }
@@ -76,7 +67,7 @@ public class RatingRepositoryImpl implements RatingRepository {
             Query<Rating> query = session.createNativeQuery(IS_RATING_EXITS_SQL, Rating.class);
             query.setParameter("username", username);
             query.setParameter("beerId", beerId);
-            query.setParameter("status", ENABLED);
+            query.setParameter("status", ENABLE);
             return !query.list().isEmpty();
         }
     }

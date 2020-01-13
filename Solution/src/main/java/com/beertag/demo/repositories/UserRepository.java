@@ -17,11 +17,11 @@ public interface UserRepository {
 
     void addBeerFromWishList(WishList wishList);
 
-    void softDeleteBeerFromWishList(String username, int beerId);
+    void setStatusWishList(String username, int beerId, int status);
 
     void addBeerToDrankList(DrankList drankList);
 
-    void softDeleteBeerFromDrankList(String username, int beerId);
+    void setStatusDrankList(String username, int beerId, int status);
 
     Set<Beer> getDrankList(String username);
 
@@ -41,7 +41,11 @@ public interface UserRepository {
 
     boolean isUserHaveCurrentBeerOnWishList(String username, int beerId);
 
+   boolean isBeerEnabletOnWishList(String username, int beerId);
+
     boolean isUserHaveCurrentBeerOnDrankList(String username, int beerId);
+
+    boolean isBeerEnabletOnDrankList(String username, int beerId);
 
     void rateBeer(String username, int beerId, int rating);
 

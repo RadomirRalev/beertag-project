@@ -15,13 +15,13 @@ public interface UserService {
 
     Set<Beer> getWishList(String username);
 
-    void addBeerToWishList (String username, int beerId);
+    void addBeerToWishList(String username, int beerId);
 
-    void softDeleteBeerFromWishList(String username, int beerId);
+    void setStatusWishList(String username, int beerId, int status);
 
-    void addBeerToDrankList (String username, int beerId);
+    void addBeerToDrankList(String username, int beerId);
 
-    void softDeleteBeerFromDrankList (String username, int beerId);
+    void setStatusDrankList(String username, int beerId, int status);
 
     Set<Beer> getDrankList(String username);
 
@@ -39,10 +39,14 @@ public interface UserService {
 
     boolean emailExist(String email);
 
-    boolean isUserHaveCurrentBeerOnWishList(String username, int beerId );
+    boolean isUserHaveCurrentBeerOnWishList(String username, int beerId);
 
-    boolean isUserHaveCurrentBeerOnDrankList(String username, int beerId );
+    boolean isBeerEnabletOnWishList(String username, int beerId);
 
-    void rateBeer (String username, int beerId, int rating);
+    boolean isUserHaveCurrentBeerOnDrankList(String username, int beerId);
+
+    boolean isBeerEnabletOnDrankList(String username, int beerId);
+
+    void rateBeer(String username, int beerId, int rating);
 
 }

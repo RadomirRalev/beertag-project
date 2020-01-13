@@ -3,9 +3,8 @@ package com.beertag.demo.controllers.mvccontrollers.User;
 import com.beertag.demo.exceptions.DuplicateEntityException;
 import com.beertag.demo.exceptions.InvalidAgeException;
 import com.beertag.demo.exceptions.InvalidOptionalFieldParameter;
-import com.beertag.demo.models.user.User;
+import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.models.user.UserRegistrationDTO;
-import com.beertag.demo.models.user.UserUpdateDTO;
 import com.beertag.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,11 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import static com.beertag.demo.exceptions.Constants.*;
+import static com.beertag.demo.constants.ExceptionConstants.*;
 import static com.beertag.demo.helpers.UserHelper.currentPrincipalName;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Set;
 
 
 @Controller
@@ -32,6 +32,7 @@ public class RegistrationController {
         this.userService = userService;
 
     }
+
 
     @GetMapping("/register")
     public String showRegisterPage(Model model) {

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import static com.beertag.demo.helpers.UserHelper.*;
+import static com.beertag.demo.constants.SQLQueryConstants.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -54,12 +55,16 @@ public class BeerMVCController {
 
         if (!currentPrincipalName().equals("anonymousUser")) {
             User user = userService.getByUsername(currentPrincipalName());
-            boolean wishlist = userService.isUserHaveCurrentBeerOnWishList(currentPrincipalName(), id);
-            boolean dranklist = userService.isUserHaveCurrentBeerOnDrankList(currentPrincipalName(), id);
+            boolean isBeerExistOnWishList = userService.isUserHaveCurrentBeerOnWishList(currentPrincipalName(), id);
+            boolean isBeerEnabledOnWishList = userService.isBeerEnabletOnWishList(currentPrincipalName(), id);
+            boolean isBeerExistOnDrankList = userService.isUserHaveCurrentBeerOnDrankList(currentPrincipalName(), id);
+            boolean isBeerEnableOnDrankList = userService.isBeerEnabletOnDrankList(currentPrincipalName(), id);
             boolean rated = ratingService.isRated(currentPrincipalName(), id);
             model.addAttribute("user", user);
-            model.addAttribute("wishlist", wishlist);
-            model.addAttribute("dranklist", dranklist);
+            model.addAttribute("isBeerExistOnWishList", isBeerExistOnWishList);
+            model.addAttribute("isBeerEnabledOnWishList", isBeerEnabledOnWishList);
+            model.addAttribute("isBeerExistOnDrankList", isBeerExistOnDrankList);
+            model.addAttribute("isBeerEnableOnDrankList", isBeerEnableOnDrankList);
             model.addAttribute("rated", rated);
         }
         Rating rating = new Rating();
@@ -79,10 +84,40 @@ public class BeerMVCController {
         return "redirect:";
     }
 
+    @PostMapping("beers/{id}/wish-delete")
+    public String deleteBeerToWishlist(@PathVariable("id") int beerId) {
+
+        userService.setStatusWishList(currentPrincipalName(), beerId, DISABLE);
+        return "redirect:";
+    }
+
+    @PostMapping("beers/{id}/wish-enable")
+    public String enableBeerToWishlist(@PathVariable("id") int beerId) {
+
+        userService.setStatusWishList(currentPrincipalName(), beerId, ENABLE);
+        return "redirect:";
+    }
+
     @PostMapping("beers/{id}/drank")
     public String addBeerToDranklist(@PathVariable("id") int id) {
 
         userService.addBeerToDrankList(currentPrincipalName(), id);
+
+        return "redirect:";
+    }
+
+    @PostMapping("beers/{id}/drank-delete")
+    public String deleteBeerToDranklist(@PathVariable("id") int id) {
+
+        userService.setStatusDrankList(currentPrincipalName(), id, DISABLE);
+
+        return "redirect:";
+    }
+
+    @PostMapping("beers/{id}/drank-enable")
+    public String enableBeerToDranklist(@PathVariable("id") int id) {
+
+        userService.setStatusDrankList(currentPrincipalName(), id, ENABLE);
 
         return "redirect:";
     }

@@ -11,7 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.beertag.demo.exceptions.Constants.*;
+import static com.beertag.demo.constants.ExceptionConstants.*;
+import static com.beertag.demo.constants.SQLQueryConstants.*;
 
 @Repository
 public class BeerRepositoryImpl implements BeerRepository {
@@ -24,9 +25,9 @@ public class BeerRepositoryImpl implements BeerRepository {
 
     @Override
     public Beer getById(int id) {
-        try(Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Beer beer = session.get(Beer.class, id);
-            if (beer == null || beer.getStatus() != ENABLED) {
+            if (beer == null || beer.getStatus() != ENABLE) {
                 throw new EntityNotFoundException(
                         String.format(BEER_ID_NOT_FOUND, id));
             }
@@ -38,7 +39,7 @@ public class BeerRepositoryImpl implements BeerRepository {
     public List<Beer> getBeerList() {
         try (Session session = sessionFactory.openSession()) {
             Query<Beer> query = session.createQuery("from Beer where status = :status", Beer.class);
-            query.setParameter("status",ENABLED);
+            query.setParameter("status", ENABLE);
             if (query.list().isEmpty()) {
                 throw new EntityNotFoundException("List is empty");
             } else {
@@ -49,11 +50,11 @@ public class BeerRepositoryImpl implements BeerRepository {
 
     @Override
     public List<Beer> getBeerByName(String name) {
-        try(Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Query<Beer> query = session.createQuery("from Beer " +
                     "where name LIKE :name and status = :status", Beer.class);
             query.setParameter("name", "%" + name + "%");
-            query.setParameter("status",ENABLED);
+            query.setParameter("status", ENABLE);
             return query.list();
         }
     }
@@ -64,7 +65,7 @@ public class BeerRepositoryImpl implements BeerRepository {
             Query<Beer> query = session.createQuery("from Beer " +
                     "where style.id = :styleId and status = :status", Beer.class);
             query.setParameter("styleId", styleId);
-            query.setParameter("status",ENABLED);
+            query.setParameter("status", ENABLE);
             return query.list();
         }
     }
@@ -75,7 +76,7 @@ public class BeerRepositoryImpl implements BeerRepository {
             Query<Beer> query = session.createQuery("from Beer " +
                     "where style.name LIKE :styleName and status = :status", Beer.class);
             query.setParameter("styleName", "%" + styleName + "%");
-            query.setParameter("status",ENABLED);
+            query.setParameter("status", ENABLE);
             return query.list();
         }
     }
@@ -86,7 +87,7 @@ public class BeerRepositoryImpl implements BeerRepository {
             Query<Beer> query = session.createQuery("from Beer " +
                     "where brewery.name LIKE :breweryName and status = :status", Beer.class);
             query.setParameter("breweryName", "%" + breweryName + "%");
-            query.setParameter("status",ENABLED);
+            query.setParameter("status", ENABLE);
             return query.list();
         }
     }
@@ -97,7 +98,7 @@ public class BeerRepositoryImpl implements BeerRepository {
             Query<Beer> query = session.createQuery("from Beer " +
                     "where originCountry.name = :originCountry and status = :status", Beer.class);
             query.setParameter("originCountry", originCountry);
-            query.setParameter("status",ENABLED);
+            query.setParameter("status", ENABLE);
             return query.list();
         }
     }
@@ -108,7 +109,7 @@ public class BeerRepositoryImpl implements BeerRepository {
             Query<Beer> query = session.createQuery("from Beer " +
                     "where originCountry.id = :countryId and status = :status", Beer.class);
             query.setParameter("countryId", countryId);
-            query.setParameter("status",ENABLED);
+            query.setParameter("status", ENABLE);
             return query.list();
         }
     }
@@ -119,7 +120,7 @@ public class BeerRepositoryImpl implements BeerRepository {
             Query<Beer> query = session.createQuery("from Beer " +
                     "where brewery.id = :breweryId and status = :status", Beer.class);
             query.setParameter("breweryId", breweryId);
-            query.setParameter("status",ENABLED);
+            query.setParameter("status", ENABLE);
             return query.list();
         }
     }
@@ -188,26 +189,27 @@ public class BeerRepositoryImpl implements BeerRepository {
                     "and tag.status =:tagStatus " +
                     "and beertag.status = :beerStatus", Tag.class);
             query.setParameter("beerId", beerId);
-            query.setParameter("tagStatus", ENABLED);
-            query.setParameter("beerStatus", ENABLED);
+            query.setParameter("tagStatus", ENABLE);
+            query.setParameter("beerStatus", ENABLE);
             return query.list();
         }
     }
 
     private void getWishListDeleteBeerQuery(int beerId, Session session) {
         session.createQuery("update WishList " +
-                "set status = " + DISABLE + " " +
+                "set status = :status " +
                 "where beerId = :beerId ")
                 .setParameter("beerId", beerId)
+                .setParameter("status", DISABLE)
                 .executeUpdate();
     }
 
     private void getDrankListDeleteBeerQuery(int beerId, Session session) {
         session.createQuery("update DrankList " +
-                "set status = " + DISABLE + " " +
+                "set status = :status " +
                 "where beerId = :beerId ")
                 .setParameter("beerId", beerId)
+                .setParameter("status", DISABLE)
                 .executeUpdate();
     }
-
 }

@@ -27,7 +27,7 @@ public class UserController {
         this.userService = beerTagServices;
     }
 
-    @GetMapping("/wishlist/{userId}")
+    @GetMapping("/wishlist/{username}")
     public Set<Beer> getWishList(@PathVariable String username) {
 
         return userService.getWishList(username);

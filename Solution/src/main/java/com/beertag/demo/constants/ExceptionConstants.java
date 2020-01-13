@@ -1,6 +1,6 @@
-package com.beertag.demo.exceptions;
+package com.beertag.demo.constants;
 
-public class Constants {
+public class ExceptionConstants {
     public static final String LIST_EMPTY = "List is empty.";
     public static final String BEER_NAME_NOT_FOUND = "Beer %s not found in the database.";
     public static final String BEER_ID_NOT_FOUND = "Beer with %d not found in the database.";
@@ -32,8 +32,6 @@ public class Constants {
     public static final String LAST_NAME_LENGTH_EXCEPTION = "last name length should be minimum 3 symbols.";
     public static final String LAST_NAME_REGEX_EXCEPTION = "last name field may contain only letters.";
     public static final String PASSWORD_DO_NOT_MATCH = "Password doesn't match!";
-    //Status
-    public static final int ENABLED = 1;
-    public static final int DISABLE = 0;
+
 
 }

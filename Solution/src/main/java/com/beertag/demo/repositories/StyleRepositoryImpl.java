@@ -10,7 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.beertag.demo.exceptions.Constants.*;
+import static com.beertag.demo.constants.ExceptionConstants.*;
+import static com.beertag.demo.constants.SQLQueryConstants.*;
 
 @Repository
 public class StyleRepositoryImpl implements StyleRepository {
@@ -25,7 +26,7 @@ public class StyleRepositoryImpl implements StyleRepository {
     public Style getStyleById(int id) {
         try (Session session = sessionFactory.openSession()) {
             Style style = session.get(Style.class, id);
-            if (style == null || style.getStatus() != ENABLED) {
+            if (style == null || style.getStatus() != ENABLE) {
                 throw new EntityNotFoundException(
                         String.format(STYLE_ID_NOT_FOUND, id));
             }
@@ -37,7 +38,7 @@ public class StyleRepositoryImpl implements StyleRepository {
     public List<Style> getStylesList() {
         try (Session session = sessionFactory.openSession()) {
             Query<Style> query = session.createQuery("from Style where status = :status", Style.class)
-                    .setParameter("status", ENABLED);
+                    .setParameter("status", ENABLE);
             return query.list();
         } catch (Exception e) {
             throw new EntityNotFoundException(LIST_EMPTY);
@@ -50,7 +51,7 @@ public class StyleRepositoryImpl implements StyleRepository {
             Query<Style> query = session.createQuery("from Style " +
                     "where name LIKE :name and status = :status", Style.class);
             query.setParameter("name", "%" + name + "%");
-            query.setParameter("status", ENABLED);
+            query.setParameter("status", ENABLE);
             return query.list();
         } catch (Exception e) {
             throw new EntityNotFoundException(STYLE_NAME_NOT_FOUND, name);

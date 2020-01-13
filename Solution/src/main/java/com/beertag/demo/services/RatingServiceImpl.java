@@ -7,7 +7,7 @@ import com.beertag.demo.repositories.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.beertag.demo.exceptions.Constants.*;
+import static com.beertag.demo.constants.ExceptionConstants.*;
 
 @Service
 public class RatingServiceImpl implements RatingService {

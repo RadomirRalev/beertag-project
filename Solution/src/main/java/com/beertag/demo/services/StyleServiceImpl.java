@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.beertag.demo.exceptions.Constants.*;
+import static com.beertag.demo.constants.ExceptionConstants.*;
+import static com.beertag.demo.constants.SQLQueryConstants.*;
 
 @Service
 public class StyleServiceImpl implements StyleService {
@@ -63,7 +64,7 @@ public class StyleServiceImpl implements StyleService {
 
     @Override
     public Style createStyle(Style newStyle) {
-        newStyle.setStatus(ENABLED);
+        newStyle.setStatus(ENABLE);
         try {
             return styleRepository.createStyle(newStyle);
         } catch (Exception e) {

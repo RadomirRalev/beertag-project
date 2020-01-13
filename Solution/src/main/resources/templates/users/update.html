@@ -12,25 +12,25 @@
 
     <!-- Bootstrap core CSS -->
     <!--    <link href="css/bootstrap.css" rel="stylesheet">-->
-    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" href="../../static/css/bootstrap.css">
 
     <!-- Add custom CSS here -->
     <!--    <link href="css/stylish-portfolio.css" rel="stylesheet">-->
-    <link rel="stylesheet" th:href="@{/css/stylish-portfolio.css}" href="../static/css/stylish-portfolio.css">
+    <link rel="stylesheet" th:href="@{/css/stylish-portfolio.css}" href="../../static/css/stylish-portfolio.css">
 
     <!--    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">-->
     <link rel="stylesheet" th:href="@{/font-awesome/css/font-awesome.min.css}"
-          href="../static/font-awesome/css/font-awesome.min.css">
+          href="../../static/font-awesome/css/font-awesome.min.css">
 
     <!--Mirenda font-->
     <link href="https://fonts.googleapis.com/css?family=Merienda+One&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" th:href="@{/Profile.css}"
-          href="../static/Profile.css">
+          href="/Profile.css">
     <link rel="stylesheet" th:href="@{/Update.css}"
-          href="../static/Update.css">
-    <link rel="stylesheet" th:href="@{Butons.css}"
-          href="../static/Butons.css">
+          href="/Update.css">
+    <link rel="stylesheet" th:href="@{/Butons.css}"
+          href="/Butons.css">
 
 
 </head>
@@ -71,24 +71,20 @@
             <div id="right">
                 <div class="center">
                 </div>
-                <form action="#" th:action="@{/profile}" th:object="${userUpdateDTO}" method="post"
+                <form action="#" th:action="@{/account}" th:object="${userUpdateDTO}" method="post"
                       enctype="multipart/form-data" >
-                    <p>
-                        <i th:if="${error != null}" th:text="${error}"></i>
-                    </p>
+
                     <h3>Update profile</h3>
 
                     <div class="row">
 
                         <div class="input-group input-group-icon">
                             <input type="text" placeholder="First Name /Optional" th:field="*{firstName}"/>
-                            <label class="error" th:errors="*{firstName}"></label>
                             <div class="input-icon"><i class="fa fa-user"></i></div>
                         </div>
 
                         <div class="input-group input-group-icon">
                             <input type="text" placeholder="Last Name /Optional" th:field="*{lastName}" />
-                            <label class="error" th:errors="*{lastName}"></label>
                             <div class="input-icon"><i class="fa fa-user"></i></div>
                         </div>
 
@@ -98,7 +94,6 @@
                             <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1"
                                    th:field="*{file}"/>
                             <input type="hidden" name="MAX_FILE_SIZE" value="2000000"/>
-                            <label class="error" th:errors="*{file}"></label>
                         </label>
                         </div>
 
@@ -119,10 +114,6 @@
             </form>
         </div>
     </div>
-
-
 </div>
-
-
 </body>
 </html>

@@ -11,7 +11,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-import static com.beertag.demo.exceptions.Constants.*;
+import static com.beertag.demo.constants.ExceptionConstants.*;
+import static com.beertag.demo.constants.SQLQueryConstants.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -64,7 +65,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User userToUpdate, UserUpdateDTO userUpdateDTO) throws IOException {
-         userMapper.validationData(userUpdateDTO, userToUpdate);
+        userMapper.validationData(userUpdateDTO, userToUpdate);
         return userRepository.updateUser(userToUpdate);
     }
 
@@ -91,7 +92,7 @@ public class UserServiceImpl implements UserService {
         }
         User user = getByUsername(username);
         WishList wishList = new WishList();
-        wishList.setStatus(ENABLED);
+        wishList.setStatus(ENABLE);
         wishList.setUsername(user.getUsername());
         wishList.setBeerId(beer.getId());
 
@@ -100,13 +101,18 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void softDeleteBeerFromWishList(String username, int beerId) {
-     userRepository.softDeleteBeerFromWishList(username,beerId);
+    public void setStatusWishList(String username, int beerId, int status) {
+        userRepository.setStatusWishList(username, beerId, status);
     }
 
     @Override
     public boolean isUserHaveCurrentBeerOnWishList(String username, int beerId) {
         return userRepository.isUserHaveCurrentBeerOnWishList(username, beerId);
+    }
+
+    @Override
+    public boolean isBeerEnabletOnWishList(String username, int beerId) {
+        return userRepository.isBeerEnabletOnWishList(username, beerId);
     }
 
     @Override
@@ -125,15 +131,15 @@ public class UserServiceImpl implements UserService {
         User user = getByUsername(username);
 
         DrankList drankList = new DrankList();
-        drankList.setStatus(ENABLED);
+        drankList.setStatus(ENABLE);
         drankList.setUsername(user.getUsername());
         drankList.setBeerId(beer.getId());
         userRepository.addBeerToDrankList(drankList);
     }
 
     @Override
-    public void softDeleteBeerFromDrankList (String username, int beerId) {
-        userRepository.softDeleteBeerFromWishList(username, beerId);
+    public void setStatusDrankList(String username, int beerId, int status) {
+        userRepository.setStatusDrankList(username, beerId, status);
     }
 
     @Override
@@ -142,8 +148,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean isBeerEnabletOnDrankList(String username, int beerId) {
+        return userRepository.isBeerEnabletOnDrankList(username,beerId);
+    }
+
+
+    @Override
     public void rateBeer(String username, int beerId, int rating) {
-       userRepository.rateBeer(username,beerId,rating);
+        userRepository.rateBeer(username, beerId, rating);
     }
 
 }
