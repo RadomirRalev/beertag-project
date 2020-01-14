@@ -67,6 +67,12 @@
                         </p>
                         <p class="vote"><strong>Style: </strong> <span th:text="${beer.style.getName()}"></span></p>
 
+                        <p class="vote"><strong>Created by:</strong>
+                            <a th:href="@{/account/{username}(username=${beer.createdBy.username})}">
+                                <span th:text="${beer.createdBy.username}"></span>
+                            </a>
+
+
                         <div class="action">
                             <form class="button" th:if="${!isBeerExistOnWishList}" sec:authorize="isAuthenticated()"
                                   th:action="@{__${beer.getId()}__/wish}"
