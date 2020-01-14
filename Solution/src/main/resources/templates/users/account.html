@@ -53,6 +53,14 @@
 
                     <h4 class="text-left">Email: <span
                             th:text="${user.getEmail()}"> </span></h4>
+
+                    <form class="small" style="display: inline-block" th:action="@{/toprated/{username}(username=${user.username})}">
+                        <button type="submit">
+                            <div class="left"></div>
+                            Top rated
+                            <div class="right"></div>
+                        </button>
+                    </form>
                     <div>
                     </div>
                 </div>

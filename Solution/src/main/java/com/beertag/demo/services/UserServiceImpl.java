@@ -59,8 +59,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void setStatusUser(String username,int status) {
-        userRepository.setStatusUser(username,status);
+    public void setStatusUser(String username, int status) {
+        userRepository.setStatusUser(username, status);
     }
 
     @Override
@@ -121,6 +121,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<Beer> getDrankTop(String username) {
+        return userRepository.getDrankTop(username);
+    }
+
+    @Override
     public void addBeerToDrankList(String username, int beerId) {
 
         Beer beer = beerService.getById(beerId);
@@ -149,7 +154,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isBeerEnabletOnDrankList(String username, int beerId) {
-        return userRepository.isBeerEnabletOnDrankList(username,beerId);
+        return userRepository.isBeerEnabletOnDrankList(username, beerId);
     }
 
 

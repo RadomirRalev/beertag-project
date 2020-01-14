@@ -25,6 +25,8 @@ public interface UserService {
 
     Set<Beer> getDrankList(String username);
 
+    List<Beer> getDrankTop(String username);
+
     User createUser(UserRegistrationDTO userRegistrationDTO) throws IOException;
 
     User getByUsername(String name);

@@ -3532,7 +3532,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      return {
 	        isMatch: isMatched,
-	        // TODO: revisit this score
 	        score: isMatched ? 0.5 : 1,
 	        matchedIndices: matchedIndices
 	      }

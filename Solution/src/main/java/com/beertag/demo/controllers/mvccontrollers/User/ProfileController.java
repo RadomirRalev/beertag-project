@@ -1,15 +1,16 @@
 package com.beertag.demo.controllers.mvccontrollers.User;
 
+import com.beertag.demo.helpers.BeerCollectionHelper;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.beertag.demo.helpers.UserHelper.currentPrincipalName;
 
@@ -35,7 +36,6 @@ public class ProfileController {
         return "/users/account";
     }
 
-
     @GetMapping("/wishlist")
     public String wishlist(Model model) {
         Set<Beer> beers = userService.getWishList(currentPrincipalName());
@@ -50,5 +50,12 @@ public class ProfileController {
 
         model.addAttribute("beers", beers);
         return "/users/dranklist";
+    }
+
+    @GetMapping("/toprated/{username}")
+    public String topRated(@PathVariable("username") String username, Model model) {
+
+        model.addAttribute("beers", userService.getDrankTop(username));
+        return "/users/topbeers";
     }
 }

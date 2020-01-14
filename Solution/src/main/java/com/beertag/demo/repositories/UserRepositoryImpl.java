@@ -100,6 +100,16 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    @Override
+    public List<Beer> getDrankTop(String username) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Beer> query = session.createNativeQuery(GET_TOP_BEER, Beer.class)
+                    .setParameter("username", username)
+                    .setParameter("status", ENABLE);
+            return query.list();
+        }
+    }
+
 
     @Override
     public void addBeerToDrankList(DrankList drankList) {

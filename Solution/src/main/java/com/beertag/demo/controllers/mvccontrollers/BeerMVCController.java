@@ -1,7 +1,6 @@
 package com.beertag.demo.controllers.mvccontrollers;
 
 import com.beertag.demo.helpers.BeerCollectionHelper;
-import com.beertag.demo.models.DtoMapper;
 import com.beertag.demo.models.beer.*;
 
 import com.beertag.demo.models.user.User;

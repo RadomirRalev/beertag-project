@@ -29,6 +29,12 @@ public class SQLQueryConstants {
             "    join users u on db.username = u.username " +
             "    where u.username = :username and db.status = :status ;";
 
+    public static final String GET_TOP_BEER = "select * " +
+            "from beer " +
+            "join drank_beer db on beer.beer_id = db.beer_id " +
+            "join users u on db.username = u.username " +
+            "where u.username = :username and db.status = :status order by avg_rating desc limit 3;";
+
     //Status
     public static final int ENABLE = 1;
     public static final int DISABLE = 0;

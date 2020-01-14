@@ -25,6 +25,8 @@ public interface UserRepository {
 
     Set<Beer> getDrankList(String username);
 
+    List<Beer> getDrankTop(String username);
+
     User createUser(User user);
 
     User getById(int id);
