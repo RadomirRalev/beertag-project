@@ -85,10 +85,10 @@ public class UpdateController {
         return "/users/success-delete";
     }
 
-    @PostMapping("/delete{username}")
+    @PostMapping("/delete/{username}")
     public String deleteProfileAdmin(@PathVariable("username") String username) {
         userService.setStatusUser(username,DISABLE);
-        return "/users/success-delete";
+        return "/users/success-delete-admin";
     }
 
 }

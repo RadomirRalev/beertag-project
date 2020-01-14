@@ -12,16 +12,6 @@
     <link rel="stylesheet" type="text/css" href="../rat.css" th:src="@{/rat.css}"/>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script>
-        function confirmationFunction() {
-            if (confirm("Are you sure you wish to delete this beer?")){
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-    </script>
 </head>
 <body>
 <div class="centered">
@@ -92,7 +82,7 @@
                             <form class="button" th:if="${isBeerExistOnWishList && isBeerEnabledOnWishList}"
                                   sec:authorize="isAuthenticated()"
                                   th:action="@{__${beer.getId()}__/wish-delete}"
-                                  method="post" onsubmit="return confirmationFunction()">
+                                  method="post" onsubmit="return confirmationFunctionWish()">
                                 <input class="add-to-cart btn btn-default" type="submit"
                                        value="delete from wishlist"/>
                             </form>
@@ -110,7 +100,7 @@
 
                             <form class="button" th:if="${isBeerExistOnDrankList && isBeerEnableOnDrankList}"
                                   sec:authorize="isAuthenticated()"
-                                  th:action="@{__${beer.getId()}__/drank-delete}" method="post" onsubmit="return confirmationFunction()">
+                                  th:action="@{__${beer.getId()}__/drank-delete}" method="post" onsubmit="return confirmationFunctionDrank()">
                                 <input class="add-to-cart btn btn-default" type="submit" value="delete from dranklist"/>
                             </form>
 
@@ -125,14 +115,14 @@
                             </form>
 
                             <form sec:authorize="isAuthenticated()" th:if="${user.username == beer.createdBy.username}" class="button"
-                                  th:action="@{deletebeer/__${beer.getId()}__}" method="post" onsubmit="return confirmationFunction()">
+                                  th:action="@{deletebeer/__${beer.getId()}__}" method="post" onsubmit="return confirmationFunctionBeer()">
                                 <input class="add-to-cart btn btn-default" type="submit" value="delete"
-                                       onclick="confirmationFunction()"/>
+                                       onclick="confirmationFunctionBeer()"/>
                             </form>
                             <form sec:authorize="hasRole('ADMIN')" class="button"
-                                  th:action="@{deletebeer/__${beer.getId()}__}" method="get">
+                                  th:action="@{deletebeer/__${beer.getId()}__}" method="post">
                                 <input class="add-to-cart btn btn-default" type="submit" value="delete"
-                                       onclick="confirmationFunction()"/>
+                                       onclick="confirmationFunctionBeer()"/>
                             </form>
 
                             <form class="button" th:if="${ isBeerExistOnDrankList && !rated && isBeerEnableOnDrankList}"
@@ -167,5 +157,40 @@
         </div>
     </div>
 </div>
+
+<script>
+    function confirmationFunctionBeer() {
+        if (confirm("Are you sure you wish to delete this beer?")){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+</script>
+
+<script>
+    function confirmationFunctionDrank() {
+        if (confirm("Are you sure you wish to delete this beer from drank list?")){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+</script>
+
+<script>
+    function confirmationFunctionWish() {
+        if (confirm("Are you sure you wish to delete this beer from wish list?")){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+</script>
+
+
 </body>
 </html>

@@ -33,12 +33,6 @@
           href="/Update.css">
     <link rel="stylesheet" th:href="@{/Buttons.css}"
           href="/Buttons.css">
-
-    <script>
-        function confirmationFunction() {
-            confirm("Are you sure you wish to delete your account ?");
-        }
-    </script>
 </head>
 
 <body>
@@ -70,12 +64,12 @@
 
                         <form th:if="${user.username == currentuser}" class="button" th:action="@{/delete}" method="post">
                             <input class="btn btn-primary btn-lg btn-block " type="submit" value="delete user"
-                                   onclick="confirmationFunction()"/>
+                                   onclick="confirmationFunctionUser()"/>
                         </form>
 
                         <form sec:authorize="hasRole('ADMIN')" class="button" th:action="@{/delete/{username}(username=${user.username})}"  method="post">
                             <input class="btn btn-primary btn-lg btn-block " type="submit" value="delete user as admin"
-                                   onclick="confirmationFunction()"/>
+                                   onclick="confirmationFunctionAdmin()"/>
                         </form>
                         <div>
                         </div>
@@ -171,5 +165,18 @@
         </div>
     </div>
 </div>
+
+<script>
+    function confirmationFunctionUser() {
+        return confirm("Are you sure you wish to delete your account?");
+    }
+</script>
+
+<script>
+    function confirmationFunctionAdmin() {
+        return confirm("Admin are you sure you wish to delete this account?");
+    }
+</script>
+
 </body>
 </html>
