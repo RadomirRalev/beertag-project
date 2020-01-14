@@ -80,6 +80,8 @@
                                     <div class="avatar avatar--md avatar-image__image">
                                         <div class="avatar__content">
                                             <img th:src="@{'data:image/jpeg; base64,'+${beer.getPicture()}}" alt="" src="">
+                                            <img th:if="${beer.picture == ''}"
+                                                 src="https://www.lcbo.com/content/dam/lcbo/products/110320.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg">
                                         </div>
                                     </div>
                                 </div>

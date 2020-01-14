@@ -54,6 +54,9 @@
                                     <div class="avatar avatar--md avatar-image__image">
                                         <div class="avatar__content">
                                             <img th:src="@{'data:image/jpeg; base64,'+${beer.getPicture()}}" alt="" src="">
+                                            <img th:if="${beer.picture == ''}"
+                                                 src="https://www.lcbo.com/content/dam/lcbo/products/110320.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg">
+
                                         </div>
                                     </div>
                                 </div>
@@ -64,26 +67,6 @@
                         </tr>
                         </tbody>
                     </table>
-                </div>
-                <div class="d-flex justify-content-center pb-0 card-footer">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination pg-blue">
-                            <li class="page-item disabled">
-                                <span class="page-link">Previous</span>
-                            </li>
-                            <li class="page-item"><a class="page-link">1</a></li>
-                            <li class="page-item active">
-                              <span class="page-link">
-                                        2
-                                  <span class="sr-only">(current)</span>
-                                 </span>
-                            </li>
-                            <li class="page-item"><a class="page-link">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
         </div>

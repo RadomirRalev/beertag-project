@@ -77,11 +77,48 @@
                 </div>
             </div>
 
+            <div th:if="${user.username == currentuser}" id="right">
+                <div  class="center">
+                </div>
+                <form  action="#" th:action="@{/update}" th:object="${userUpdateDTO}" method="post"
+                      enctype="multipart/form-data">
 
-            <div id="rightadmin">
+                    <h3>Update profile</h3>
+
+                    <div class="row">
+
+                        <div class="input-group input-group-icon">
+                            <input type="text" placeholder="First Name /Optional" th:field="*{firstName}"/>
+                            <div class="input-icon"><i class="fa fa-user"></i></div>
+                        </div>
+
+                        <div class="input-group input-group-icon">
+                            <input type="text" placeholder="Last Name /Optional" th:field="*{lastName}"/>
+                            <div class="input-icon"><i class="fa fa-user"></i></div>
+                        </div>
+
+                        <h5>Update profile picture</h5>
+
+                        <div class="row1 left1 input-group"><label>
+                            <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1"
+                                   th:field="*{file}"/>
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2000000"/>
+                        </label>
+                        </div>
+
+                        <div class=>
+                            <div class="input-group input-group-icon">
+                            </div>
+                            <input type="submit" value="Update"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div sec:authorize="hasRole('ADMIN')" id="rightadmin">
                 <div   class="center">
                 </div>
-                <form sec:authorize="hasRole('ADMIN')" action="#" th:action="@{/update/{username}(username=${user.username})}" th:object="${userUpdateDTO}" method="post"
+                <form  action="#" th:action="@{/update/{username}(username=${user.username})}" th:object="${userUpdateDTO}" method="post"
                       enctype="multipart/form-data">
 
                     <h3>Update profile as admin</h3>
@@ -116,52 +153,21 @@
                 </form>
             </div>
         </div>
-
-
-            <div  id="right">
-                <div  class="center">
-                </div>
-                <form th:if="${user.username == currentuser}" action="#" th:action="@{/update}" th:object="${userUpdateDTO}" method="post"
-                      enctype="multipart/form-data">
-
-                    <h3>Update profile</h3>
-
-                    <div class="row">
-
-                        <div class="input-group input-group-icon">
-                            <input type="text" placeholder="First Name /Optional" th:field="*{firstName}"/>
-                            <div class="input-icon"><i class="fa fa-user"></i></div>
-                        </div>
-
-                        <div class="input-group input-group-icon">
-                            <input type="text" placeholder="Last Name /Optional" th:field="*{lastName}"/>
-                            <div class="input-icon"><i class="fa fa-user"></i></div>
-                        </div>
-
-                        <h5>Update profile picture</h5>
-
-                        <div class="row1 left1 input-group"><label>
-                            <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1"
-                                   th:field="*{file}"/>
-                            <input type="hidden" name="MAX_FILE_SIZE" value="2000000"/>
-                        </label>
-                        </div>
-
-                        <div class=>
-                            <div class="input-group input-group-icon">
-                            </div>
-                            <input type="submit" value="Update"/>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <form class="small" style="display: inline-block" th:action="@{/}">
-                <button type="submit">
-                    <div class="left"></div>
-                    Homepage
-                    <div class="right"></div>
-                </button>
-            </form>
+        <form th:if="${user.username == currentuser}" class="small" style="display: inline-block"
+              th:action="@{/account/{username}(username=${user.username})}">
+            <button type="submit">
+                <div class="left"></div>
+                My profile
+                <div class="right"></div>
+            </button>
+        </form>
+        <form class="small" style="display: inline-block" th:action="@{/}">
+            <button type="submit">
+                <div class="left"></div>
+                Homepage
+                <div class="right"></div>
+            </button>
+        </form>
         </div>
     </div>
 </div>

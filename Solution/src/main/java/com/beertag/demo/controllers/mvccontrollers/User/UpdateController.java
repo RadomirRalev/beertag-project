@@ -55,11 +55,12 @@ public class UpdateController {
     @PostMapping("/update")
     public String updateProfile(@Valid @ModelAttribute("userUpdateDTO") UserUpdateDTO userUpdateDTO, Model model) {
         User user = userService.getByUsername(currentPrincipalName());
+
         try {
             userService.updateUser(user, userUpdateDTO);
         } catch (InvalidOptionalFieldParameter | IOException e) {
             model.addAttribute("error", e.getMessage());
-            return "redirect:";
+            return "redirect:http://localhost:8181/update";
         }
         return "/users/success-update";
     }
@@ -74,7 +75,7 @@ public class UpdateController {
             userService.updateUser(user, userUpdateDTO);
         } catch (InvalidOptionalFieldParameter | IOException e) {
             model.addAttribute("error", e.getMessage());
-            return "redirect:";
+            return url;
         }
         return url;
     }
