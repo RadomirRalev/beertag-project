@@ -232,9 +232,8 @@ public class UserRepositoryImpl implements UserRepository {
     public boolean usernameExist(String name) {
         try (Session session = sessionFactory.openSession()) {
             return !session.createQuery("from User " +
-                    "where username = :name and enabled = :status", User.class)
+                    "where username = :name", User.class)
                     .setParameter("name", name)
-                    .setParameter("status", ENABLE)
                     .list().isEmpty();
         }
     }
@@ -243,9 +242,8 @@ public class UserRepositoryImpl implements UserRepository {
     public boolean emailExist(String email) {
         try (Session session = sessionFactory.openSession()) {
             return !session.createQuery("from User " +
-                    "where email = :email and enabled = :status", User.class)
+                    "where email = :email", User.class)
                     .setParameter("email", email)
-                    .setParameter("status", ENABLE)
                     .list().isEmpty();
         }
     }

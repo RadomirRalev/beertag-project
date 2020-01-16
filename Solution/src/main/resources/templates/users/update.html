@@ -86,6 +86,9 @@
                     <h3>Update profile</h3>
 
                     <div class="row">
+                        <p>
+                            <i th:if="${error != null}" th:text="${error}" class="error1"></i>
+                        </p>
 
                         <div class="input-group input-group-icon">
                             <input type="text" placeholder="First Name /Optional" th:field="*{firstName}"/>
@@ -122,6 +125,9 @@
                       enctype="multipart/form-data">
 
                     <h3>Update profile as admin</h3>
+                    <p>
+                        <i th:if="${error != null}" th:text="${error}" class="error1"></i>
+                    </p>
 
                     <div class="row">
 

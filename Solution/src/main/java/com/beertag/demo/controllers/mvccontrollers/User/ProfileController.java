@@ -1,6 +1,5 @@
 package com.beertag.demo.controllers.mvccontrollers.User;
 
-import com.beertag.demo.helpers.BeerCollectionHelper;
 import com.beertag.demo.models.beer.Beer;
 import com.beertag.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.beertag.demo.helpers.UserHelper.currentPrincipalName;
 
