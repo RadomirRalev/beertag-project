@@ -74,7 +74,7 @@
                 <div class="right"></div>
             </button>
         </form>
-        <form sec:authorize="hasRole('ADMIN')" class="small" style="display: inline-block"
+        <form sec:authorize="hasRole('ADMIN')" th:if="${!user.username == currentuser } " class="small" style="display: inline-block"
               th:action="@{/update/{username}(username=${user.username})}">
             <button type="submit">
                 <div class="left"></div>
